@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,8 +25,9 @@ public class Criteria {
     private String name;
 
     @Column(nullable = false)
-    private String type;
-
-    @Column(nullable = false)
     private Double weight;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "criteria_id")
+    private List<Subcriteria> subcriteria;
 }
