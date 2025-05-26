@@ -6,8 +6,7 @@ import com.profilematching.serverapp.models.dtos.responses.CriteriaResponse;
 import com.profilematching.serverapp.models.entities.Criteria;
 import com.profilematching.serverapp.repositories.CriteriaRepository;
 import com.profilematching.serverapp.services.CriteriaService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,12 +18,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Slf4j
 public class CriteriaServiceImpl implements CriteriaService {
 
     @Autowired
     private CriteriaRepository criteriaRepository;
-
-    private static final Logger log = LoggerFactory.getLogger(CriteriaServiceImpl.class);
 
     @Override
     public List<CriteriaResponse> getAllCriteria() {
