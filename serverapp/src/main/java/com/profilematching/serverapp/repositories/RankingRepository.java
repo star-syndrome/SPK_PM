@@ -1,4 +1,10 @@
 package com.profilematching.serverapp.repositories;
 
-public interface RankingRepository {
+import com.profilematching.serverapp.models.entities.Ranking;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface RankingRepository extends JpaRepository<Ranking, Integer> {
+
 }

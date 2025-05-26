@@ -1,4 +1,10 @@
 package com.profilematching.serverapp.repositories;
 
-public interface SubcriteriaRepository {
+import com.profilematching.serverapp.models.entities.Subcriteria;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface SubcriteriaRepository extends JpaRepository<Subcriteria, Integer> {
+
 }

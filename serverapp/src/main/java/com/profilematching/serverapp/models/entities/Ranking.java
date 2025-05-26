@@ -21,7 +21,7 @@ public class Ranking {
     private Double totalScore;
 
     @Column(nullable = false)
-    private Integer rank;
+    private Integer rankingOrder;
 
     @OneToOne
     @JoinColumn(name = "candidate_id")
