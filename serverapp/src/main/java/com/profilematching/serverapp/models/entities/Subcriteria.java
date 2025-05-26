@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,13 +22,16 @@ public class Subcriteria {
     private String code;
 
     @Column(nullable = false)
-    private String name;
+    private String description;
 
     @Column(nullable = false)
     private String type;
 
     @Column(nullable = false)
     private Double target;
+
+    @OneToMany(mappedBy = "subcriteria")
+    private List<CandidateScore> candidateScores;
 
     @ManyToOne
     @JoinColumn(
