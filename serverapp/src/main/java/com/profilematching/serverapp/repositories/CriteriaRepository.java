@@ -15,4 +15,11 @@ public interface CriteriaRepository extends JpaRepository<Criteria, Integer> {
 
     @Query("SELECT COUNT(c) FROM Criteria c")
     Long countTotalCriteria();
+
+    @Query("SELECT COALESCE(SUM(c.weight), 0) FROM Criteria c")
+    Double sumAllWeight();
+
+    @Query("SELECT COALESCE(SUM(c.weight), 0) FROM Criteria c WHERE c.id <> :id")
+    Double sumAllWeightExcludingId(Integer id);
+
 }

@@ -10,11 +10,13 @@ public interface CriteriaService {
 
     List<CriteriaResponse> getAllCriteria();
 
+    CriteriaResponse getCriteriaById(Integer Id);
+
     CriteriaResponse addCriteria(AddCriteriaRequest addCriteriaRequest);
 
     CriteriaResponse updateCriteria(Integer Id, UpdateCriteriaRequest updateCriteriaRequest);
 
     CriteriaResponse deleteCriteria(Integer Id);
 
-    Long countAllCriteria();
+    Long countCriteria();
 }

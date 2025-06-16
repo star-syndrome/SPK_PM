@@ -34,6 +34,10 @@ public class Candidate {
     @Column(nullable = false)
     private String address;
 
+    @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private User user;
+
     @OneToMany(mappedBy = "candidate")
     private List<CandidateScore> scores;
 

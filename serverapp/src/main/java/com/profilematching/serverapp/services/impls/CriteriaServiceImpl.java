@@ -25,18 +25,36 @@ public class CriteriaServiceImpl implements CriteriaService {
     private CriteriaRepository criteriaRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<CriteriaResponse> getAllCriteria() {
-        log.info("Get All Criteria");
+        log.info("Retrieving all criteria");
+
         return criteriaRepository.findAll().stream()
                 .map(this::mapToCriteriaResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public CriteriaResponse getCriteriaById(Integer Id) {
+        log.info("Retrieving criteria data for ID: {}", Id);
+
+        return criteriaRepository.findById(Id)
+                .map(this::mapToCriteriaResponse)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Criteria not found!"));
+    }
+
+    @Override
     public CriteriaResponse addCriteria(AddCriteriaRequest addCriteriaRequest) {
-        log.info("Process of adding new criteria: {}", addCriteriaRequest.getName());
+        log.info("Adding new criteria: {}", addCriteriaRequest.getName());
+
         if (criteriaRepository.existsByCode(addCriteriaRequest.getCode())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Criteria code already exists!");
+        }
+
+        Double totalWeight = criteriaRepository.sumAllWeight();
+        if (totalWeight + addCriteriaRequest.getWeight() > 1.0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Total weight cannot exceed 1");
         }
 
         Criteria criteria = Criteria.builder()
@@ -46,13 +64,14 @@ public class CriteriaServiceImpl implements CriteriaService {
                 .build();
         criteriaRepository.save(criteria);
 
-        log.info("Process of adding a new criteria is completed, new criteria: {}", criteria.getName());
+        log.info("Completed adding new criteria: {}", criteria.getName());
         return mapToCriteriaResponse(criteria);
     }
 
     @Override
     public CriteriaResponse updateCriteria(Integer Id, UpdateCriteriaRequest updateCriteriaRequest) {
-        log.info("Try to update criteria data with id {}", Id);
+        log.info("Updating criteria with ID: {}", Id);
+
         Criteria criteria = criteriaRepository.findById(Id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Criteria not found!"));
 
@@ -60,29 +79,39 @@ public class CriteriaServiceImpl implements CriteriaService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Criteria code already exists!");
         }
 
+        Double totalOtherWeights = criteriaRepository.sumAllWeightExcludingId(Id);
+        Double updatedWeight = updateCriteriaRequest.getWeight();
+
+        if (totalOtherWeights + updatedWeight > 1.0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Total weight cannot exceed 1");
+        }
+
         criteria.setCode(updateCriteriaRequest.getCode());
         criteria.setName(updateCriteriaRequest.getName());
-        criteria.setWeight(updateCriteriaRequest.getWeight());
+        criteria.setWeight(updatedWeight);
         criteriaRepository.save(criteria);
 
-        log.info("Updating the criteria with id {} was successful!", criteria.getId());
+        log.info("Update successful for criteria ID: {}", criteria.getId());
         return mapToCriteriaResponse(criteria);
     }
 
     @Override
     public CriteriaResponse deleteCriteria(Integer Id) {
-        log.info("Try to delete criteria data with id {}", Id);
+        log.info("Deleting criteria with ID: {}", Id);
+
         Criteria criteria = criteriaRepository.findById(Id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Criteria not found!"));
 
         criteriaRepository.delete(criteria);
-        log.info("Deleting the criteria with id {} was successful!", criteria.getId());
+
+        log.info("Delete successful for criteria ID: {}", criteria.getId());
         return mapToCriteriaResponse(criteria);
     }
 
     @Override
-    public Long countAllCriteria() {
-        log.info("Get total of all criteria!");
+    @Transactional(readOnly = true)
+    public Long countCriteria() {
+        log.info("Counting total number of criteria");
         return criteriaRepository.countTotalCriteria();
     }
 
