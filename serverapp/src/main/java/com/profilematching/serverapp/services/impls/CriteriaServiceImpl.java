@@ -57,11 +57,10 @@ public class CriteriaServiceImpl implements CriteriaService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Total weight cannot exceed 1");
         }
 
-        Criteria criteria = Criteria.builder()
-                .code(addCriteriaRequest.getCode())
-                .name(addCriteriaRequest.getName())
-                .weight(addCriteriaRequest.getWeight())
-                .build();
+        Criteria criteria = new Criteria();
+        criteria.setCode(addCriteriaRequest.getCode());
+        criteria.setName(addCriteriaRequest.getName());
+        criteria.setWeight(addCriteriaRequest.getWeight());
         criteriaRepository.save(criteria);
 
         log.info("Completed adding new criteria: {}", criteria.getName());
@@ -112,11 +111,13 @@ public class CriteriaServiceImpl implements CriteriaService {
     @Transactional(readOnly = true)
     public Long countCriteria() {
         log.info("Counting total number of criteria");
-        return criteriaRepository.countTotalCriteria();
+
+        return criteriaRepository.countCriteria();
     }
 
     private CriteriaResponse mapToCriteriaResponse(Criteria criteria) {
         return CriteriaResponse.builder()
+                .id(criteria.getId())
                 .name(criteria.getName())
                 .code(criteria.getCode())
                 .weight(criteria.getWeight())

@@ -14,7 +14,7 @@ public interface CriteriaRepository extends JpaRepository<Criteria, Integer> {
     Boolean existsByCodeAndNotId(String code, Integer id);
 
     @Query("SELECT COUNT(c) FROM Criteria c")
-    Long countTotalCriteria();
+    Long countCriteria();
 
     @Query("SELECT COALESCE(SUM(c.weight), 0) FROM Criteria c")
     Double sumAllWeight();

@@ -4,7 +4,6 @@ import com.profilematching.serverapp.models.dtos.requests.AddCriteriaRequest;
 import com.profilematching.serverapp.models.dtos.requests.UpdateCriteriaRequest;
 import com.profilematching.serverapp.models.dtos.responses.CriteriaResponse;
 import com.profilematching.serverapp.services.CriteriaService;
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

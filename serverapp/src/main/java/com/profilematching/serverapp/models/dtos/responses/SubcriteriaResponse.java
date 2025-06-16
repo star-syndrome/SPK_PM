@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CriteriaResponse {
+public class SubcriteriaResponse {
 
     private Integer id;
     private String code;
-    private String name;
-    private Double weight;
+    private String description;
+    private String type;
+    private Double target;
+    private String criteriaName;
 }

@@ -1,6 +1,7 @@
 package com.profilematching.serverapp.models.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,7 @@ public class Subcriteria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true, nullable = false, length = 2)
+    @Column(unique = true, nullable = false, length = 3)
     private String code;
 
     @Column(nullable = false)
