@@ -3,7 +3,9 @@ package com.profilematching.serverapp.services.impls;
 import com.profilematching.serverapp.models.dtos.requests.AddCandidateScoreRequest;
 import com.profilematching.serverapp.models.dtos.requests.UpdateCandidateScoreRequest;
 import com.profilematching.serverapp.models.dtos.responses.CandidateScoreResponse;
+import com.profilematching.serverapp.models.entities.Candidate;
 import com.profilematching.serverapp.models.entities.CandidateScore;
+import com.profilematching.serverapp.models.entities.Subcriteria;
 import com.profilematching.serverapp.repositories.CandidateRepository;
 import com.profilematching.serverapp.repositories.CandidateScoreRepository;
 import com.profilematching.serverapp.repositories.SubcriteriaRepository;
@@ -54,17 +56,57 @@ public class CandidateScoreServiceImpl implements CandidateScoreService {
 
     @Override
     public CandidateScoreResponse addCandidateScore(AddCandidateScoreRequest addCandidateScoreRequest) {
-        return null;
+        log.info("Adding new score for candidate ID: {}", addCandidateScoreRequest.getCandidateId());
+
+        Candidate candidate = candidateRepository.findById(addCandidateScoreRequest.getCandidateId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidate not found!"));
+
+        Subcriteria subcriteria = subcriteriaRepository.findById(addCandidateScoreRequest.getSubcriteriaId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Subcriteria not found!"));
+
+        CandidateScore candidateScore = new CandidateScore();
+        candidateScore.setScore(addCandidateScoreRequest.getScore());
+        candidateScore.setCandidate(candidate);
+        candidateScore.setSubcriteria(subcriteria);
+        candidateScoreRepository.save(candidateScore);
+
+        log.info("Completed adding new score for candidate name: {}", candidate.getName());
+        return mapToCandidateScoreResponse(candidateScore);
     }
 
     @Override
     public CandidateScoreResponse updateCandidateScore(Integer Id, UpdateCandidateScoreRequest updateCandidateScoreRequest) {
-        return null;
+        log.info("Updating score for candidate ID: {}", updateCandidateScoreRequest.getCandidateId());
+
+        CandidateScore candidateScore = candidateScoreRepository.findById(Id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidate score not found!"));
+
+        Candidate candidate = candidateRepository.findById(updateCandidateScoreRequest.getCandidateId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidate not found!"));
+
+        Subcriteria subcriteria = subcriteriaRepository.findById(updateCandidateScoreRequest.getSubcriteriaId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Subcriteria not found!"));
+
+        candidateScore.setScore(updateCandidateScoreRequest.getScore());
+        candidateScore.setCandidate(candidate);
+        candidateScore.setSubcriteria(subcriteria);
+        candidateScoreRepository.save(candidateScore);
+
+        log.info("Completed updating new score for candidate name: {}", candidate.getName());
+        return mapToCandidateScoreResponse(candidateScore);
     }
 
     @Override
     public CandidateScoreResponse deleteCandidateScore(Integer Id) {
-        return null;
+        log.info("Deleting candidate score with ID: {}", Id);
+
+        CandidateScore candidateScore = candidateScoreRepository.findById(Id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidate score not found!"));
+
+        candidateScoreRepository.delete(candidateScore);
+
+        log.info("Delete successful for candidate score ID: {}", candidateScore.getId());
+        return mapToCandidateScoreResponse(candidateScore);
     }
 
     private CandidateScoreResponse mapToCandidateScoreResponse(CandidateScore candidateScore) {
