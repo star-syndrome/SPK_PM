@@ -51,7 +51,7 @@ public class SubcriteriaController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<SubcriteriaResponse> addCriteria(@Validated @RequestBody AddSubcriteriaRequest addSubcriteriaRequest){
+    public ResponseEntity<SubcriteriaResponse> addSubcriteria(@Validated @RequestBody AddSubcriteriaRequest addSubcriteriaRequest){
         return ResponseEntity.ok()
                 .body(subcriteriaService.addSubcriteria(addSubcriteriaRequest));
     }

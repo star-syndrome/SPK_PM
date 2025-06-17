@@ -51,7 +51,7 @@ public class CandidateController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<CandidateResponse> addCriteria(@Validated @RequestBody AddCandidateRequest addCandidateRequest){
+    public ResponseEntity<CandidateResponse> addCandidate(@Validated @RequestBody AddCandidateRequest addCandidateRequest){
         return ResponseEntity.ok()
                 .body(candidateService.addCandidate(addCandidateRequest));
     }
