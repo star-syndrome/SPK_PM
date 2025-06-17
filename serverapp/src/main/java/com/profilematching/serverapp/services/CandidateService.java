@@ -1,4 +1,22 @@
 package com.profilematching.serverapp.services;
 
+import com.profilematching.serverapp.models.dtos.requests.AddCandidateRequest;
+import com.profilematching.serverapp.models.dtos.requests.UpdateCandidateRequest;
+import com.profilematching.serverapp.models.dtos.responses.CandidateResponse;
+
+import java.util.List;
+
 public interface CandidateService {
+
+    List<CandidateResponse> getAllCandidate();
+
+    CandidateResponse getCandidateById(Integer Id);
+
+    CandidateResponse addCandidate(AddCandidateRequest addCandidateRequest);
+
+    CandidateResponse updateCandidate(Integer Id, UpdateCandidateRequest updateCandidateRequest);
+
+    CandidateResponse deleteCandidate(Integer Id);
+
+    Long countCandidate();
 }
