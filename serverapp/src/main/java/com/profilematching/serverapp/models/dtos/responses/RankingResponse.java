@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CandidateScoreResponse {
+public class RankingResponse {
 
-    private Integer id;
-    private Double score;
     private String candidateName;
-    private String codeSubcriteria;
-    private String subcriteriaDescription;
+    private Double totalScore;
+    private Integer rankingOrder;
 }
