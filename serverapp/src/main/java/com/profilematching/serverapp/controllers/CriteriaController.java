@@ -4,7 +4,10 @@ import com.profilematching.serverapp.models.dtos.requests.AddCriteriaRequest;
 import com.profilematching.serverapp.models.dtos.requests.UpdateCriteriaRequest;
 import com.profilematching.serverapp.models.dtos.responses.CriteriaResponse;
 import com.profilematching.serverapp.services.CriteriaService;
+import com.profilematching.serverapp.services.PdfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +21,9 @@ public class CriteriaController {
 
     @Autowired
     private CriteriaService criteriaService;
+
+    @Autowired
+    private PdfService pdfService;
 
     @GetMapping(
             path = "/criteria",
@@ -44,6 +50,16 @@ public class CriteriaController {
     public ResponseEntity<Object> countCriteria() {
         return ResponseEntity.ok()
                 .body(criteriaService.countCriteria());
+    }
+
+    @GetMapping(
+            path = "/criteria/export",
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> exportCriteriaPdf() throws Exception {
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=laporan-kriteria.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfService.generateCriteriaPdf());
     }
 
     @PostMapping(

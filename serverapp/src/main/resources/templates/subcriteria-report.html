@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Laporan Subkriteria</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h2, h3 {
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            font-size: 12px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .kriteria-section {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .signature {
+             margin-top: 60px;
+        }
+
+        .signature-space {
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align: center;">Laporan Data Subkriteria</h2>
+
+<div th:each="criteriaGroup : ${groupedSubcriteria}" class="kriteria-section">
+    <h3 th:text="'Kriteria: ' + ${criteriaGroup.key.name} + ' (' + ${#numbers.formatDecimal(criteriaGroup.key.weight * 100, 1, 2)} + '%)'"></h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nama Subkriteria</th>
+            <th>Kode</th>
+            <th>Nilai Target</th>
+            <th>Tipe</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sub : ${criteriaGroup.value}">
+            <td th:text="${sub.description}"></td>
+            <td th:text="${sub.code}"></td>
+            <td th:text="${#numbers.formatDecimal(sub.target, 1, 2)}"></td>
+            <td th:text="${sub.type}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="signature">
+    <table style="width: 100%; border: none;">
+        <tr>
+            <td style="border: none; width: 60%;"></td>
+            <td style="border: none; width: 40%; text-align: center;">
+                <p>Jakarta, <span th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}"></span></p>
+                <p>Pembuat Laporan</p>
+                <div class="signature-space"></div>
+                <p><u>__________________________</u></p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

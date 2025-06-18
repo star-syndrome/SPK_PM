@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CandidateService {
 
-    List<CandidateResponse> getAllCandidate();
+    List<CandidateResponse> getAllCandidates();
 
     CandidateResponse getCandidateById(Integer Id);
 

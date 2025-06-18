@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Laporan Nilai Akhir dan Peringkat</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header p {
+            margin: 4px 0 0;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .signature {
+             margin-top: 60px;
+        }
+
+        .signature-space {
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Laporan Hasil Nilai Akhir dan Peringkat Calon Kader</h2>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Nama Calon Kader</th>
+        <th>Total Skor</th>
+        <th>Peringkat</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ranking : ${rankings}">
+        <td th:text="${ranking.candidateName}"></td>
+        <td th:text="${#numbers.formatDecimal(ranking.totalScore, 1, 2)}"></td>
+        <td th:text="${ranking.rankingOrder}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="signature">
+    <table style="width: 100%; border: none;">
+        <tr>
+            <td style="border: none; width: 60%;"></td>
+            <td style="border: none; width: 40%; text-align: center;">
+                <p>Jakarta, <span th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}"></span></p>
+                <p>Pembuat Laporan</p>
+                <div class="signature-space"></div>
+                <p><u>__________________________</u></p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

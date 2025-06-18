@@ -4,7 +4,9 @@ import com.profilematching.serverapp.models.dtos.requests.AddCandidateRequest;
 import com.profilematching.serverapp.models.dtos.requests.UpdateCandidateRequest;
 import com.profilematching.serverapp.models.dtos.responses.CandidateResponse;
 import com.profilematching.serverapp.services.CandidateService;
+import com.profilematching.serverapp.services.PdfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,13 +21,16 @@ public class CandidateController {
     @Autowired
     private CandidateService candidateService;
 
+    @Autowired
+    private PdfService pdfService;
+
     @GetMapping(
             path = "/candidate",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<List<CandidateResponse>> getAllCandidate() {
         return ResponseEntity.ok()
-                .body(candidateService.getAllCandidate());
+                .body(candidateService.getAllCandidates());
     }
 
     @GetMapping(
@@ -44,6 +49,16 @@ public class CandidateController {
     public ResponseEntity<Object> countCandidate() {
         return ResponseEntity.ok()
                 .body(candidateService.countCandidate());
+    }
+
+    @GetMapping(
+            path = "/candidate/export",
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> exportCriteriaPdf() throws Exception {
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=laporan-calon-kader.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfService.generateCandidatePdf());
     }
 
     @PostMapping(

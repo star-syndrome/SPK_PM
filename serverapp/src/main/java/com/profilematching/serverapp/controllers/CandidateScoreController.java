@@ -4,7 +4,9 @@ import com.profilematching.serverapp.models.dtos.requests.AddCandidateScoreReque
 import com.profilematching.serverapp.models.dtos.requests.UpdateCandidateScoreRequest;
 import com.profilematching.serverapp.models.dtos.responses.CandidateScoreResponse;
 import com.profilematching.serverapp.services.CandidateScoreService;
+import com.profilematching.serverapp.services.PdfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +20,9 @@ public class CandidateScoreController {
 
     @Autowired
     private CandidateScoreService candidateScoreService;
+
+    @Autowired
+    private PdfService pdfService;
 
     @GetMapping(
             path = "/score",
@@ -35,6 +40,16 @@ public class CandidateScoreController {
     public ResponseEntity<CandidateScoreResponse> getCandidateScoreById(@PathVariable Integer Id) {
         return ResponseEntity.ok()
                 .body(candidateScoreService.getCandidateScoreById(Id));
+    }
+
+    @GetMapping(
+            path = "/score/export",
+            produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> exportCriteriaPdf() throws Exception {
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=laporan-nilai-calon-kader.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfService.generateCandidateScorePdf());
     }
 
     @PostMapping(

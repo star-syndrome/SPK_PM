@@ -14,6 +14,6 @@ public class CandidateScoreResponse {
     private Integer id;
     private Double score;
     private String candidateName;
-    private String codeSubcriteria;
+    private String subcriteriaCode;
     private String subcriteriaDescription;
 }

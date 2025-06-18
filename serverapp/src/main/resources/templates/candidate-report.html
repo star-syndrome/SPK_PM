@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Laporan Data Calon Kader</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header p {
+            margin: 4px 0 0;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .signature {
+             margin-top: 60px;
+        }
+
+        .signature-space {
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Laporan Data Calon Kader</h2>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Nama</th>
+        <th>Tanggal Lahir</th>
+        <th>Jenis Kelamin</th>
+        <th>Telepon</th>
+        <th>Alamat</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="candidate : ${candidates}">
+        <td th:text="${candidate.name}"></td>
+        <td th:text="${candidate.dateOfBirth}"></td>
+        <td th:text="${candidate.gender}"></td>
+        <td th:text="${candidate.phone}"></td>
+        <td th:text="${candidate.address}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="signature">
+    <table style="width: 100%; border: none;">
+        <tr>
+            <td style="border: none; width: 60%;"></td>
+            <td style="border: none; width: 40%; text-align: center;">
+                <p>Jakarta, <span th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}"></span></p>
+                <p>Pembuat Laporan</p>
+                <div class="signature-space"></div>
+                <p><u>__________________________</u></p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

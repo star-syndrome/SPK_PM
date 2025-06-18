@@ -29,7 +29,7 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CandidateResponse> getAllCandidate() {
+    public List<CandidateResponse> getAllCandidates() {
         log.info("Retrieving all candidate");
 
         return candidateRepository.findAll().stream()
