@@ -22,5 +22,4 @@ public class AddCriteriaRequest {
 
     @NotNull
     private Double weight;
-
 }

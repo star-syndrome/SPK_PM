@@ -1,4 +1,4 @@
-package com.profilematching.serverapp.util;
+package com.profilematching.serverapp.utils;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import org.springframework.stereotype.Component;

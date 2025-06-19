@@ -2,7 +2,7 @@ package com.profilematching.serverapp.services.impls;
 
 import com.profilematching.serverapp.models.dtos.responses.*;
 import com.profilematching.serverapp.services.*;
-import com.profilematching.serverapp.util.PdfGeneratorUtil;
+import com.profilematching.serverapp.utils.PdfGeneratorUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;

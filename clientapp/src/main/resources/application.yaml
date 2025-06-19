@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: SPK Profile Matching
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+server:
+  port: 8300
