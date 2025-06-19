@@ -15,3 +15,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+module-name: TemanMelati
+api-version: 9.9.9

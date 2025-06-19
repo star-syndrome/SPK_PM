@@ -1,21 +1,16 @@
-package com.profilematching.serverapp.models.dtos.requests;
+package com.profilematching.serverapp.models.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class RegistrationResponse {
 
-    @NotBlank
+    private Integer id;
     private String username;
-
-    @NotBlank
-    private String password;
 }

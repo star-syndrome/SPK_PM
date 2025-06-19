@@ -4,7 +4,9 @@ import com.profilematching.serverapp.models.dtos.requests.AddCandidateRequest;
 import com.profilematching.serverapp.models.dtos.requests.UpdateCandidateRequest;
 import com.profilematching.serverapp.models.dtos.responses.CandidateResponse;
 import com.profilematching.serverapp.models.entities.Candidate;
+import com.profilematching.serverapp.models.entities.User;
 import com.profilematching.serverapp.repositories.CandidateRepository;
+import com.profilematching.serverapp.repositories.UserRepository;
 import com.profilematching.serverapp.services.CandidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Autowired
     private CandidateRepository candidateRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -51,6 +56,9 @@ public class CandidateServiceImpl implements CandidateService {
     public CandidateResponse addCandidate(AddCandidateRequest addCandidateRequest) {
         log.info("Adding new candidate: {}", addCandidateRequest.getName());
 
+        User user = userRepository.findById(1)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
+
         Candidate candidate = new Candidate();
         candidate.setName(addCandidateRequest.getName());
 
@@ -65,6 +73,7 @@ public class CandidateServiceImpl implements CandidateService {
         candidate.setGender(addCandidateRequest.getGender());
         candidate.setPhone(addCandidateRequest.getPhone());
         candidate.setAddress(addCandidateRequest.getAddress());
+        candidate.setUser(user);
         candidateRepository.save(candidate);
 
         log.info("Completed adding new candidate: {}", candidate.getName());
@@ -77,6 +86,9 @@ public class CandidateServiceImpl implements CandidateService {
 
         Candidate candidate = candidateRepository.findById(Id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidate not found!"));
+
+        User user = userRepository.findById(1)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
 
         candidate.setName(updateCandidateRequest.getName());
 
@@ -91,6 +103,7 @@ public class CandidateServiceImpl implements CandidateService {
         candidate.setGender(updateCandidateRequest.getGender());
         candidate.setPhone(updateCandidateRequest.getPhone());
         candidate.setAddress(updateCandidateRequest.getAddress());
+        candidate.setUser(user);
         candidateRepository.save(candidate);
 
         log.info("Update successful for candidate ID: {}", candidate.getId());

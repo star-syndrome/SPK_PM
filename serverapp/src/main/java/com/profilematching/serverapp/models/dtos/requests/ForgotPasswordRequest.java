@@ -11,11 +11,14 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class ForgotPasswordRequest {
 
     @NotBlank
     private String username;
 
     @NotBlank
-    private String password;
+    private String newPassword;
+
+    @NotBlank
+    private String repeatNewPassword;
 }

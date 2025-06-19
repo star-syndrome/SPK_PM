@@ -34,8 +34,12 @@ public class Candidate {
     @Column(nullable = false)
     private String address;
 
-    @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @ManyToOne
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_candidate1"))
     private User user;
 
     @OneToMany(mappedBy = "candidate")
