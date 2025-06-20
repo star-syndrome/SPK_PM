@@ -20,4 +20,7 @@ public class RegistrationRequest {
 
     @NotBlank
     private String password;
+
+    @NotBlank
+    private String confirmPassword;
 }

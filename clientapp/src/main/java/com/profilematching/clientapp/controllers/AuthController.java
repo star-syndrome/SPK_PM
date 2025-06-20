@@ -33,4 +33,12 @@ public class AuthController {
     public String registrationView() {
         return "pages/auth/registration";
     }
+
+    @GetMapping(
+            path = "/forgot-password",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String forgotPasswordView() {
+        return "pages/auth/forgot-password";
+    }
 }

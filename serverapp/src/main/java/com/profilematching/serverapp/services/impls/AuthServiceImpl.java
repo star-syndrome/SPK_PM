@@ -84,6 +84,10 @@ public class AuthServiceImpl implements AuthService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists!");
         }
 
+        if (!registrationRequest.getPassword().equals(registrationRequest.getConfirmPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password and Confirm Password do not match!");
+        }
+
         User users = new User();
         users.setUsername(registrationRequest.getUsername());
 
