@@ -1,10 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/main}">
+	<head>
+		<title>Dashboard</title>
+	</head>
 
-</body>
+	<body>
+		<!-- Fragment konten utama -->
+		<div layout:fragment="content" class="d-flex">
+			<!-- Main Content -->
+			<main class="main-content flex-grow-1" id="mainContent">
+				<!-- Dashboard Content -->
+				<div class="dashboard-content container-fluid px-4 py-4">
+					<!-- Welcome Section -->
+					<div class="welcome-section animate__animated animate__fadeInUp mb-4">
+						<h1 class="welcome-title">
+							<i class="fas fa-hand-paper me-2"></i>
+							Selamat Datang, <span sec:authentication="name"></span>!
+						</h1>
+						<p class="welcome-subtitle">
+							Sistem Pendukung Keputusan Penerimaan Kader Posyandu Lansia Melati
+							Menggunakan Metode Profile Matching
+						</p>
+					</div>
+
+					<!-- Stats Cards -->
+					<div class="row stats-row mb-4">
+						<!-- Total Pendaftar -->
+						<div class="col-lg-4 col-md-6 mb-3">
+							<div class="stats-card primary">
+								<div class="stats-header">
+									<div>
+										<div class="stats-number" id="total-candidate"></div>
+										<div class="stats-label">Total Pendaftar</div>
+									</div>
+									<div class="stats-icon primary">
+										<i class="fas fa-user-plus"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Total Kriteria -->
+						<div class="col-lg-4 col-md-6 mb-3">
+							<div class="stats-card warning">
+								<div class="stats-header">
+									<div>
+										<div class="stats-number" id="total-criteria">0</div>
+										<div class="stats-label">Total Kriteria</div>
+									</div>
+									<div class="stats-icon warning">
+										<i class="fas fa-list-alt"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Total Subkriteria -->
+						<div class="col-lg-4 col-md-6 mb-3">
+							<div class="stats-card info">
+								<div class="stats-header">
+									<div>
+										<div class="stats-number" id="total-subcriteria">0</div>
+										<div class="stats-label">Total Subkriteria</div>
+									</div>
+									<div class="stats-icon info">
+										<i class="fas fa-layer-group"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Quick Actions -->
+					<div class="section-card animate__animated animate__fadeInUp">
+						<div class="section-header mb-3">
+							<h3 class="section-title">Aksi Cepat</h3>
+						</div>
+						<div class="quick-actions d-flex flex-wrap">
+							<!-- Tambah Pendaftar -->
+							<a
+								href="#"
+								class="action-card"
+								data-bs-toggle="modal"
+								data-bs-target="#modalTambahPendaftar">
+								<div class="action-icon">
+									<i class="fas fa-user-plus"></i>
+								</div>
+								<div class="action-title">Tambah Pendaftar</div>
+								<div class="action-desc">Masukkan data kader baru</div>
+							</a>
+
+							<!-- Tambah Kriteria -->
+							<a
+								href="#"
+								class="action-card"
+								data-bs-toggle="modal"
+								data-bs-target="#modalTambahKriteria">
+								<div class="action-icon">
+									<i class="fas fa-layer-group"></i>
+								</div>
+								<div class="action-title">Tambah Kriteria</div>
+								<div class="action-desc">Tambah aspek penilaian</div>
+							</a>
+
+							<!-- Tambah Subkriteria -->
+							<a
+								href="#"
+								class="action-card"
+								data-bs-toggle="modal"
+								data-bs-target="#modalTambahSubkriteria">
+								<div class="action-icon">
+									<i class="fas fa-sliders-h"></i>
+								</div>
+								<div class="action-title">Tambah Subkriteria</div>
+								<div class="action-desc">Tambah indikator kriteria</div>
+							</a>
+
+							<!-- Laporan Ranking -->
+							<a href="/reports" class="action-card">
+								<div class="action-icon">
+									<i class="fas fa-file-alt"></i>
+								</div>
+								<div class="action-title">Lihat Laporan</div>
+								<div class="action-desc">Tampilkan hasil seleksi</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+
+		<!-- Script khusus dashboard -->
+		<div layout:fragment="script">
+			<script src="/js/dashboard.js"></script>
+		</div>
+	</body>
 </html>
