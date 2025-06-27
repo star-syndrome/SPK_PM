@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Table Kriteria</title>
+	</head>
+	<body>
+		<div class="container mt-4" th:fragment="table-criteria">
+			<!-- Section Header -->
+			<div
+				class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+				<h1 class="fw-bold fs-3 mb-0">
+					<i class="fas fa-sliders-h me-2 text-primary"></i> Kelola Kriteria
+				</h1>
+				<div class="d-flex gap-2">
+					<button
+						type="button"
+						class="btn btn-success"
+						data-bs-toggle="modal"
+						data-bs-target="#create">
+						Tambah Kriteria
+					</button>
+					<button
+						type="button"
+						class="btn btn-outline-primary"
+						id="printPDFCriteria">
+						<i class="fas fa-print me-1"></i> Cetak PDF
+					</button>
+				</div>
+			</div>
+
+			<!-- Tabel Kriteria -->
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped" id="tabel-kriteria">
+					<thead class="table-light text-center fw-bold">
+						<tr>
+							<th>No</th>
+							<th>Kode</th>
+							<th>Nama</th>
+							<th>Bobot</th>
+							<th>Aksi</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+
+			<!-- Modal Tambah -->
+			<!-- Modal Tambah Kriteria -->
+			<div class="modal fade" id="create" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content shadow rounded-3">
+						<div class="modal-header bg-primary text-white">
+							<h5 class="modal-title fw-bold">
+								<i class="fas fa-plus-circle me-2"></i> Tambah Kriteria
+							</h5>
+							<button
+								type="button"
+								class="btn-close btn-close-white"
+								data-bs-dismiss="modal"></button>
+						</div>
+						<form id="addCriteriaForm" class="needs-validation" novalidate>
+							<div class="modal-body px-4 py-3">
+								<div class="mb-3">
+									<label for="code" class="form-label fw-semibold"
+										>Kode Kriteria</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="code"
+										name="code"
+										maxlength="2"
+										required
+										placeholder="Contoh: PD" />
+									<div class="form-text">Gunakan maksimal 2 huruf unik.</div>
+								</div>
+								<div class="mb-3">
+									<label for="name" class="form-label fw-semibold"
+										>Nama Kriteria</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="name"
+										name="name"
+										required
+										placeholder="Masukkan nama kriteria" />
+								</div>
+								<div class="mb-3">
+									<label for="weight" class="form-label fw-semibold"
+										>Bobot</label
+									>
+									<input
+										type="number"
+										class="form-control"
+										id="weight"
+										name="weight"
+										required
+										min="0"
+										max="0.99"
+										step="0.01"
+										placeholder="Contoh: 0.20" />
+									<div class="form-text">Bobot desimal antara 0 dan 0.99</div>
+								</div>
+							</div>
+							<div class="modal-footer px-4 py-3">
+								<button
+									type="button"
+									class="btn btn-secondary"
+									data-bs-dismiss="modal">
+									<i class="fas fa-times me-1"></i> Batal
+								</button>
+								<button type="submit" class="btn btn-success">
+									<i class="fas fa-save me-1"></i> Simpan
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Detail -->
+			<div class="modal fade" id="detail" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content shadow rounded-3">
+						<div class="modal-header bg-info text-white">
+							<h5 class="modal-title fw-bold">
+								<i class="fas fa-circle-info me-2"></i> Detail Kriteria
+							</h5>
+							<button
+								type="button"
+								class="btn-close btn-close-white"
+								data-bs-dismiss="modal"></button>
+						</div>
+						<div class="modal-body px-4 py-3">
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>ID</strong>
+									<span id="detail-id-criteria"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Kode</strong>
+									<span id="detail-code-criteria"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Nama</strong>
+									<span id="detail-name-criteria"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Bobot</strong>
+									<span id="detail-weight-criteria"></span>
+								</li>
+							</ul>
+						</div>
+						<div class="modal-footer px-4 py-3">
+							<button class="btn btn-secondary" data-bs-dismiss="modal">
+								<i class="fas fa-times me-1"></i> Tutup
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Update -->
+			<div class="modal fade" id="update" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content shadow rounded-3">
+						<div class="modal-header bg-warning text-dark">
+							<h5 class="modal-title fw-bold">
+								<i class="fas fa-pen-to-square me-2"></i> Ubah Kriteria
+							</h5>
+							<button
+								type="button"
+								class="btn-close"
+								data-bs-dismiss="modal"></button>
+						</div>
+						<form id="formUpdateCriteria" class="needs-validation" novalidate>
+							<div class="modal-body px-4 py-3">
+								<input type="hidden" id="update-id-criteria" name="id" />
+								<div class="mb-3">
+									<label
+										for="update-code-criteria"
+										class="form-label fw-semibold"
+										>Kode</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="update-code-criteria"
+										name="code"
+										maxlength="2"
+										required
+										placeholder="Contoh: PD" />
+								</div>
+								<div class="mb-3">
+									<label
+										for="update-name-criteria"
+										class="form-label fw-semibold"
+										>Nama</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="update-name-criteria"
+										name="name"
+										required
+										placeholder="Nama kriteria" />
+								</div>
+								<div class="mb-3">
+									<label
+										for="update-weight-criteria"
+										class="form-label fw-semibold"
+										>Bobot</label
+									>
+									<input
+										type="number"
+										class="form-control"
+										id="update-weight-criteria"
+										name="weight"
+										required
+										min="0"
+										max="0.99"
+										step="0.01"
+										placeholder="Contoh: 0.20" />
+								</div>
+							</div>
+							<div class="modal-footer px-4 py-3">
+								<button class="btn btn-secondary" data-bs-dismiss="modal">
+									<i class="fas fa-times me-1"></i> Batal
+								</button>
+								<button class="btn btn-success" type="submit">
+									<i class="fas fa-save me-1"></i> Simpan Perubahan
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

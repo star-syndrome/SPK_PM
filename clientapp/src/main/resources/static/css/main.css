@@ -386,15 +386,48 @@ body {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 20px;
-	padding-bottom: 15px;
+	margin-bottom: 1.5rem;
+	padding-bottom: 0.5rem;
 	border-bottom: 2px solid #f8f9fa;
 }
 
+.section-header h1,
 .section-title {
-	font-size: 1.3rem;
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: #343a40;
+	display: flex;
+	align-items: center;
+}
+
+.section-header h1 i,
+.section-title i {
+	margin-right: 0.5rem;
+	color: #0d6efd;
+}
+
+/* === Tombol Aksi (Atas Kanan) === */
+.section-header .btn {
 	font-weight: 600;
-	color: var(--dark-color);
+}
+
+/* === Modal Title === */
+.modal-title {
+	font-weight: 600;
+	color: #212529;
+}
+
+/* === Table Styling Enhancement === */
+#tabel-kriteria th,
+#tabel-kriteria td {
+	vertical-align: middle;
+	text-align: center;
+}
+
+#tabel-kriteria th {
+	background-color: #f8f9fa;
+	color: #495057;
+	font-weight: bold;
 }
 
 .btn-action {
@@ -416,7 +449,7 @@ body {
 .quick-actions {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-	gap: 63px;
+	gap: 62px;
 	margin-bottom: 30px;
 }
 
