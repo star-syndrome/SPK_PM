@@ -1,6 +1,5 @@
 package com.profilematching.clientapp.services.impls;
 
-import com.profilematching.clientapp.models.dtos.responses.CriteriaResponse;
 import com.profilematching.clientapp.models.dtos.responses.RankingResponse;
 import com.profilematching.clientapp.services.RankingService;
 import org.springframework.beans.factory.annotation.Autowired;
