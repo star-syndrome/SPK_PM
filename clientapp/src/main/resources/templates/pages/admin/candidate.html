@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/main}">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Kandidat</title>
+	</head>
+
+	<body>
+		<section layout:fragment="content" sec:authorize="isAuthenticated()">
+			<div th:replace="components/table-candidate :: table-candidate"></div>
+		</section>
+
+		<div layout:fragment="script">
+			<script src="/js/admin/candidate.js"></script>
+		</div>
+	</body>
+</html>

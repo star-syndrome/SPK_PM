@@ -3,140 +3,130 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Table Subkriteria</title>
+		<title>Table Kandidat</title>
 	</head>
 	<body>
-		<!-- Section Kelola Subkriteria -->
-		<div class="container mt-4" th:fragment="table-subcriteria">
+		<!-- Section Kelola Kandidat -->
+		<div class="container mt-4" th:fragment="table-candidate">
 			<!-- Section Header -->
 			<div
 				class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
 				<h1 class="fw-bold fs-3 mb-0">
-					<i class="fas fa-list-ul me-2 text-primary"></i> Kelola Subkriteria
+					<i class="fas fa-list-ul me-2 text-primary"></i> Kelola Kandidat
 				</h1>
 				<div class="d-flex gap-2">
 					<button
 						type="button"
 						class="btn btn-success"
 						data-bs-toggle="modal"
-						data-bs-target="#modalTambahSubkriteria">
-						Tambah Subkriteria
+						data-bs-target="#modalTambahKandidat">
+						Tambah Kandidat
 					</button>
 					<button
 						type="button"
 						class="btn btn-outline-primary"
-						id="printPDFSubcriteria">
+						id="printPDFCandidate">
 						<i class="fas fa-print me-1"></i> Cetak PDF
 					</button>
 				</div>
 			</div>
 
-			<!-- Tabel Subkriteria -->
+			<!-- Tabel Kandidat -->
 			<div class="table-responsive">
-				<table
-					class="table table-bordered table-striped"
-					id="tabel-subkriteria">
+				<table class="table table-bordered table-striped" id="tabel-kandidat">
 					<thead class="table-light text-center fw-bold">
 						<tr>
 							<th>No</th>
-							<th>Kode</th>
-							<th>Deskripsi</th>
+							<th>Nama</th>
+							<th>Tanggal Lahir</th>
+							<th>Jenis Kelamin</th>
 							<th>Aksi</th>
 						</tr>
 					</thead>
 				</table>
 			</div>
 
-			<!-- Modal Tambah Subkriteria -->
+			<!-- Modal Tambah Kandidat -->
 			<div
 				class="modal fade"
-				id="modalTambahSubkriteria"
+				id="modalTambahKandidat"
 				tabindex="-1"
 				aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content shadow rounded-3">
 						<div class="modal-header bg-primary text-white">
 							<h5 class="modal-title fw-bold">
-								<i class="fas fa-plus-circle me-2"></i> Tambah Subkriteria
+								<i class="fas fa-plus-circle me-2"></i> Tambah Kandidat
 							</h5>
 							<button
 								type="button"
 								class="btn-close btn-close-white"
 								data-bs-dismiss="modal"></button>
 						</div>
-						<form
-							id="formTambahSubkriteria"
-							class="needs-validation"
-							novalidate>
+						<form id="formTambahKandidat" class="needs-validation" novalidate>
 							<div class="modal-body px-4 py-3">
 								<div class="mb-3">
-									<label for="subcriteria-code" class="form-label fw-semibold"
-										>Kode Subkriteria</label
+									<label for="nama-kandidat" class="form-label fw-semibold"
+										>Nama Kandidat</label
 									>
 									<input
 										type="text"
 										class="form-control"
-										id="subcriteria-code"
-										name="code"
+										id="nama-kandidat"
+										name="nama-kandidat"
 										required
-										maxlength="3"
-										placeholder="Contoh: PD1" />
+										placeholder="Masukkan nama kandidat" />
 								</div>
 								<div class="mb-3">
-									<label
-										for="subcriteria-description"
-										class="form-label fw-semibold"
-										>Deskripsi</label
+									<label for="tanggal-lahir" class="form-label fw-semibold"
+										>Tanggal Lahir</label
 									>
 									<input
 										type="text"
 										class="form-control"
-										id="subcriteria-description"
-										name="description"
+										id="tanggal-lahir"
+										name="tanggal-lahir"
 										required
-										placeholder="Deskripsi subkriteria" />
+										placeholder="Contoh: 09-12-2002" />
 								</div>
 								<div class="mb-3">
-									<label for="subcriteria-type" class="form-label fw-semibold"
-										>Tipe</label
+									<label for="jenis-kelamin" class="form-label fw-semibold"
+										>Jenis Kelamin</label
 									>
 									<select
 										class="form-select"
-										id="subcriteria-type"
-										name="type"
+										id="jenis-kelamin"
+										name="jenis-kelamin"
 										required>
-										<option value="">-- Pilih Tipe --</option>
-										<option value="Core Factor">Core Factor</option>
-										<option value="Secondary Factor">Secondary Factor</option>
+										<option value="">-- Pilih Jenis Kelamin --</option>
+										<option value="L">Laki-laki</option>
+										<option value="P">Perempuan</option>
 									</select>
 								</div>
 								<div class="mb-3">
-									<label for="subcriteria-target" class="form-label fw-semibold"
-										>Target</label
+									<label for="nomor-telepon" class="form-label fw-semibold"
+										>Nomor Telepon</label
 									>
 									<input
-										type="number"
+										type="text"
 										class="form-control"
-										id="subcriteria-target"
-										name="target"
+										id="nomor-telepon"
+										name="nomor-telepon"
 										required
-										step="1"
-										placeholder="Contoh: 5" />
+										maxlength="13"
+										placeholder="Masukkan nomor telepon kandidat" />
 								</div>
 								<div class="mb-3">
-									<label
-										for="subcriteria-criteria"
-										class="form-label fw-semibold"
-										>Kriteria</label
+									<label for="alamat" class="form-label fw-semibold"
+										>Alamat</label
 									>
-									<select
-										class="form-select"
-										id="criteriaId"
-										name="criteriaId"
-										required>
-										<option value="" selected>-- Pilih Kriteria --</option>
-										<!-- Diisi secara dinamis dari database -->
-									</select>
+									<input
+										type="text"
+										class="form-control"
+										id="alamat"
+										name="alamat"
+										required
+										placeholder="Masukkan alamat kandidat" />
 								</div>
 							</div>
 							<div class="modal-footer px-4 py-3">
@@ -155,10 +145,10 @@
 				</div>
 			</div>
 
-			<!-- Modal Detail Subkriteria -->
+			<!-- Modal Detail Kandidat -->
 			<div
 				class="modal fade"
-				id="detail-subcriteria"
+				id="modalDetailKandidat"
 				tabindex="-1"
 				aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
@@ -176,29 +166,27 @@
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item d-flex justify-content-between">
 									<strong>ID</strong>
-									<span id="detail-id-subcriteria"></span>
+									<span id="candidate-id"></span>
 								</li>
 								<li class="list-group-item d-flex justify-content-between">
-									<strong>Kode</strong>
-									<span id="detail-code-subcriteria"></span>
+									<strong>Nama</strong>
+									<span id="candidate-name"></span>
 								</li>
 								<li class="list-group-item d-flex justify-content-between">
-									<strong>Deskripsi</strong>
-									<span
-										id="detail-description-subcriteria"
-										class="text-wrap d-block"></span>
+									<strong>Tanggal Lahir</strong>
+									<span id="candidate-dob"></span>
 								</li>
 								<li class="list-group-item d-flex justify-content-between">
-									<strong>Tipe</strong>
-									<span id="detail-type-subcriteria"></span>
+									<strong>Jenis Kelamin</strong>
+									<span id="candidate-gender"></span>
 								</li>
 								<li class="list-group-item d-flex justify-content-between">
-									<strong>Target</strong>
-									<span id="detail-target-subcriteria"></span>
+									<strong>Nomor Telepon</strong>
+									<span id="candidate-phone"></span>
 								</li>
 								<li class="list-group-item d-flex justify-content-between">
-									<strong>Kriteria</strong>
-									<span id="detail-criteria-name"></span>
+									<strong>Alamat</strong>
+									<span id="candidate-address" class="text-wrap d-block"></span>
 								</li>
 							</ul>
 						</div>
@@ -211,10 +199,10 @@
 				</div>
 			</div>
 
-			<!-- Modal Update Subkriteria -->
+			<!-- Modal Update Kandidat -->
 			<div
 				class="modal fade"
-				id="update-subcriteria"
+				id="modalPerbaruiKandidat"
 				tabindex="-1"
 				aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
@@ -228,80 +216,77 @@
 								class="btn-close"
 								data-bs-dismiss="modal"></button>
 						</div>
-						<form
-							id="formUpdateSubcriteria"
-							class="needs-validation"
-							novalidate>
+						<form id="formPerbaruiKandidat" class="needs-validation" novalidate>
 							<div class="modal-body px-4 py-3">
-								<input type="hidden" id="update-id-subcriteria" name="id" />
+								<input type="hidden" id="candidate-id-update" name="id" />
 								<div class="mb-3">
 									<label
-										for="update-code-subcriteria"
+										for="candidate-name-update"
 										class="form-label fw-semibold"
-										>Kode</label
+										>Nama</label
 									>
 									<input
 										type="text"
 										class="form-control"
-										id="update-code-subcriteria"
-										name="code"
-										maxlength="3"
+										id="candidate-name-update"
+										name="candidate-name-update"
 										required />
 								</div>
 								<div class="mb-3">
 									<label
-										for="update-description-subcriteria"
+										for="candidate-dob-update"
 										class="form-label fw-semibold"
-										>Deskripsi</label
+										>Tanggal Lahir</label
 									>
 									<input
 										type="text"
 										class="form-control"
-										id="update-description-subcriteria"
-										name="description"
+										id="candidate-dob-update"
+										name="candidate-dob-update"
 										required />
 								</div>
 								<div class="mb-3">
 									<label
-										for="update-type-subcriteria"
+										for="candidate-gender-update"
 										class="form-label fw-semibold"
-										>Tipe</label
+										>Jenis Kelamin</label
 									>
 									<select
 										class="form-select"
-										id="update-type-subcriteria"
-										name="type"
+										id="candidate-gender-update"
+										name="candidate-gender-update"
 										required>
-										<option value="">-- Pilih Tipe --</option>
-										<option value="Core Factor">Core Factor</option>
-										<option value="Secondary Factor">Secondary Factor</option>
+										<option value="">-- Pilih Jenis Kelamin --</option>
+										<option value="L">Laki-laki</option>
+										<option value="P">Perempuan</option>
 									</select>
 								</div>
 								<div class="mb-3">
 									<label
-										for="update-target-subcriteria"
+										for="candidate-phone-update"
 										class="form-label fw-semibold"
-										>Target</label
+										>Nomor Telepon</label
 									>
 									<input
-										type="number"
+										type="text"
 										class="form-control"
-										id="update-target-subcriteria"
-										name="target"
-										step="1"
+										id="candidate-phone-update"
+										name="candidate-phone-update"
+										maxlength="13"
 										required />
 								</div>
 								<div class="mb-3">
-									<label for="update-criteriaId" class="form-label fw-semibold"
-										>Kriteria</label
+									<label
+										for="candidate-address-update"
+										class="form-label fw-semibold"
+										>Alamat</label
 									>
-									<select
-										class="form-select"
-										id="update-criteriaId"
-										name="criteriaId"
-										required>
-										<!-- Opsi akan diisi dinamis -->
-									</select>
+									<input
+										type="text"
+										class="form-control"
+										id="candidate-address-update"
+										name="candidate-address-update"
+										required />
 								</div>
 							</div>
 							<div class="modal-footer px-4 py-3">

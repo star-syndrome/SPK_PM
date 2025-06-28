@@ -241,3 +241,97 @@ $("#addSubcriteriaForm").on("submit", function (e) {
 		},
 	});
 });
+
+// Add Candidate
+$("#addCandidateForm").on("submit", function (e) {
+	e.preventDefault();
+
+	let nama = $("#nama-kandidat").val().trim();
+	let tanggalLahir = $("#tanggal-lahir").val().trim();
+	let jenisKelamin = $("#jenis-kelamin").val();
+	let telepon = $("#nomor-telepon").val().trim();
+	let alamat = $("#alamat").val().trim();
+
+	// Regex format tanggal dd-MM-yyyy
+	let regexTanggal = /^\d{2}-\d{2}-\d{4}$/;
+	// Regex nomor telepon hanya angka
+	let regexTelepon = /^\d{10,13}$/;
+
+	// Validasi kosong
+	if (!nama || !tanggalLahir || !jenisKelamin || !telepon || !alamat) {
+		Swal.fire({
+			icon: "warning",
+			title: "<h4 class='fw-bold text-warning'>Form Tidak Lengkap!</h4>",
+			html: "<div class='mt-2'>Harap isi semua kolom dengan lengkap.</div>",
+			confirmButtonText: "Oke",
+			confirmButtonColor: "#f59e0b",
+			background: "#fff8e6",
+		});
+		return;
+	}
+
+	// Validasi tanggal lahir
+	if (!regexTanggal.test(tanggalLahir)) {
+		Swal.fire({
+			icon: "error",
+			title: "Format Tanggal Salah!",
+			text: "Tanggal lahir harus dalam format dd-MM-yyyy. Contoh: 09-12-2002",
+			confirmButtonColor: "#dc3545",
+		});
+		return;
+	}
+
+	// Validasi nomor telepon
+	if (!regexTelepon.test(telepon)) {
+		Swal.fire({
+			icon: "error",
+			title: "Nomor Telepon Tidak Valid!",
+			text: "Nomor telepon harus berupa angka 10–13 digit.",
+			confirmButtonColor: "#dc3545",
+		});
+		return;
+	}
+
+	const formData = {
+		name: nama,
+		dateOfBirth: tanggalLahir,
+		gender: jenisKelamin,
+		phone: telepon,
+		address: alamat,
+	};
+
+	$.ajax({
+		url: "/api/candidate",
+		type: "POST",
+		contentType: "application/json",
+		data: JSON.stringify(formData),
+		beforeSend: initializeCSRFToken(),
+		success: function () {
+			Swal.fire({
+				icon: "success",
+				title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
+				html: "<div class='mt-2'>Kandidat berhasil ditambahkan ke dalam sistem.</div>",
+				showConfirmButton: false,
+				timer: 2000,
+				timerProgressBar: true,
+				position: "center",
+				background: "#e9fbe6",
+			});
+			$("#addCandidateModal").modal("hide");
+			$("#addCandidateForm")[0].reset();
+		},
+		error: function (xhr) {
+			const msg =
+				xhr.responseJSON?.message ||
+				"Terjadi kesalahan saat menambahkan kandidat.";
+			Swal.fire({
+				icon: "error",
+				title: "<h4 class='fw-bold text-danger'>Gagal Menambahkan!</h4>",
+				html: `<div class='mt-2'>${msg}</div>`,
+				confirmButtonText: "Oke",
+				confirmButtonColor: "#dc3545",
+				background: "#fdeaea",
+			});
+		},
+	});
+});

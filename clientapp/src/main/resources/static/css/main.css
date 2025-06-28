@@ -439,7 +439,8 @@ body {
 	text-align: left;
 }
 
-#detail-description-subcriteria {
+#detail-description-subcriteria,
+#candidate-address {
 	white-space: pre-wrap;
 	word-break: break-word;
 }

@@ -15,4 +15,9 @@ public class AdminController {
     public String subcriteriaView(){
         return "pages/admin/subcriteria";
     }
+
+    @GetMapping("/candidate")
+    public String candidateView(){
+        return "pages/admin/candidate";
+    }
 }

@@ -280,7 +280,7 @@ function beforeUpdateSubcriteria(id) {
 	});
 }
 
-// Update SubCriteria
+// Update Subcriteria
 $("#formUpdateSubcriteria").on("submit", function (e) {
 	e.preventDefault();
 
@@ -376,7 +376,7 @@ function deleteSubcriteria(id, code) {
 					Swal.fire({
 						icon: "success",
 						title: "<h4 class='fw-bold text-success'>Berhasil Dihapus!</h4>",
-						html: `<div class='mt-2'>Kriteria <strong>${code}</strong> berhasil dihapus.</div>`,
+						html: `<div class='mt-2'>Subkriteria <strong>${code}</strong> berhasil dihapus.</div>`,
 						showConfirmButton: false,
 						timer: 2000,
 						timerProgressBar: true,
