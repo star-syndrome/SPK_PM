@@ -34,9 +34,10 @@ $(document).ready(function () {
 			console.error("Gagal ambil total kandidat", err);
 		},
 	});
+
+	loadCriteriaOptions();
 });
 
-// Add Criteria
 // Submit Tambah Kriteria dari Quick Action Dashboard
 $("#formTambahKriteria").on("submit", function (e) {
 	e.preventDefault();
@@ -141,3 +142,102 @@ function submitTambahKriteria() {
 		},
 	});
 }
+
+function loadCriteriaOptions() {
+	$.ajax({
+		url: "/api/criteria",
+		type: "GET",
+		success: function (data) {
+			const select = $("#criteriaId");
+			select.empty(); // kosongkan dulu
+			select.append(`<option value="">-- Pilih Kriteria --</option>`);
+
+			data.forEach((criteria) => {
+				select.append(
+					`<option value="${criteria.id}">${criteria.code} - ${criteria.name}</option>`
+				);
+			});
+		},
+		error: function () {
+			Swal.fire({
+				icon: "error",
+				title: "Gagal Memuat Kriteria",
+				text: "Tidak dapat mengambil data kriteria dari server.",
+				confirmButtonColor: "#dc3545",
+			});
+		},
+	});
+}
+
+// Add Subcriteria
+$("#addSubcriteriaForm").on("submit", function (e) {
+	e.preventDefault();
+
+	const formData = {
+		code: $("#subcriteria-code").val().trim(),
+		description: $("#subcriteria-description").val().trim(),
+		type: $("#subcriteria-type").val(),
+		target: parseFloat($("#subcriteria-target").val()),
+		criteriaId: $("#criteriaId").val(),
+	};
+
+	// Validasi nilai numerik
+	if (isNaN(formData.target) || formData.target < 0) {
+		Swal.fire({
+			icon: "warning",
+			title: "<h4 class='fw-bold text-warning'>Validasi Gagal!</h4>",
+			html: `<div class='mt-2'>Target harus berupa angka positif yang valid.</div>`,
+			confirmButtonText: "Periksa Lagi",
+			confirmButtonColor: "#f59e0b",
+			background: "#fff8e6",
+		});
+		return;
+	}
+
+	$.ajax({
+		url: "/api/subcriteria",
+		type: "POST",
+		contentType: "application/json",
+		data: JSON.stringify(formData),
+		beforeSend: initializeCSRFToken(),
+		success: function () {
+			Swal.fire({
+				icon: "success",
+				title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
+				html: "<div class='mt-2'>Subkriteria berhasil ditambahkan ke dalam sistem.</div>",
+				showConfirmButton: false,
+				timer: 2000,
+				timerProgressBar: true,
+				position: "center",
+				background: "#e9fbe6",
+			});
+			$("#addSubcriteriaModal").modal("hide");
+			$("#addSubcriteriaForm")[0].reset();
+		},
+		error: function (xhr) {
+			const msg =
+				xhr.responseJSON?.message ||
+				"Terjadi kesalahan saat menambahkan subkriteria.";
+			let htmlMessage = "";
+
+			if (msg.includes("code") && msg.includes("already exists")) {
+				htmlMessage =
+					"Kode subkriteria yang Anda masukkan sudah digunakan. Gunakan kode unik lainnya.";
+			} else if (msg.includes("criteria")) {
+				htmlMessage = "Pastikan Anda memilih kriteria yang valid.";
+			} else {
+				htmlMessage = msg;
+			}
+
+			Swal.fire({
+				icon: "error",
+				title: "<h4 class='fw-bold text-danger'>Gagal Menambahkan!</h4>",
+				html: `<div class='mt-2'>${htmlMessage}</div>`,
+				confirmButtonText: "Oke",
+				confirmButtonColor: "#dc3545",
+				position: "center",
+				background: "#fdeaea",
+			});
+		},
+	});
+});

@@ -10,4 +10,9 @@ public class AdminController {
     public String criteriaView(){
         return "pages/admin/criteria";
     }
+
+    @GetMapping("/subcriteria")
+    public String subcriteriaView(){
+        return "pages/admin/subcriteria";
+    }
 }

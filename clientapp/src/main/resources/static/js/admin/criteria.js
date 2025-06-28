@@ -63,144 +63,144 @@ $(document).ready(() => {
 				cell.innerHTML = i + 1;
 			});
 	});
+});
 
-	// Add Criteria
-	$("#addCriteriaForm").on("submit", function (event) {
-		event.preventDefault();
+// Add Criteria
+$("#addCriteriaForm").on("submit", function (event) {
+	event.preventDefault();
 
-		const newWeight = parseFloat($("#weight").val());
+	const newWeight = parseFloat($("#weight").val());
 
-		// Validasi angka
-		if (isNaN(newWeight)) {
-			Swal.fire("Error", "Nilai bobot tidak valid!", "error");
-			return;
-		}
+	// Validasi angka
+	if (isNaN(newWeight)) {
+		Swal.fire("Error", "Nilai bobot tidak valid!", "error");
+		return;
+	}
 
-		// Validasi range bobot
-		if (newWeight < 0 || newWeight > 1) {
-			Swal.fire({
-				icon: "warning",
-				title: "<h4 class='fw-bold text-warning'>Bobot Tidak Valid!</h4>",
-				html: `<div class='mt-2'>Bobot harus berada dalam rentang <strong>0.00</strong> sampai <strong>1.00</strong>.</div>`,
-				confirmButtonText: "Kembali",
-				confirmButtonColor: "#f59e0b",
-				background: "#fff8e6",
-			});
-			return;
-		}
-
-		let totalWeight = newWeight;
-
-		// Tambahkan semua bobot yang sudah ada di DataTable
-		$("#tabel-kriteria")
-			.DataTable()
-			.rows()
-			.every(function () {
-				const rowData = this.data(); // Akses objek data kriteria
-				const weight = parseFloat(rowData.weight);
-				if (!isNaN(weight)) totalWeight += weight;
-			});
-
-		// Validasi total bobot tidak melebihi 1.00
-		if (totalWeight > 1) {
-			Swal.fire({
-				icon: "warning",
-				title: "<h4 class='fw-bold text-warning'>Validasi Gagal!</h4>",
-				html: `<div class='mt-2'>Total bobot kriteria tidak boleh lebih dari <strong>1.00</strong>.<br/>Saat ini: <strong>${totalWeight.toFixed(
-					2
-				)}</strong></div>`,
-				confirmButtonText: "Kembali",
-				confirmButtonColor: "#f59e0b",
-				background: "#fff8e6",
-			});
-			return;
-		}
-
-		// Siapkan form data
-		const formData = {
-			code: $("#code").val(),
-			name: $("#name").val(),
-			weight: newWeight,
-		};
-
-		// Kirim ke back-end
-		$.ajax({
-			url: "/api/criteria",
-			type: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(formData),
-			beforeSend: initializeCSRFToken(),
-			success: function () {
-				Swal.fire({
-					icon: "success",
-					title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
-					html: "<div class='mt-2'>Kriteria berhasil ditambahkan ke dalam sistem.</div>",
-					showConfirmButton: false,
-					timer: 2000,
-					timerProgressBar: true,
-					position: "center",
-					background: "#e9fbe6",
-				});
-				$("#tabel-kriteria").DataTable().ajax.reload();
-				$("#create").modal("hide");
-				$("#addCriteriaForm")[0].reset();
-			},
-			error: function (xhr, status, error) {
-				let rawMessage = "";
-
-				// Coba parsing JSON kalau bisa
-				try {
-					const json = JSON.parse(xhr.responseText);
-					rawMessage = json.message || xhr.responseText;
-				} catch (e) {
-					rawMessage = xhr.responseText;
-				}
-
-				let htmlMessage;
-				if (rawMessage.includes("Criteria code already exists")) {
-					htmlMessage =
-						"Kode kriteria yang dimasukkan sudah ada. Silakan gunakan kode lain.";
-				} else {
-					htmlMessage =
-						"Terjadi kesalahan saat menambahkan kriteria. Silakan coba lagi.";
-				}
-
-				Swal.fire({
-					icon: "error",
-					title: "<h4 class='fw-bold text-danger'>Gagal Menambahkan!</h4>",
-					html: `<div class='mt-2'>${htmlMessage}</div>`,
-					confirmButtonText: "Oke",
-					confirmButtonColor: "#dc3545",
-					position: "center",
-					background: "#fdeaea",
-				});
-			},
+	// Validasi range bobot
+	if (newWeight < 0 || newWeight > 1) {
+		Swal.fire({
+			icon: "warning",
+			title: "<h4 class='fw-bold text-warning'>Bobot Tidak Valid!</h4>",
+			html: `<div class='mt-2'>Bobot harus berada dalam rentang <strong>0.00</strong> sampai <strong>1.00</strong>.</div>`,
+			confirmButtonText: "Kembali",
+			confirmButtonColor: "#f59e0b",
+			background: "#fff8e6",
 		});
+		return;
+	}
+
+	let totalWeight = newWeight;
+
+	// Tambahkan semua bobot yang sudah ada di DataTable
+	$("#tabel-kriteria")
+		.DataTable()
+		.rows()
+		.every(function () {
+			const rowData = this.data(); // Akses objek data kriteria
+			const weight = parseFloat(rowData.weight);
+			if (!isNaN(weight)) totalWeight += weight;
+		});
+
+	// Validasi total bobot tidak melebihi 1.00
+	if (totalWeight > 1) {
+		Swal.fire({
+			icon: "warning",
+			title: "<h4 class='fw-bold text-warning'>Validasi Gagal!</h4>",
+			html: `<div class='mt-2'>Total bobot kriteria tidak boleh lebih dari <strong>1.00</strong>.<br/>Saat ini: <strong>${totalWeight.toFixed(
+				2
+			)}</strong></div>`,
+			confirmButtonText: "Kembali",
+			confirmButtonColor: "#f59e0b",
+			background: "#fff8e6",
+		});
+		return;
+	}
+
+	// Siapkan form data
+	const formData = {
+		code: $("#code").val(),
+		name: $("#name").val(),
+		weight: newWeight,
+	};
+
+	// Kirim ke back-end
+	$.ajax({
+		url: "/api/criteria",
+		type: "POST",
+		contentType: "application/json",
+		data: JSON.stringify(formData),
+		beforeSend: initializeCSRFToken(),
+		success: function () {
+			Swal.fire({
+				icon: "success",
+				title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
+				html: "<div class='mt-2'>Kriteria berhasil ditambahkan ke dalam sistem.</div>",
+				showConfirmButton: false,
+				timer: 2000,
+				timerProgressBar: true,
+				position: "center",
+				background: "#e9fbe6",
+			});
+			$("#tabel-kriteria").DataTable().ajax.reload();
+			$("#create").modal("hide");
+			$("#addCriteriaForm")[0].reset();
+		},
+		error: function (xhr, status, error) {
+			let rawMessage = "";
+
+			// Coba parsing JSON kalau bisa
+			try {
+				const json = JSON.parse(xhr.responseText);
+				rawMessage = json.message || xhr.responseText;
+			} catch (e) {
+				rawMessage = xhr.responseText;
+			}
+
+			let htmlMessage;
+			if (rawMessage.includes("Criteria code already exists")) {
+				htmlMessage =
+					"Kode kriteria yang dimasukkan sudah ada. Silakan gunakan kode lain.";
+			} else {
+				htmlMessage =
+					"Terjadi kesalahan saat menambahkan kriteria. Silakan coba lagi.";
+			}
+
+			Swal.fire({
+				icon: "error",
+				title: "<h4 class='fw-bold text-danger'>Gagal Menambahkan!</h4>",
+				html: `<div class='mt-2'>${htmlMessage}</div>`,
+				confirmButtonText: "Oke",
+				confirmButtonColor: "#dc3545",
+				position: "center",
+				background: "#fdeaea",
+			});
+		},
 	});
+});
 
-	// Export to PDF
-	$("#printPDFCriteria").click(function () {
-		$.ajax({
-			url: "/api/criteria/export",
-			method: "GET",
-			xhrFields: {
-				responseType: "blob",
-			},
-			success: function (data) {
-				const blob = new Blob([data], { type: "application/pdf" });
-				const url = window.URL.createObjectURL(blob);
+// Export to PDF
+$("#printPDFCriteria").click(function () {
+	$.ajax({
+		url: "/api/criteria/export",
+		method: "GET",
+		xhrFields: {
+			responseType: "blob",
+		},
+		success: function (data) {
+			const blob = new Blob([data], { type: "application/pdf" });
+			const url = window.URL.createObjectURL(blob);
 
-				const a = document.createElement("a");
-				a.href = url;
-				a.download = "laporan-kriteria.pdf";
-				document.body.appendChild(a);
-				a.click();
-				a.remove();
-			},
-			error: function () {
-				Swal.fire("Gagal", "Gagal mengekspor PDF.", "error");
-			},
-		});
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = "laporan-kriteria.pdf";
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+		},
+		error: function () {
+			Swal.fire("Gagal", "Gagal mengekspor PDF.", "error");
+		},
 	});
 });
 

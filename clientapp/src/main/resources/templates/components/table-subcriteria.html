@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Table Kriteria</title>
+	</head>
+	<body>
+		<!-- Section Kelola Subkriteria -->
+		<div class="container mt-4" th:fragment="table-subcriteria">
+			<!-- Section Header -->
+			<div
+				class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+				<h1 class="fw-bold fs-3 mb-0">
+					<i class="fas fa-list-ul me-2 text-primary"></i> Kelola Subkriteria
+				</h1>
+				<div class="d-flex gap-2">
+					<button
+						type="button"
+						class="btn btn-success"
+						data-bs-toggle="modal"
+						data-bs-target="#modalTambahSubkriteria">
+						Tambah Subkriteria
+					</button>
+					<button
+						type="button"
+						class="btn btn-outline-primary"
+						id="printPDFSubcriteria">
+						<i class="fas fa-print me-1"></i> Cetak PDF
+					</button>
+				</div>
+			</div>
+
+			<!-- Tabel Subkriteria -->
+			<div class="table-responsive">
+				<table
+					class="table table-bordered table-striped"
+					id="tabel-subkriteria">
+					<thead class="table-light text-center fw-bold">
+						<tr>
+							<th>No</th>
+							<th>Kode</th>
+							<th>Deskripsi</th>
+							<th>Aksi</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+
+			<!-- Modal Tambah Subkriteria -->
+			<div
+				class="modal fade"
+				id="modalTambahSubkriteria"
+				tabindex="-1"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content shadow rounded-3">
+						<div class="modal-header bg-primary text-white">
+							<h5 class="modal-title fw-bold">
+								<i class="fas fa-plus-circle me-2"></i> Tambah Subkriteria
+							</h5>
+							<button
+								type="button"
+								class="btn-close btn-close-white"
+								data-bs-dismiss="modal"></button>
+						</div>
+						<form
+							id="formTambahSubkriteria"
+							class="needs-validation"
+							novalidate>
+							<div class="modal-body px-4 py-3">
+								<div class="mb-3">
+									<label for="subcriteria-code" class="form-label fw-semibold"
+										>Kode Subkriteria</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="subcriteria-code"
+										name="code"
+										required
+										maxlength="3"
+										placeholder="Contoh: PD1" />
+								</div>
+								<div class="mb-3">
+									<label
+										for="subcriteria-description"
+										class="form-label fw-semibold"
+										>Deskripsi</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="subcriteria-description"
+										name="description"
+										required
+										placeholder="Deskripsi subkriteria" />
+								</div>
+								<div class="mb-3">
+									<label for="subcriteria-type" class="form-label fw-semibold"
+										>Tipe</label
+									>
+									<select
+										class="form-select"
+										id="subcriteria-type"
+										name="type"
+										required>
+										<option value="">-- Pilih Tipe --</option>
+										<option value="Core Factor">Core Factor</option>
+										<option value="Secondary Factor">Secondary Factor</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label for="subcriteria-target" class="form-label fw-semibold"
+										>Target</label
+									>
+									<input
+										type="number"
+										class="form-control"
+										id="subcriteria-target"
+										name="target"
+										required
+										step="1"
+										placeholder="Contoh: 5" />
+								</div>
+								<div class="mb-3">
+									<label
+										for="subcriteria-criteria"
+										class="form-label fw-semibold"
+										>Kriteria</label
+									>
+									<select
+										class="form-select"
+										id="criteriaId"
+										name="criteriaId"
+										required>
+										<option value="" selected>-- Pilih Kriteria --</option>
+										<!-- Diisi secara dinamis dari database -->
+									</select>
+								</div>
+							</div>
+							<div class="modal-footer px-4 py-3">
+								<button
+									type="button"
+									class="btn btn-secondary"
+									data-bs-dismiss="modal">
+									<i class="fas fa-times me-1"></i> Batal
+								</button>
+								<button type="submit" class="btn btn-success">
+									<i class="fas fa-save me-1"></i> Simpan
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Detail Subkriteria -->
+			<div
+				class="modal fade"
+				id="detail-subcriteria"
+				tabindex="-1"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content shadow rounded-3">
+						<div class="modal-header bg-info text-white">
+							<h5 class="modal-title fw-bold">
+								<i class="fas fa-circle-info me-2"></i> Detail Subkriteria
+							</h5>
+							<button
+								type="button"
+								class="btn-close btn-close-white"
+								data-bs-dismiss="modal"></button>
+						</div>
+						<div class="modal-body px-4 py-3">
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>ID</strong>
+									<span id="detail-id-subcriteria"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Kode</strong>
+									<span id="detail-code-subcriteria"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Deskripsi</strong>
+									<span
+										id="detail-description-subcriteria"
+										class="text-wrap d-block"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Tipe</strong>
+									<span id="detail-type-subcriteria"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Target</strong>
+									<span id="detail-target-subcriteria"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Kriteria</strong>
+									<span id="detail-criteria-name"></span>
+								</li>
+							</ul>
+						</div>
+						<div class="modal-footer px-4 py-3">
+							<button class="btn btn-secondary" data-bs-dismiss="modal">
+								<i class="fas fa-times me-1"></i> Tutup
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Update Subkriteria -->
+			<div
+				class="modal fade"
+				id="update-subcriteria"
+				tabindex="-1"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content shadow rounded-3">
+						<div class="modal-header bg-warning text-dark">
+							<h5 class="modal-title fw-bold">
+								<i class="fas fa-pen-to-square me-2"></i> Ubah Subkriteria
+							</h5>
+							<button
+								type="button"
+								class="btn-close"
+								data-bs-dismiss="modal"></button>
+						</div>
+						<form
+							id="formUpdateSubcriteria"
+							class="needs-validation"
+							novalidate>
+							<div class="modal-body px-4 py-3">
+								<input type="hidden" id="update-id-subcriteria" name="id" />
+								<div class="mb-3">
+									<label
+										for="update-code-subcriteria"
+										class="form-label fw-semibold"
+										>Kode</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="update-code-subcriteria"
+										name="code"
+										maxlength="3"
+										required
+										placeholder="Contoh: PD1" />
+								</div>
+								<div class="mb-3">
+									<label
+										for="update-description-subcriteria"
+										class="form-label fw-semibold"
+										>Deskripsi</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="update-description-subcriteria"
+										name="description"
+										required
+										placeholder="Deskripsi singkat" />
+								</div>
+								<div class="mb-3">
+									<label
+										for="update-type-subcriteria"
+										class="form-label fw-semibold"
+										>Tipe</label
+									>
+									<select
+										class="form-select"
+										id="update-type-subcriteria"
+										name="type"
+										required>
+										<option value="">-- Pilih Tipe --</option>
+										<option value="Core Factor">Core Factor</option>
+										<option value="Secondary Factor">Secondary Factor</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label
+										for="update-target-subcriteria"
+										class="form-label fw-semibold"
+										>Target</label
+									>
+									<input
+										type="number"
+										class="form-control"
+										id="update-target-subcriteria"
+										name="target"
+										step="1"
+										required
+										placeholder="Contoh: 5" />
+								</div>
+								<div class="mb-3">
+									<label for="update-criteriaId" class="form-label fw-semibold"
+										>Kriteria</label
+									>
+									<select
+										class="form-select"
+										id="update-criteriaId"
+										name="criteriaId"
+										required>
+										<!-- Opsi akan diisi dinamis -->
+									</select>
+								</div>
+							</div>
+							<div class="modal-footer px-4 py-3">
+								<button
+									type="button"
+									class="btn btn-secondary"
+									data-bs-dismiss="modal">
+									<i class="fas fa-times me-1"></i> Batal
+								</button>
+								<button type="submit" class="btn btn-success">
+									<i class="fas fa-save me-1"></i> Simpan Perubahan
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

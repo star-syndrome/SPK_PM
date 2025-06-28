@@ -430,6 +430,20 @@ body {
 	font-weight: bold;
 }
 
+.modal-body .list-group-item span {
+	display: inline-block;
+	max-width: 250px;
+	white-space: normal; /* agar text wrap */
+	word-break: break-word;
+	vertical-align: top;
+	text-align: left;
+}
+
+#detail-description-subcriteria {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
 .btn-action {
 	background: var(--primary-color);
 	color: white;

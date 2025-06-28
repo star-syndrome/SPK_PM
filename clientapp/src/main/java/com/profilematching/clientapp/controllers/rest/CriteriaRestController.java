@@ -41,7 +41,7 @@ public class CriteriaRestController {
             path = "/criteria/total",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> getTotalCourses() {
+    public ResponseEntity<Object> getTotalCriteria() {
         return ResponseEntity.ok().body(criteriaService.countCriteria());
     }
 
@@ -87,7 +87,7 @@ public class CriteriaRestController {
             path = "/criteria/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<CriteriaResponse> deleteCategory(@PathVariable Integer id) {
+    public ResponseEntity<CriteriaResponse> deleteCriteria(@PathVariable Integer id) {
         return ResponseEntity.ok().body(criteriaService.deleteCriteria(id));
     }
 }

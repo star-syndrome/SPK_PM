@@ -88,6 +88,111 @@
 				</div>
 			</div>
 
+			<!-- Modal Tambah Subkriteria -->
+			<div
+				class="modal fade"
+				id="addSubcriteriaModal"
+				tabindex="-1"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content shadow rounded-3">
+						<div class="modal-header bg-primary text-white">
+							<h5 class="modal-title fw-bold">
+								<i class="fas fa-plus-circle me-2"></i> Tambah Subkriteria
+							</h5>
+							<button
+								type="button"
+								class="btn-close btn-close-white"
+								data-bs-dismiss="modal"></button>
+						</div>
+						<form id="addSubcriteriaForm" class="needs-validation" novalidate>
+							<div class="modal-body px-4 py-3">
+								<div class="mb-3">
+									<label for="subcriteria-code" class="form-label fw-semibold"
+										>Kode Subkriteria</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="subcriteria-code"
+										name="code"
+										required
+										maxlength="3"
+										placeholder="Contoh: PD1" />
+								</div>
+								<div class="mb-3">
+									<label
+										for="subcriteria-description"
+										class="form-label fw-semibold"
+										>Deskripsi</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="subcriteria-description"
+										name="description"
+										required
+										placeholder="Deskripsi subkriteria" />
+								</div>
+								<div class="mb-3">
+									<label for="subcriteria-type" class="form-label fw-semibold"
+										>Tipe</label
+									>
+									<select
+										class="form-select"
+										id="subcriteria-type"
+										name="type"
+										required>
+										<option value="">-- Pilih Tipe --</option>
+										<option value="Core Factor">Core Factor</option>
+										<option value="Secondary Factor">Secondary Factor</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label for="subcriteria-target" class="form-label fw-semibold"
+										>Target</label
+									>
+									<input
+										type="number"
+										class="form-control"
+										id="subcriteria-target"
+										name="target"
+										required
+										step="1"
+										placeholder="Contoh: 5" />
+								</div>
+								<div class="mb-3">
+									<label
+										for="subcriteria-criteria"
+										class="form-label fw-semibold"
+										>Kriteria</label
+									>
+									<select
+										class="form-select"
+										id="criteriaId"
+										name="criteriaId"
+										required>
+										<option value="" selected>-- Pilih Kriteria --</option>
+										<!-- Diisi secara dinamis dari database -->
+									</select>
+								</div>
+							</div>
+							<div class="modal-footer px-4 py-3">
+								<button
+									type="button"
+									class="btn btn-secondary"
+									data-bs-dismiss="modal">
+									<i class="fas fa-times me-1"></i> Batal
+								</button>
+								<button type="submit" class="btn btn-success">
+									<i class="fas fa-save me-1"></i> Simpan
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
 			<!-- Dashboard Content -->
 			<div class="dashboard-content container-fluid px-4 py-4">
 				<!-- Welcome Section -->
@@ -184,10 +289,10 @@
 
 						<!-- Tambah Subkriteria -->
 						<a
-							href="#"
+							href="javascript:void(0)"
 							class="action-card"
 							data-bs-toggle="modal"
-							data-bs-target="#modalTambahSubkriteria">
+							data-bs-target="#addSubcriteriaModal">
 							<div class="action-icon">
 								<i class="fas fa-layer-group"></i>
 							</div>
