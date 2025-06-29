@@ -1,7 +1,6 @@
 package com.profilematching.clientapp.services;
 
-import com.profilematching.clientapp.models.dtos.requests.AddCandidateScoreRequest;
-import com.profilematching.clientapp.models.dtos.requests.UpdateCandidateScoreRequest;
+import com.profilematching.clientapp.models.dtos.requests.BulkCandidateScoreRequest;
 import com.profilematching.clientapp.models.dtos.responses.CandidateScoreResponse;
 
 import java.util.List;
@@ -10,11 +9,11 @@ public interface CandidateScoreService {
 
     List<CandidateScoreResponse> getAllCandidateScore();
 
+    List<CandidateScoreResponse> getScoresByCandidateId(Integer Id);
+
     CandidateScoreResponse getCandidateScoreById(Integer Id);
 
-    CandidateScoreResponse addCandidateScore(AddCandidateScoreRequest addCandidateScoreRequest);
-
-    CandidateScoreResponse updateCandidateScore(Integer Id, UpdateCandidateScoreRequest updateCandidateScoreRequest);
+    String saveOrUpdateBulkScores(BulkCandidateScoreRequest request);
 
     CandidateScoreResponse deleteCandidateScore(Integer Id);
 

@@ -20,4 +20,9 @@ public class AdminController {
     public String candidateView(){
         return "pages/admin/candidate";
     }
+
+    @GetMapping("/candidate-score")
+    public String candidateScoreView(){
+        return "pages/admin/candidate-score";
+    }
 }

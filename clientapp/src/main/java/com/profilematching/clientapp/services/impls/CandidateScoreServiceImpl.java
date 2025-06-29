@@ -1,7 +1,6 @@
 package com.profilematching.clientapp.services.impls;
 
-import com.profilematching.clientapp.models.dtos.requests.AddCandidateScoreRequest;
-import com.profilematching.clientapp.models.dtos.requests.UpdateCandidateScoreRequest;
+import com.profilematching.clientapp.models.dtos.requests.BulkCandidateScoreRequest;
 import com.profilematching.clientapp.models.dtos.responses.CandidateScoreResponse;
 import com.profilematching.clientapp.services.CandidateScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +18,25 @@ public class CandidateScoreServiceImpl implements CandidateScoreService {
     @Autowired
     private RestTemplate restTemplate;
 
-    private final String url = "http://localhost:8080/api/candidate/score";
+    private final String url = "http://localhost:8080/api/candidate-score";
 
     @Override
     public List<CandidateScoreResponse> getAllCandidateScore() {
         return restTemplate
                 .exchange(
                         url,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<CandidateScoreResponse>>() {}
+                )
+                .getBody();
+    }
+
+    @Override
+    public List<CandidateScoreResponse> getScoresByCandidateId(Integer Id) {
+        return restTemplate
+                .exchange(
+                        url + "/candidate/" + Id,
                         HttpMethod.GET,
                         null,
                         new ParameterizedTypeReference<List<CandidateScoreResponse>>() {}
@@ -46,27 +57,20 @@ public class CandidateScoreServiceImpl implements CandidateScoreService {
     }
 
     @Override
-    public CandidateScoreResponse addCandidateScore(AddCandidateScoreRequest addCandidateScoreRequest) {
-        return restTemplate
-                .exchange(
-                        url,
-                        HttpMethod.POST,
-                        new HttpEntity<>(addCandidateScoreRequest),
-                        CandidateScoreResponse.class
-                )
-                .getBody();
-    }
+    public String saveOrUpdateBulkScores(BulkCandidateScoreRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-    @Override
-    public CandidateScoreResponse updateCandidateScore(Integer Id, UpdateCandidateScoreRequest updateCandidateScoreRequest) {
-        return restTemplate
-                .exchange(
-                        url + "/" + Id,
-                        HttpMethod.PUT,
-                        new HttpEntity<>(updateCandidateScoreRequest),
-                        CandidateScoreResponse.class
-                )
-                .getBody();
+        HttpEntity<BulkCandidateScoreRequest> entity = new HttpEntity<>(request, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                entity,
+                String.class
+        );
+
+        return response.getBody();
     }
 
     @Override

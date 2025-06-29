@@ -38,7 +38,7 @@ public class CandidateRestController {
             path = "/candidate/total",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> getTotalCourses() {
+    public ResponseEntity<Object> getTotalCandidate() {
         return ResponseEntity.ok().body(candidateService.countCandidate());
     }
 

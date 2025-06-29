@@ -1,7 +1,6 @@
 package com.profilematching.serverapp.controllers;
 
-import com.profilematching.serverapp.models.dtos.requests.AddCandidateScoreRequest;
-import com.profilematching.serverapp.models.dtos.requests.UpdateCandidateScoreRequest;
+import com.profilematching.serverapp.models.dtos.requests.BulkCandidateScoreRequest;
 import com.profilematching.serverapp.models.dtos.responses.CandidateScoreResponse;
 import com.profilematching.serverapp.services.CandidateScoreService;
 import com.profilematching.serverapp.services.PdfService;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/candidate")
+@RequestMapping(path = "/api")
 public class CandidateScoreController {
 
     @Autowired
@@ -25,7 +24,7 @@ public class CandidateScoreController {
     private PdfService pdfService;
 
     @GetMapping(
-            path = "/score",
+            path = "/candidate-score",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<List<CandidateScoreResponse>> getAllCandidateScore() {
@@ -34,7 +33,7 @@ public class CandidateScoreController {
     }
 
     @GetMapping(
-            path = "/score/{Id}",
+            path = "/candidate-score/{Id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<CandidateScoreResponse> getCandidateScoreById(@PathVariable Integer Id) {
@@ -43,39 +42,34 @@ public class CandidateScoreController {
     }
 
     @GetMapping(
-            path = "/score/export",
+            path = "/candidate-score/candidate/{Id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CandidateScoreResponse>> getScoresByCandidateId(@PathVariable Integer Id) {
+        return ResponseEntity.ok()
+                .body(candidateScoreService.getScoresByCandidateId(Id));
+    }
+
+    @GetMapping(
+            path = "/candidate-score/export",
             produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> exportCriteriaPdf() throws Exception {
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=laporan-nilai-calon-kader.pdf")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=laporan-skor-kandidat.pdf")
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdfService.generateCandidateScorePdf());
     }
 
     @PostMapping(
-            path = "/score",
+            path = "/candidate-score",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<CandidateScoreResponse> addCandidateScore(@Validated @RequestBody AddCandidateScoreRequest addCandidateScoreRequest){
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addOrUpdateCandidateScores(@Validated @RequestBody BulkCandidateScoreRequest request) {
         return ResponseEntity.ok()
-                .body(candidateScoreService.addCandidateScore(addCandidateScoreRequest));
-    }
-
-    @PutMapping(
-            path = "/score/{Id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<CandidateScoreResponse> updateCandidateScore(
-            @PathVariable Integer Id, @Validated @RequestBody UpdateCandidateScoreRequest updateCandidateScoreRequest
-    ){
-        return ResponseEntity.ok()
-                .body(candidateScoreService.updateCandidateScore(Id, updateCandidateScoreRequest));
+                .body(candidateScoreService.saveOrUpdateBulkScores(request));
     }
 
     @DeleteMapping(
-            path = "/score/{Id}",
+            path = "/candidate-score/{Id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<CandidateScoreResponse> deleteCandidateScore(@PathVariable Integer Id) {

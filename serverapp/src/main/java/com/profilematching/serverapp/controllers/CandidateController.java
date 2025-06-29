@@ -56,7 +56,7 @@ public class CandidateController {
             produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> exportCriteriaPdf() throws Exception {
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=laporan-calon-kader.pdf")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=laporan-kandidat.pdf")
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdfService.generateCandidatePdf());
     }

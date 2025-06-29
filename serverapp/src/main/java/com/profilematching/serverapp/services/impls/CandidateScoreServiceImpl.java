@@ -1,7 +1,6 @@
 package com.profilematching.serverapp.services.impls;
 
-import com.profilematching.serverapp.models.dtos.requests.AddCandidateScoreRequest;
-import com.profilematching.serverapp.models.dtos.requests.UpdateCandidateScoreRequest;
+import com.profilematching.serverapp.models.dtos.requests.BulkCandidateScoreRequest;
 import com.profilematching.serverapp.models.dtos.responses.CandidateScoreResponse;
 import com.profilematching.serverapp.models.entities.Candidate;
 import com.profilematching.serverapp.models.entities.CandidateScore;
@@ -17,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +47,22 @@ public class CandidateScoreServiceImpl implements CandidateScoreService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<CandidateScoreResponse> getScoresByCandidateId(Integer Id) {
+        log.info("Retrieving candidate score data for candidate ID: {}", Id);
+
+        List<CandidateScore> scores = candidateScoreRepository.findByCandidateId(Id);
+
+        if (scores.isEmpty()) {
+            throw new EntityNotFoundException("No scores found for candidate ID: " + Id);
+        }
+
+        return scores.stream()
+                .map(this::mapToCandidateScoreResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public CandidateScoreResponse getCandidateScoreById(Integer Id) {
         log.info("Retrieving candidate score data for ID: {}", Id);
 
@@ -55,45 +72,30 @@ public class CandidateScoreServiceImpl implements CandidateScoreService {
     }
 
     @Override
-    public CandidateScoreResponse addCandidateScore(AddCandidateScoreRequest addCandidateScoreRequest) {
-        log.info("Adding new score for candidate ID: {}", addCandidateScoreRequest.getCandidateId());
+    public String saveOrUpdateBulkScores(BulkCandidateScoreRequest request) {
+        log.info("Adding or updating candidate score for candidate ID: {}", request.getCandidateId());
 
-        Candidate candidate = candidateRepository.findById(addCandidateScoreRequest.getCandidateId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidate not found!"));
+        Integer candidateId = request.getCandidateId();
+        Candidate candidate = candidateRepository.findById(candidateId)
+                .orElseThrow(() -> new EntityNotFoundException("Candidate not found with ID: " + candidateId));
 
-        Subcriteria subcriteria = subcriteriaRepository.findById(addCandidateScoreRequest.getSubcriteriaId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Subcriteria not found!"));
+        for (BulkCandidateScoreRequest.ScoreEntry entry : request.getScores()) {
+            Subcriteria subcriteria = subcriteriaRepository.findById(entry.getSubcriteriaId())
+                    .orElseThrow(() -> new EntityNotFoundException("Subcriteria not found with ID: " + entry.getSubcriteriaId()));
 
-        CandidateScore candidateScore = new CandidateScore();
-        candidateScore.setScore(addCandidateScoreRequest.getScore());
-        candidateScore.setCandidate(candidate);
-        candidateScore.setSubcriteria(subcriteria);
-        candidateScoreRepository.save(candidateScore);
+            Optional<CandidateScore> existing = candidateScoreRepository
+                    .findByCandidateIdAndSubcriteriaId(candidateId, entry.getSubcriteriaId());
 
-        log.info("Completed adding new score for candidate name: {}", candidate.getName());
-        return mapToCandidateScoreResponse(candidateScore);
-    }
+            CandidateScore score = existing.orElseGet(CandidateScore::new);
+            score.setCandidate(candidate);
+            score.setSubcriteria(subcriteria);
+            score.setScore(entry.getScore());
 
-    @Override
-    public CandidateScoreResponse updateCandidateScore(Integer Id, UpdateCandidateScoreRequest updateCandidateScoreRequest) {
-        log.info("Updating score for candidate ID: {}", updateCandidateScoreRequest.getCandidateId());
+            candidateScoreRepository.save(score);
+        }
 
-        CandidateScore candidateScore = candidateScoreRepository.findById(Id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidate score not found!"));
-
-        Candidate candidate = candidateRepository.findById(updateCandidateScoreRequest.getCandidateId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidate not found!"));
-
-        Subcriteria subcriteria = subcriteriaRepository.findById(updateCandidateScoreRequest.getSubcriteriaId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Subcriteria not found!"));
-
-        candidateScore.setScore(updateCandidateScoreRequest.getScore());
-        candidateScore.setCandidate(candidate);
-        candidateScore.setSubcriteria(subcriteria);
-        candidateScoreRepository.save(candidateScore);
-
-        log.info("Completed updating new score for candidate name: {}", candidate.getName());
-        return mapToCandidateScoreResponse(candidateScore);
+        log.info("Completed adding or updating candidate score for candidate: {}", candidate.getName());
+        return "Completed adding or updating candidate score";
     }
 
     @Override
