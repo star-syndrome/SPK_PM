@@ -6,6 +6,8 @@ import com.profilematching.serverapp.models.dtos.responses.CandidateResponse;
 import com.profilematching.serverapp.models.entities.Candidate;
 import com.profilematching.serverapp.models.entities.User;
 import com.profilematching.serverapp.repositories.CandidateRepository;
+import com.profilematching.serverapp.repositories.CandidateScoreRepository;
+import com.profilematching.serverapp.repositories.RankingRepository;
 import com.profilematching.serverapp.repositories.UserRepository;
 import com.profilematching.serverapp.services.CandidateService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,12 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CandidateScoreRepository candidateScoreRepository;
+
+    @Autowired
+    private RankingRepository rankingRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -117,6 +125,8 @@ public class CandidateServiceImpl implements CandidateService {
         Candidate candidate = candidateRepository.findById(Id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidate not found!"));
 
+        rankingRepository.deleteByCandidateId(candidate.getId());
+        candidateScoreRepository.deleteByCandidateId(candidate.getId());
         candidateRepository.delete(candidate);
 
         log.info("Delete successful for candidate ID: {}", candidate.getId());

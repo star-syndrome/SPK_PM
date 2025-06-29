@@ -167,28 +167,8 @@ $("#formTambahSubkriteria").on("submit", function (e) {
 });
 
 // Export to PDF
-$("#printPDFSubcriteria").click(function () {
-	$.ajax({
-		url: "/api/subcriteria/export",
-		method: "GET",
-		xhrFields: {
-			responseType: "blob",
-		},
-		success: function (data) {
-			const blob = new Blob([data], { type: "application/pdf" });
-			const url = window.URL.createObjectURL(blob);
-
-			const a = document.createElement("a");
-			a.href = url;
-			a.download = "laporan-subkriteria.pdf";
-			document.body.appendChild(a);
-			a.click();
-			a.remove();
-		},
-		error: function () {
-			Swal.fire("Gagal", "Gagal mengekspor PDF.", "error");
-		},
-	});
+$("#printPDFSubcriteria").on("click", () => {
+	window.open("/api/subcriteria/export", "_blank");
 });
 
 // Get Subcriteria By ID

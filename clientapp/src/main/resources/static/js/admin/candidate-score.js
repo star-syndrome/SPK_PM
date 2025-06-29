@@ -155,7 +155,7 @@ function loadSubkriteriaFields() {
 			container.append(`
         <div class="mb-3">
         <label class="form-label fw-semibold">${sub.code} - ${sub.description}</label>
-        <input type="number" min="1" max="5" step="1" required class="form-control input-skor-subkriteria" 
+        <input type="number" min="1" max="5" step="1" class="form-control input-skor-subkriteria" 
             data-subcriteria-id="${sub.id}" placeholder="Masukkan skor (1—5)">
         <div class="invalid-feedback">Skor harus antara 1 sampai 5.</div>
         </div>
@@ -165,28 +165,8 @@ function loadSubkriteriaFields() {
 }
 
 // Export to PDF
-$("#printPDFCandidateScore").click(function () {
-	$.ajax({
-		url: "/api/candidate-score/export",
-		method: "GET",
-		xhrFields: {
-			responseType: "blob",
-		},
-		success: function (data) {
-			const blob = new Blob([data], { type: "application/pdf" });
-			const url = window.URL.createObjectURL(blob);
-
-			const a = document.createElement("a");
-			a.href = url;
-			a.download = "laporan-skor-kandidat.pdf";
-			document.body.appendChild(a);
-			a.click();
-			a.remove();
-		},
-		error: function () {
-			Swal.fire("Gagal", "Gagal mengekspor PDF.", "error");
-		},
-	});
+$("#printPDFCandidateScore").on("click", () => {
+	window.open("/api/candidate-score/export", "_blank");
 });
 
 // Get CandidateScore By ID

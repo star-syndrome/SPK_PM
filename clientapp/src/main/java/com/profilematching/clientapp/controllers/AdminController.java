@@ -25,4 +25,9 @@ public class AdminController {
     public String candidateScoreView(){
         return "pages/admin/candidate-score";
     }
+
+    @GetMapping("/ranking")
+    public String rankingView(){
+        return "pages/admin/ranking";
+    }
 }

@@ -180,28 +180,8 @@ $("#addCriteriaForm").on("submit", function (event) {
 });
 
 // Export to PDF
-$("#printPDFCriteria").click(function () {
-	$.ajax({
-		url: "/api/criteria/export",
-		method: "GET",
-		xhrFields: {
-			responseType: "blob",
-		},
-		success: function (data) {
-			const blob = new Blob([data], { type: "application/pdf" });
-			const url = window.URL.createObjectURL(blob);
-
-			const a = document.createElement("a");
-			a.href = url;
-			a.download = "laporan-kriteria.pdf";
-			document.body.appendChild(a);
-			a.click();
-			a.remove();
-		},
-		error: function () {
-			Swal.fire("Gagal", "Gagal mengekspor PDF.", "error");
-		},
-	});
+$("#printPDFCriteria").on("click", () => {
+	window.open("/api/criteria/export", "_blank");
 });
 
 // Get Criteria By ID

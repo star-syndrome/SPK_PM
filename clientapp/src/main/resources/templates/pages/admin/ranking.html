@@ -5,17 +5,16 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Skor Kandidat</title>
+		<title>Peringkat</title>
 	</head>
 
 	<body>
 		<section layout:fragment="content" sec:authorize="isAuthenticated()">
-			<div
-				th:replace="components/table-candidate-score :: table-candidate-score"></div>
+			<div th:replace="components/table-ranking :: table-ranking"></div>
 		</section>
 
 		<div layout:fragment="script">
-			<script src="/js/admin/candidate-score.js"></script>
+			<script src="/js/admin/ranking.js"></script>
 		</div>
 	</body>
 </html>

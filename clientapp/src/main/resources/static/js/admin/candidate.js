@@ -170,28 +170,8 @@ $("#formTambahKandidat").on("submit", function (e) {
 });
 
 // Export to PDF
-$("#printPDFCandidate").click(function () {
-	$.ajax({
-		url: "/api/candidate/export",
-		method: "GET",
-		xhrFields: {
-			responseType: "blob",
-		},
-		success: function (data) {
-			const blob = new Blob([data], { type: "application/pdf" });
-			const url = window.URL.createObjectURL(blob);
-
-			const a = document.createElement("a");
-			a.href = url;
-			a.download = "laporan-kandidat.pdf";
-			document.body.appendChild(a);
-			a.click();
-			a.remove();
-		},
-		error: function () {
-			Swal.fire("Gagal", "Gagal mengekspor PDF.", "error");
-		},
-	});
+$("#printPDFCandidate").on("click", () => {
+	window.open("/api/candidate/export", "_blank");
 });
 
 // Get Candidate By ID
