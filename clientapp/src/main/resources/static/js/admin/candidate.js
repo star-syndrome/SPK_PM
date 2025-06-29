@@ -32,6 +32,15 @@ $(document).ready(() => {
                             onclick="findCandidateById(${data.id})">
                             <span class="material-symbols-rounded"> info </span>
                         </button> 
+						<button
+                            type="button"
+                            class="btn btn-info btn-sm"
+                            data-toggle="modal"
+                            data-target="#modalDetailCandidateScore"
+                            title="Score Details ${data.name}"
+                            onclick="showDetailCandidateScore(${data.id})">
+                            <span class="material-symbols-rounded"> info </span>
+                        </button> 
                         <button
                             type="button"
                             class="btn btn-warning d-flex align-items-center"
@@ -205,12 +214,54 @@ function findCandidateById(id) {
 			Swal.fire({
 				icon: "error",
 				title:
-					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Kriteria!</h4>",
-				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data kriteria. Silakan coba lagi.</div>",
+					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Kandidat!</h4>",
+				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data kandidat. Silakan coba lagi.</div>",
 				confirmButtonText: "Oke",
 				confirmButtonColor: "#dc3545",
 				position: "center",
 				background: "#fdeaea",
+			});
+		},
+	});
+}
+
+function showDetailCandidateScore(candidateId) {
+	$.ajax({
+		url: `/api/candidate-score/candidate/${candidateId}`,
+		method: "GET",
+		success: function (data) {
+			if (!data || data.length === 0) {
+				Swal.fire({
+					icon: "info",
+					title: "Tidak Ada Skor",
+					text: "Kandidat ini belum memiliki skor yang tersimpan.",
+				});
+				return;
+			}
+
+			const namaKandidat = data[0].candidateName;
+			$("#detail-nama-kandidat").text(namaKandidat);
+
+			let rows = "";
+			data.forEach((item, index) => {
+				rows += /*html*/ `
+					<tr>
+						<td>${index + 1}</td>
+						<td>${item.subcriteriaCode}</td>
+						<td class="text-start">${item.subcriteriaDescription}</td>
+						<td>${item.score}</td>
+					</tr>
+				`;
+			});
+
+			$("#detail-skor-kandidat-body").html(rows);
+			$("#modalDetailCandidateScore").modal("show");
+		},
+		error: function () {
+			Swal.fire({
+				icon: "error",
+				title: "Gagal Memuat",
+				text: "Tidak dapat mengambil data skor kandidat.",
 			});
 		},
 	});
@@ -235,8 +286,8 @@ function beforeUpdateCandidate(id) {
 			Swal.fire({
 				icon: "error",
 				title:
-					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Kriteria!</h4>",
-				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data kriteria. Silakan coba lagi.</div>",
+					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Kandidat!</h4>",
+				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data kandidat. Silakan coba lagi.</div>",
 				confirmButtonText: "Oke",
 				confirmButtonColor: "#dc3545",
 				position: "center",

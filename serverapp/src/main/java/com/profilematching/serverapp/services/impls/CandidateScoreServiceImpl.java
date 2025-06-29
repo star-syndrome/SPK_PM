@@ -115,6 +115,7 @@ public class CandidateScoreServiceImpl implements CandidateScoreService {
         return CandidateScoreResponse.builder()
                 .id(candidateScore.getId())
                 .score(candidateScore.getScore())
+                .candidateId(candidateScore.getCandidate().getId())
                 .candidateName(candidateScore.getCandidate().getName())
                 .subcriteriaCode(candidateScore.getSubcriteria().getCode())
                 .subcriteriaDescription(candidateScore.getSubcriteria().getDescription())

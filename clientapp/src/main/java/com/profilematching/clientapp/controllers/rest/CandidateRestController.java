@@ -3,7 +3,6 @@ package com.profilematching.clientapp.controllers.rest;
 import com.profilematching.clientapp.models.dtos.requests.AddCandidateRequest;
 import com.profilematching.clientapp.models.dtos.requests.UpdateCandidateRequest;
 import com.profilematching.clientapp.models.dtos.responses.CandidateResponse;
-import com.profilematching.clientapp.models.dtos.responses.CriteriaResponse;
 import com.profilematching.clientapp.services.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;

@@ -1,10 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Table Skor Kandidat</title>
+	</head>
+	<body>
+		<!-- Section Kelola Skor Kandidat -->
+		<div class="container mt-4" th:fragment="table-candidate-score">
+			<!-- Section Header -->
+			<div
+				class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+				<h1 class="fw-bold fs-3 mb-0">
+					<i class="fas fa-list-ul me-2 text-primary"></i> Kelola Skor Kandidat
+				</h1>
+				<div class="d-flex gap-2">
+					<button
+						type="button"
+						class="btn btn-success"
+						data-bs-toggle="modal"
+						data-bs-target="#modalTambahSkorKandidat">
+						Tambah dan Ubah Skor Kandidat
+					</button>
+					<button
+						type="button"
+						class="btn btn-outline-primary"
+						id="printPDFCandidateScore">
+						<i class="fas fa-print me-1"></i> Cetak PDF
+					</button>
+				</div>
+			</div>
 
-</body>
+			<!-- Tabel Skor Kandidat -->
+			<div class="table-responsive">
+				<table
+					class="table table-bordered table-striped"
+					id="tabel-skor-kandidat">
+					<thead class="table-light text-center fw-bold">
+						<tr>
+							<th>No</th>
+							<th>Nama</th>
+							<th>Kode Subkriteria</th>
+							<th>Skor</th>
+							<th>Aksi</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+
+			<!-- Modal Tambah Skor Kandidat -->
+			<div
+				class="modal fade"
+				id="modalTambahSkorKandidat"
+				tabindex="-1"
+				aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-centered">
+					<div class="modal-content shadow rounded-3">
+						<div class="modal-header bg-primary text-white">
+							<h5 class="modal-title fw-bold">
+								<i class="fas fa-clipboard-list me-2"></i> Tambah Skor Kandidat
+							</h5>
+							<button
+								type="button"
+								class="btn-close btn-close-white"
+								data-bs-dismiss="modal"></button>
+						</div>
+						<form id="formTambahSkorKandidat">
+							<div class="modal-body px-4 py-3">
+								<div class="mb-3">
+									<label for="select-kandidat" class="form-label fw-semibold"
+										>Pilih Kandidat</label
+									>
+									<select id="select-kandidat" class="form-select" required>
+										<option value="">-- Pilih Kandidat --</option>
+									</select>
+								</div>
+
+								<div id="form-skor-subkriteria"></div>
+							</div>
+							<div class="modal-footer px-4 py-3">
+								<button
+									type="button"
+									class="btn btn-secondary"
+									data-bs-dismiss="modal">
+									<i class="fas fa-times me-1"></i> Batal
+								</button>
+								<button type="submit" class="btn btn-success">
+									<i class="fas fa-save me-1"></i> Simpan Skor
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Detail Skor Kandidat -->
+			<div
+				class="modal fade"
+				id="modalDetailSkorKandidat"
+				tabindex="-1"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content shadow rounded-3">
+						<div class="modal-header bg-info text-white">
+							<h5 class="modal-title fw-bold">
+								<i class="fas fa-circle-info me-2"></i> Detail Skor Kandidat
+							</h5>
+							<button
+								type="button"
+								class="btn-close btn-close-white"
+								data-bs-dismiss="modal"></button>
+						</div>
+						<div class="modal-body px-4 py-3">
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>ID</strong>
+									<span id="candidate-score-id"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Nama</strong>
+									<span id="candidate-score-name"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Kode Subkriteria</strong>
+									<span id="candidate-score-subcriteriaCode"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Deskripsi Subkriteria</strong>
+									<span id="candidate-score-subcriteriaDescription"></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between">
+									<strong>Skor</strong>
+									<span id="candidate-score-score"></span>
+								</li>
+							</ul>
+						</div>
+						<div class="modal-footer px-4 py-3">
+							<button class="btn btn-secondary" data-bs-dismiss="modal">
+								<i class="fas fa-times me-1"></i> Tutup
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

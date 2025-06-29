@@ -11,6 +11,7 @@ public class CandidateScoreResponse {
 
     private Integer id;
     private Double score;
+    private Integer candidateId;
     private String candidateName;
     private String subcriteriaCode;
     private String subcriteriaDescription;

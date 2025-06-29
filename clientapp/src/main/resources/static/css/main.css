@@ -430,19 +430,20 @@ body {
 	font-weight: bold;
 }
 
-.modal-body .list-group-item span {
-	display: inline-block;
-	max-width: 250px;
-	white-space: normal; /* agar text wrap */
-	word-break: break-word;
-	vertical-align: top;
-	text-align: left;
+.modal-body .list-group-item {
+	align-items: flex-start; /* Align ke atas */
 }
 
-#detail-description-subcriteria,
-#candidate-address {
-	white-space: pre-wrap;
+.modal-body .list-group-item strong {
+	flex: 0 0 180px; /* Fixed width untuk label */
+	margin-right: 15px;
+}
+
+.modal-body .list-group-item span {
+	flex: 1;
+	text-align: left;
 	word-break: break-word;
+	white-space: normal;
 }
 
 .btn-action {

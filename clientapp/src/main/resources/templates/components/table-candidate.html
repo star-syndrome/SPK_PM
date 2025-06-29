@@ -155,7 +155,7 @@
 					<div class="modal-content shadow rounded-3">
 						<div class="modal-header bg-info text-white">
 							<h5 class="modal-title fw-bold">
-								<i class="fas fa-circle-info me-2"></i> Detail Subkriteria
+								<i class="fas fa-circle-info me-2"></i> Detail Kandidat
 							</h5>
 							<button
 								type="button"
@@ -192,6 +192,57 @@
 						</div>
 						<div class="modal-footer px-4 py-3">
 							<button class="btn btn-secondary" data-bs-dismiss="modal">
+								<i class="fas fa-times me-1"></i> Tutup
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Detail Skor Kandidat -->
+			<div
+				class="modal fade"
+				id="modalDetailCandidateScore"
+				tabindex="-1"
+				aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-centered">
+					<div class="modal-content shadow rounded-3">
+						<div class="modal-header bg-info text-white">
+							<h5 class="modal-title fw-bold">
+								<i class="fas fa-info-circle me-2"></i> Detail Skor Kandidat
+							</h5>
+							<button
+								type="button"
+								class="btn-close btn-close-white"
+								data-bs-dismiss="modal"></button>
+						</div>
+						<div class="modal-body px-4 py-3">
+							<p class="fw-semibold mb-2">
+								Nama Kandidat:
+								<span id="detail-nama-kandidat" class="fw-bold"></span>
+							</p>
+							<div class="table-responsive">
+								<table
+									class="table table-bordered table-striped align-middle text-center">
+									<thead class="table-light">
+										<tr>
+											<th>No</th>
+											<th>Kode Subkriteria</th>
+											<th>Deskripsi</th>
+											<th>Skor</th>
+										</tr>
+									</thead>
+									<tbody id="detail-skor-kandidat-body">
+										<!-- Diisi lewat JS -->
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="modal-footer px-4 py-3">
+							<button
+								type="button"
+								class="btn btn-secondary"
+								data-bs-dismiss="modal">
 								<i class="fas fa-times me-1"></i> Tutup
 							</button>
 						</div>
