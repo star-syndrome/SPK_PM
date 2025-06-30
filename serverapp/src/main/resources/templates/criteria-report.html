@@ -1,90 +1,142 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Laporan Data Kriteria</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 40px;
-        }
+	<head>
+		<meta charset="UTF-8" />
+		<title>Laporan Data Kriteria</title>
+		<style>
+			html,
+			body {
+				font-family: "Arial", sans-serif;
+				margin: 0;
+				padding: 0;
+				font-size: 12px;
+			}
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+			.kop-surat {
+				text-align: center;
+				border-bottom: 2px solid black;
+				padding-bottom: 5px;
+				margin-bottom: 10px;
+			}
 
-        .header h2 {
-            margin: 0;
-            font-size: 24px;
-        }
+			.kop-surat img {
+				width: 80px;
+				height: 80px;
+				float: left;
+			}
 
-        .header p {
-            margin: 4px 0 0;
-            font-size: 14px;
-        }
+			.kop-surat .kop-text {
+				font-size: 14px;
+			}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+			.kop-surat h1 {
+				margin: 0;
+				font-size: 20px;
+			}
 
-        th, td {
-            border: 1px solid black;
-            padding: 8px 12px;
-            text-align: center;
-        }
+			.kop-surat p {
+				margin: 2px 0;
+			}
 
-        th {
-            background-color: #f2f2f2;
-        }
+			h2.judul {
+				text-align: center;
+				text-decoration: underline;
+				margin-top: 30px;
+				margin-bottom: 20px;
+				font-size: 18px;
+			}
 
-        .signature {
-             margin-top: 60px;
-        }
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-top: 10px;
+				font-size: 13px;
+			}
 
-        .signature-space {
-            height: 80px;
-        }
-    </style>
-</head>
-<body>
+			th,
+			td {
+				border: 1px solid black;
+				padding: 6px 10px;
+				text-align: center;
+			}
 
-<div class="header">
-    <h2>Laporan Data Kriteria</h2>
-</div>
+			th {
+				background-color: #f0f0f0;
+			}
 
-<table>
-    <thead>
-    <tr>
-        <th>Nama Kriteria</th>
-        <th>Kode</th>
-        <th>Bobot (%)</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="criteria : ${criteriaList}">
-        <td th:text="${criteria.name}"></td>
-        <td th:text="${criteria.code}"></td>
-        <td th:text="${#numbers.formatDecimal(criteria.weight * 100, 1, 0) + '%'}"></td>
-    </tr>
-    </tbody>
-</table>
+			.ttd {
+				margin-top: 60px;
+				width: 100%;
+			}
 
-<div class="signature">
-    <table style="width: 100%; border: none;">
-        <tr>
-            <td style="border: none; width: 60%;"></td>
-            <td style="border: none; width: 40%; text-align: center;">
-                <p>Jakarta, <span th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}"></span></p>
-                <p>Pembuat Laporan</p>
-                <div class="signature-space"></div>
-                <p><u>__________________________</u></p>
-            </td>
-        </tr>
-    </table>
-</div>
+			.ttd td {
+				border: none;
+				vertical-align: top;
+			}
 
-</body>
+			.ttd .kanan {
+				text-align: center;
+				width: 40%;
+			}
+
+			.ttd .space {
+				height: 80px;
+			}
+
+			.clear {
+				clear: both;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="kop-surat">
+			<img
+				th:src="'data:image/png;base64,' + ${logoBase64}"
+				alt="Logo Posyandu" />
+			<div class="kop-text">
+				<h1>Posyandu Lansia Melati</h1>
+				<p>Jl. Kramat Lontar Gang 1, RT 017/RW 001</p>
+				<p>Kelurahan Paseban, Kecamatan Senen, Jakarta Pusat</p>
+				<p>Email: posyandulansiamelati@contoh.com | Telp: 0812-3456-7890</p>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<h2 class="judul">Laporan Data Kriteria</h2>
+
+		<table>
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>Nama Kriteria</th>
+					<th>Kode</th>
+					<th>Bobot (%)</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="criteria, iterStat : ${criteriaList}">
+					<td th:text="${iterStat.count}"></td>
+					<td th:text="${criteria.name}"></td>
+					<td th:text="${criteria.code}"></td>
+					<td
+						th:text="${#numbers.formatDecimal(criteria.weight * 100, 1, 0) + '%'}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table class="ttd">
+			<tr>
+				<td></td>
+				<td class="kanan">
+					<p>
+						Jakarta,
+						<span th:text="${tanggalSekarang}"></span>
+					</p>
+					<p>Ketua Posyandu Lansia Melati</p>
+					<div class="space"></div>
+					<p><strong>Yetty Nuryati, S.Pd.</strong></p>
+				</td>
+			</tr>
+		</table>
+	</body>
 </html>

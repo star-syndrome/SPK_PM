@@ -1,88 +1,200 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Laporan Subkriteria</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
+	<head>
+		<meta charset="UTF-8" />
+		<title>Laporan Subkriteria</title>
+		<style>
+			html,
+			body {
+				font-family: "Arial", sans-serif;
+				margin: 0;
+				padding: 0;
+				font-size: 12px;
+			}
 
-        h2, h3 {
-            margin-bottom: 10px;
-        }
+			.kop-surat {
+				text-align: center;
+				border-bottom: 2px solid black;
+				padding-bottom: 5px;
+				margin-bottom: 10px;
+			}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
+			.kop-surat img {
+				width: 80px;
+				height: 80px;
+				float: left;
+			}
 
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            font-size: 12px;
-        }
+			.kop-surat .kop-text {
+				font-size: 14px;
+			}
 
-        th {
-            background-color: #f2f2f2;
-        }
+			.kop-surat h1 {
+				margin: 0;
+				font-size: 20px;
+			}
 
-        .kriteria-section {
-            break-inside: avoid;
-            page-break-inside: avoid;
-        }
+			.kop-surat p {
+				margin: 2px 0;
+			}
 
-        .signature {
-             margin-top: 60px;
-        }
+			.clear {
+				clear: both;
+			}
 
-        .signature-space {
-            height: 80px;
-        }
-    </style>
-</head>
-<body>
+			h2.judul {
+				text-align: center;
+				text-decoration: underline;
+				margin-top: 30px;
+				margin-bottom: 20px;
+				font-size: 18px;
+			}
 
-<h2 style="text-align: center;">Laporan Data Subkriteria</h2>
+			h3 {
+				margin-top: 30px;
+				margin-bottom: 10px;
+			}
 
-<div th:each="criteriaGroup : ${groupedSubcriteria}" class="kriteria-section">
-    <h3 th:text="'Kriteria: ' + ${criteriaGroup.key.name} + ' (' + ${#numbers.formatDecimal(criteriaGroup.key.weight * 100, 1, 2)} + '%)'"></h3>
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-bottom: 20px;
+			}
 
-    <table>
-        <thead>
-        <tr>
-            <th>Nama Subkriteria</th>
-            <th>Kode</th>
-            <th>Nilai Target</th>
-            <th>Tipe</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="sub : ${criteriaGroup.value}">
-            <td th:text="${sub.description}"></td>
-            <td th:text="${sub.code}"></td>
-            <td th:text="${#numbers.formatDecimal(sub.target, 1, 2)}"></td>
-            <td th:text="${sub.type}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+			th,
+			td {
+				border: 1px solid black;
+				padding: 6px 10px;
+				text-align: center;
+				font-size: 12px;
+			}
 
-<div class="signature">
-    <table style="width: 100%; border: none;">
-        <tr>
-            <td style="border: none; width: 60%;"></td>
-            <td style="border: none; width: 40%; text-align: center;">
-                <p>Jakarta, <span th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}"></span></p>
-                <p>Pembuat Laporan</p>
-                <div class="signature-space"></div>
-                <p><u>__________________________</u></p>
-            </td>
-        </tr>
-    </table>
-</div>
+			th {
+				background-color: #f0f0f0;
+			}
 
-</body>
+			tr:nth-child(even) td {
+				background-color: #f9f9f9;
+			}
+
+			.kriteria-section {
+				page-break-inside: avoid;
+			}
+
+			.ttd {
+				margin-top: 60px;
+				width: 100%;
+				page-break-inside: avoid;
+				break-inside: avoid;
+			}
+
+			.ttd td {
+				border: none;
+				vertical-align: top;
+			}
+
+			.ttd .kanan {
+				text-align: center;
+				width: 40%;
+			}
+
+			.ttd .space {
+				height: 80px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Kop Surat -->
+		<div class="kop-surat">
+			<img
+				th:src="'data:image/png;base64,' + ${logoBase64}"
+				alt="Logo Posyandu" />
+			<div class="kop-text">
+				<h1>Posyandu Lansia Melati</h1>
+				<p>Jl. Kramat Lontar Gang 1, RT 017/RW 001</p>
+				<p>Kelurahan Paseban, Kecamatan Senen, Jakarta Pusat</p>
+				<p>Email: posyandulansiamelati@contoh.com | Telp: 0812-3456-7890</p>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<!-- Judul Laporan -->
+		<h2 class="judul">Laporan Data Subkriteria</h2>
+
+		<!-- Semua kriteria kecuali terakhir -->
+		<div th:each="criteriaGroup, stat : ${groupedSubcriteria}">
+			<div th:if="${!stat.last}" class="kriteria-section">
+				<h3
+					th:text="'Kriteria: ' + ${criteriaGroup.key.name} + ' (' + ${#numbers.formatDecimal(criteriaGroup.key.weight * 100, 1, 2)} + '%)'"></h3>
+				<table>
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>Nama Subkriteria</th>
+							<th>Kode</th>
+							<th>Nilai Target</th>
+							<th>Tipe</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="sub, iterStat : ${criteriaGroup.value}">
+							<td th:text="${iterStat.count}"></td>
+							<td th:text="${sub.description}"></td>
+							<td th:text="${sub.code}"></td>
+							<td th:text="${#numbers.formatDecimal(sub.target, 1, 2)}"></td>
+							<td th:text="${sub.type}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Kriteria terakhir + tanda tangan di halaman baru -->
+		<div th:each="criteriaGroup, stat : ${groupedSubcriteria}">
+			<div th:if="${stat.last}" style="page-break-before: always">
+				<div class="kriteria-section">
+					<h3
+						th:text="'Kriteria: ' + ${criteriaGroup.key.name} + ' (' + ${#numbers.formatDecimal(criteriaGroup.key.weight * 100, 1, 2)} + '%)'"></h3>
+					<table>
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>Nama Subkriteria</th>
+								<th>Kode</th>
+								<th>Nilai Target</th>
+								<th>Tipe</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="sub, iterStat : ${criteriaGroup.value}">
+								<td th:text="${iterStat.count}"></td>
+								<td th:text="${sub.description}"></td>
+								<td th:text="${sub.code}"></td>
+								<td th:text="${#numbers.formatDecimal(sub.target, 1, 2)}"></td>
+								<td th:text="${sub.type}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- Tanda Tangan -->
+		<div style="page-break-inside: avoid; break-inside: avoid">
+			<table class="ttd">
+				<tr>
+					<td></td>
+					<td class="kanan">
+						<p>
+							Jakarta,
+							<span th:text="${tanggalSekarang}"></span>
+						</p>
+						<p>Ketua Posyandu Lansia Melati</p>
+						<div class="space"></div>
+						<p><strong>Yetty Nuryati, S.Pd.</strong></p>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
 </html>

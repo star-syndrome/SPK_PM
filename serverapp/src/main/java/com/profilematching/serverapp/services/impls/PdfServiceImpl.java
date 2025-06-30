@@ -4,11 +4,19 @@ import com.profilematching.serverapp.models.dtos.responses.*;
 import com.profilematching.serverapp.services.*;
 import com.profilematching.serverapp.utils.PdfGeneratorUtil;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.springframework.core.io.Resource;
+import org.springframework.util.StreamUtils;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -32,6 +40,18 @@ public class PdfServiceImpl implements PdfService {
         Context context = new Context();
         context.setVariable("criteriaList", criteriaList);
 
+        Resource resource = new ClassPathResource("static/images/logo-posyandu.png");
+        byte[] imageBytes = StreamUtils.copyToByteArray(resource.getInputStream());
+        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+        context.setVariable("logoBase64", base64Image);
+
+        Locale indonesia = new Locale("id", "ID");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", indonesia);
+        String tanggalSekarang = LocalDate.now().format(formatter);
+
+        context.setVariable("tanggalSekarang", tanggalSekarang);
+
         String htmlContent = templateEngine.process("criteria-report", context);
         return pdfGeneratorUtil.generatePdfFromHtml(htmlContent);
     }
@@ -50,6 +70,18 @@ public class PdfServiceImpl implements PdfService {
         Context context = new Context();
         context.setVariable("groupedSubcriteria", grouped);
 
+        Resource resource = new ClassPathResource("static/images/logo-posyandu.png");
+        byte[] imageBytes = StreamUtils.copyToByteArray(resource.getInputStream());
+        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+        context.setVariable("logoBase64", base64Image);
+
+        Locale indonesia = new Locale("id", "ID");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", indonesia);
+        String tanggalSekarang = LocalDate.now().format(formatter);
+
+        context.setVariable("tanggalSekarang", tanggalSekarang);
+
         String htmlContent = templateEngine.process("subcriteria-report", context);
         return pdfGeneratorUtil.generatePdfFromHtml(htmlContent);
     }
@@ -60,6 +92,18 @@ public class PdfServiceImpl implements PdfService {
 
         Context context = new Context();
         context.setVariable("candidates", candidates);
+
+        Resource resource = new ClassPathResource("static/images/logo-posyandu.png");
+        byte[] imageBytes = StreamUtils.copyToByteArray(resource.getInputStream());
+        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+        context.setVariable("logoBase64", base64Image);
+
+        Locale indonesia = new Locale("id", "ID");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", indonesia);
+        String tanggalSekarang = LocalDate.now().format(formatter);
+
+        context.setVariable("tanggalSekarang", tanggalSekarang);
 
         String htmlContent = templateEngine.process("candidate-report", context);
         return pdfGeneratorUtil.generatePdfFromHtml(htmlContent);
@@ -75,6 +119,18 @@ public class PdfServiceImpl implements PdfService {
         Context context = new Context();
         context.setVariable("groupedScores", grouped);
 
+        Resource resource = new ClassPathResource("static/images/logo-posyandu.png");
+        byte[] imageBytes = StreamUtils.copyToByteArray(resource.getInputStream());
+        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+        context.setVariable("logoBase64", base64Image);
+
+        Locale indonesia = new Locale("id", "ID");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", indonesia);
+        String tanggalSekarang = LocalDate.now().format(formatter);
+
+        context.setVariable("tanggalSekarang", tanggalSekarang);
+
         String htmlContent = templateEngine.process("candidate-score-report", context);
         return pdfGeneratorUtil.generatePdfFromHtml(htmlContent);
     }
@@ -85,6 +141,18 @@ public class PdfServiceImpl implements PdfService {
 
         Context context = new Context();
         context.setVariable("rankings", rankings);
+
+        Resource resource = new ClassPathResource("static/images/logo-posyandu.png");
+        byte[] imageBytes = StreamUtils.copyToByteArray(resource.getInputStream());
+        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+        context.setVariable("logoBase64", base64Image);
+
+        Locale indonesia = new Locale("id", "ID");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", indonesia);
+        String tanggalSekarang = LocalDate.now().format(formatter);
+
+        context.setVariable("tanggalSekarang", tanggalSekarang);
 
         String htmlContent = templateEngine.process("ranking-report", context);
         return pdfGeneratorUtil.generatePdfFromHtml(htmlContent);

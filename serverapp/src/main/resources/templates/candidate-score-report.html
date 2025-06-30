@@ -1,115 +1,168 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Laporan Skor Kandidat</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.1;
-        }
+	<head>
+		<meta charset="UTF-8" />
+		<title>Laporan Skor Kandidat</title>
+		<style>
+			html,
+			body {
+				font-family: "Arial", sans-serif;
+				margin: 0;
+				padding: 0;
+				font-size: 12px;
+			}
 
-        h2 {
-            text-align: center;
-            margin: 0 0 10px 0;
-            font-size: 16px;
-        }
+			.kop-surat {
+				text-align: center;
+				border-bottom: 2px solid black;
+				padding-bottom: 5px;
+				margin-bottom: 10px;
+			}
 
-        h3 {
-            margin: 10px 0 5px 0;
-            font-size: 14px;
-        }
+			.kop-surat img {
+				width: 80px;
+				height: 80px;
+				float: left;
+			}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 8px;
-            page-break-inside: avoid;
-        }
+			.kop-surat .kop-text {
+				font-size: 14px;
+			}
 
-        th, td {
-            border: 1px solid black;
-            padding: 4px 6px;
-            font-size: 11px;
-            text-align: left;
-        }
+			.kop-surat h1 {
+				margin: 0;
+				font-size: 20px;
+			}
 
-        th {
-            background-color: #f2f2f2;
-            text-align: center;
-            font-weight: bold;
-        }
+			.kop-surat p {
+				margin: 2px 0;
+			}
 
-        td:nth-child(2), td:nth-child(3) {
-            text-align: center;
-        }
+			.clear {
+				clear: both;
+			}
 
-        .signature {
-            margin-top: 15px;
-            width: 100%;
-            clear: both;
-        }
+			h2.judul {
+				text-align: center;
+				text-decoration: underline;
+				margin-top: 30px;
+				margin-bottom: 20px;
+				font-size: 18px;
+			}
 
-        .signature-right {
-            float: right;
-            text-align: center;
-            width: 180px;
-        }
+			h3 {
+				margin-top: 30px;
+				margin-bottom: 10px;
+			}
 
-        .signature-right p {
-            margin: 3px 0;
-            font-size: 11px;
-        }
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-bottom: 20px;
+			}
 
-        .signature-space {
-            margin: 25px 0 3px 0;
-        }
+			th,
+			td {
+				border: 1px solid black;
+				padding: 6px 10px;
+				text-align: center;
+				font-size: 12px;
+			}
 
-        .candidate-section {
-            page-break-inside: avoid;
-            margin-bottom: 8px;
-        }
+			th {
+				background-color: #f0f0f0;
+			}
 
-        .signature::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-    </style>
-</head>
-<body>
+			tr:nth-child(even) td {
+				background-color: #f9f9f9;
+			}
 
-<h2>Laporan Skor Subkriteria per Kandidat</h2>
+			/* FIX: Hindari pemotongan baris di antara halaman */
+			tr {
+				page-break-inside: avoid;
+				break-inside: avoid;
+			}
 
-<div th:each="entry : ${groupedScores}" class="candidate-section">
-    <h3 th:text="'Kandidat: ' + ${entry.key}"></h3>
+			.ttd {
+				margin-top: 60px;
+				width: 100%;
+				page-break-inside: avoid;
+				break-inside: avoid;
+			}
 
-    <table>
-        <thead>
-        <tr>
-            <th>Subkriteria</th>
-            <th>Kode</th>
-            <th>Skor</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="score : ${entry.value}">
-            <td th:text="${score.subcriteriaDescription}"></td>
-            <td th:text="${score.subcriteriaCode}"></td>
-            <td th:text="${#numbers.formatDecimal(score.score, 1, 'COMMA', 2, 'POINT')}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+			.ttd td {
+				border: none;
+				vertical-align: top;
+			}
 
-<div class="signature">
-    <div class="signature-right">
-        <p>Jakarta, <span th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy')}"></span></p>
-        <p>Penanggung Jawab</p>
-        <div class="signature-space">______________________</div>
-    </div>
-</div>
+			.ttd .kanan {
+				text-align: center;
+				width: 40%;
+			}
 
-</body>
+			.ttd .space {
+				height: 80px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Kop Surat -->
+		<div class="kop-surat">
+			<img
+				th:src="'data:image/png;base64,' + ${logoBase64}"
+				alt="Logo Posyandu" />
+			<div class="kop-text">
+				<h1>Posyandu Lansia Melati</h1>
+				<p>Jl. Kramat Lontar Gang 1, RT 017/RW 001</p>
+				<p>Kelurahan Paseban, Kecamatan Senen, Jakarta Pusat</p>
+				<p>Email: posyandulansiamelati@contoh.com | Telp: 0812-3456-7890</p>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<!-- Judul Laporan -->
+		<h2 class="judul">Laporan Data Skor Kandidat</h2>
+
+		<div th:each="entry : ${groupedScores}" class="candidate-section">
+			<h3 th:text="'Kandidat: ' + ${entry.key}"></h3>
+
+			<table>
+				<thead>
+					<tr>
+						<th>NO</th>
+						<th>Subkriteria</th>
+						<th>Kode</th>
+						<th>Skor</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="score, iterStat : ${entry.value}">
+						<td th:text="${iterStat.count}"></td>
+						<td th:text="${score.subcriteriaDescription}"></td>
+						<td th:text="${score.subcriteriaCode}"></td>
+						<td
+							th:text="${#numbers.formatDecimal(score.score, 1, 'COMMA', 2, 'POINT')}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Tanda Tangan -->
+		<div style="page-break-inside: avoid; break-inside: avoid">
+			<table class="ttd">
+				<tr>
+					<td></td>
+					<td class="kanan">
+						<p>
+							Jakarta,
+							<span th:text="${tanggalSekarang}"></span>
+						</p>
+						<p>Ketua Posyandu Lansia Melati</p>
+						<div class="space"></div>
+						<p><strong>Yetty Nuryati, S.Pd.</strong></p>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
 </html>
