@@ -22,7 +22,7 @@ $(document).ready(() => {
 				data: null,
 				render: (data) => {
 					return /*html*/ `
-                    <div class="d-flex m-auto gap-4 justify-content-center shadow-sm">
+                    <div class="d-flex m-auto gap-4 justify-content-center">
 						<button
                             type="button"
                             class="btn btn-primary btn-sm align-items-center"
@@ -34,7 +34,7 @@ $(document).ready(() => {
                         </button> 
                         <button
                             type="button"
-                            class="btn btn-danger d-flex align-items-center shadow-sm"
+                            class="btn btn-danger d-flex align-items-center"
                             title="Delete ${data.subcriteriaCode}"
                             onclick="deleteCandidateScore(${data.id}, \`${data.subcriteriaCode}\`)">
                             <span class="material-symbols-rounded"> delete </span>

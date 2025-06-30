@@ -25,7 +25,7 @@ $(document).ready(() => {
                     <div class="d-flex m-auto gap-4 justify-content-center">
 						<button
                             type="button"
-                            class="btn btn-primary align-items-center btn-sm shadow-sm"
+                            class="btn btn-primary align-items-center btn-sm"
                             data-toggle="modal"
                             data-target="#details"
                             title="Details ${data.name}"
@@ -34,7 +34,7 @@ $(document).ready(() => {
                         </button> 
                         <button
                             type="button"
-                            class="btn btn-warning d-flex align-items-center shadow-sm"
+                            class="btn btn-warning d-flex align-items-center"
                             data-bs-toggle="modal"
                             data-bs-target="#update"
                             title="Update ${data.name}"
@@ -43,7 +43,7 @@ $(document).ready(() => {
                         </button>
                         <button
                             type="button"
-                            class="btn btn-danger d-flex align-items-center shadow-sm"
+                            class="btn btn-danger d-flex align-items-center"
                             title="Delete ${data.name}"
                             onclick="deleteCriteria(${data.id}, \`${data.name}\`)">
                             <span class="material-symbols-rounded"> delete </span>

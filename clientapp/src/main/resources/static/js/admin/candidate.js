@@ -25,7 +25,7 @@ $(document).ready(() => {
                     <div class="d-flex m-auto gap-4 justify-content-center">
 						<button
                             type="button"
-                            class="btn btn-primary btn-sm align-items-center shadow-sm"
+                            class="btn btn-primary btn-sm align-items-center"
                             data-toggle="modal"
                             data-target="#modalDetailKandidat"
                             title="Details ${data.name}"
@@ -34,7 +34,7 @@ $(document).ready(() => {
                         </button> 
 						<button
                             type="button"
-                            class="btn btn-info btn-sm align-items-center shadow-sm"
+                            class="btn btn-info btn-sm align-items-center"
                             data-toggle="modal"
                             data-target="#modalDetailCandidateScore"
                             title="Score Details ${data.name}"
@@ -43,7 +43,7 @@ $(document).ready(() => {
                         </button> 
                         <button
                             type="button"
-                            class="btn btn-warning d-flex align-items-center shadow-sm"
+                            class="btn btn-warning d-flex align-items-center"
                             data-bs-toggle="modal"
                             data-bs-target="#modalPerbaruiKandidat"
                             title="Update ${data.name}"
@@ -52,7 +52,7 @@ $(document).ready(() => {
                         </button>
                         <button
                             type="button"
-                            class="btn btn-danger d-flex align-items-center shadow-sm"
+                            class="btn btn-danger d-flex align-items-center"
                             title="Delete ${data.name}"
                             onclick="deleteCandidate(${data.id}, \`${data.name}\`)">
                             <span class="material-symbols-rounded"> delete </span>
