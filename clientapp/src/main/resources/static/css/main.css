@@ -445,17 +445,14 @@ body {
 	color: #212529;
 }
 
-/* === Table Styling Enhancement === */
-#tabel-kriteria th,
-#tabel-kriteria td {
-	vertical-align: middle;
-	text-align: center;
+table td,
+table th {
+	vertical-align: middle !important;
+	transition: all 0.3s ease;
 }
 
-#tabel-kriteria th {
-	background-color: #f8f9fa;
-	color: #495057;
-	font-weight: bold;
+table tbody tr:hover {
+	background-color: #f1f9ff !important;
 }
 
 .modal-body .list-group-item {

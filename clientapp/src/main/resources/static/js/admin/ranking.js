@@ -40,8 +40,8 @@ $(document).ready(() => {
 	// Tombol Hitung Ranking
 	$("#btnCalculateRanking").on("click", () => {
 		Swal.fire({
-			title: "Yakin ingin menghitung ulang ranking?",
-			text: "Data ranking akan diperbarui berdasarkan skor terbaru.",
+			title: "Yakin ingin menghitung ulang nilai akhir dan peringkat?",
+			text: "Data peringkat akan diperbarui berdasarkan skor terbaru.",
 			icon: "question",
 			showCancelButton: true,
 			confirmButtonText: "Ya, Hitung!",
@@ -56,10 +56,13 @@ $(document).ready(() => {
 					success: () => {
 						Swal.fire({
 							icon: "success",
-							title: "Berhasil",
-							text: "Perhitungan ranking telah diperbarui.",
+							title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
+							html: "<div class='mt-2'>Perhitungan nilai akhir dan peringkat telah diperbarui.</div>",
 							showConfirmButton: false,
 							timer: 2000,
+							timerProgressBar: true,
+							position: "center",
+							background: "#e9fbe6",
 						});
 						$("#tabel-ranking").DataTable().ajax.reload();
 					},

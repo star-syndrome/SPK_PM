@@ -17,6 +17,7 @@ $(document).ready(() => {
 			{ data: "id" },
 			{ data: "code" },
 			{ data: "description" },
+			{ data: "target" },
 			{
 				data: null,
 				render: (data) => {
@@ -24,7 +25,7 @@ $(document).ready(() => {
                     <div class="d-flex m-auto gap-4 justify-content-center">
 						<button
                             type="button"
-                            class="btn btn-primary btn-sm"
+                            class="btn btn-primary align-items-center btn-sm shadow-sm"
                             data-toggle="modal"
                             data-target="#details-subcriteria"
                             title="Details ${data.code}"
@@ -33,7 +34,7 @@ $(document).ready(() => {
                         </button> 
                         <button
                             type="button"
-                            class="btn btn-warning d-flex align-items-center"
+                            class="btn btn-warning d-flex align-items-center shadow-sm"
                             data-bs-toggle="modal"
                             data-bs-target="#update-subcriteria"
                             title="Update ${data.code}"
@@ -42,7 +43,7 @@ $(document).ready(() => {
                         </button>
                         <button
                             type="button"
-                            class="btn btn-danger d-flex align-items-center"
+                            class="btn btn-danger d-flex align-items-center shadow-sm"
                             title="Delete ${data.code}"
                             onclick="deleteSubcriteria(${data.id}, \`${data.code}\`)">
                             <span class="material-symbols-rounded"> delete </span>

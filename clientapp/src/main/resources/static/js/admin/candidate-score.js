@@ -22,10 +22,10 @@ $(document).ready(() => {
 				data: null,
 				render: (data) => {
 					return /*html*/ `
-                    <div class="d-flex m-auto gap-4 justify-content-center">
+                    <div class="d-flex m-auto gap-4 justify-content-center shadow-sm">
 						<button
                             type="button"
-                            class="btn btn-primary btn-sm"
+                            class="btn btn-primary btn-sm align-items-center"
                             data-toggle="modal"
                             data-target="#modalDetailSkorKandidat"
                             title="Details ${data.subcriteriaCode}"
@@ -34,7 +34,7 @@ $(document).ready(() => {
                         </button> 
                         <button
                             type="button"
-                            class="btn btn-danger d-flex align-items-center"
+                            class="btn btn-danger d-flex align-items-center shadow-sm"
                             title="Delete ${data.subcriteriaCode}"
                             onclick="deleteCandidateScore(${data.id}, \`${data.subcriteriaCode}\`)">
                             <span class="material-symbols-rounded"> delete </span>
@@ -100,7 +100,7 @@ $("#formTambahSkorKandidat").on("submit", function (e) {
 			Swal.fire({
 				icon: "success",
 				title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
-				html: "<div class='mt-2'>Skor kandidat berhasil ditambahkan ke dalam sistem.</div>",
+				html: "<div class='mt-2'>Skor kandidat berhasil ditambahkan atau diubah ke dalam sistem.</div>",
 				showConfirmButton: false,
 				timer: 2000,
 				timerProgressBar: true,
