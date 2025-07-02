@@ -15,12 +15,12 @@
 			.kop-surat {
 				text-align: center;
 				border-bottom: 2px solid black;
-				padding-bottom: 5px;
+				padding-bottom: 2px;
 				margin-bottom: 10px;
 			}
 
 			.kop-surat img {
-				width: 80px;
+				width: 90px;
 				height: 80px;
 				float: left;
 			}
@@ -31,11 +31,16 @@
 
 			.kop-surat h1 {
 				margin: 0;
-				font-size: 20px;
+				font-size: 25px;
 			}
 
 			.kop-surat p {
-				margin: 2px 0;
+				margin: 1px 0;
+				font-size: 10px;
+			}
+
+			.clear {
+				clear: both;
 			}
 
 			h2.judul {
@@ -82,13 +87,10 @@
 			.ttd .space {
 				height: 80px;
 			}
-
-			.clear {
-				clear: both;
-			}
 		</style>
 	</head>
 	<body>
+		<!-- Kop Surat -->
 		<div class="kop-surat">
 			<img
 				th:src="'data:image/png;base64,' + ${logoBase64}"
@@ -102,8 +104,10 @@
 			<div class="clear"></div>
 		</div>
 
+		<!-- Judul -->
 		<h2 class="judul">Laporan Data Kriteria</h2>
 
+		<!-- Tabel Kriteria -->
 		<table>
 			<thead>
 				<tr>
@@ -124,14 +128,12 @@
 			</tbody>
 		</table>
 
+		<!-- Tanda Tangan -->
 		<table class="ttd">
 			<tr>
 				<td></td>
 				<td class="kanan">
-					<p>
-						Jakarta,
-						<span th:text="${tanggalSekarang}"></span>
-					</p>
+					<p>Jakarta, <span th:text="${tanggalSekarang}"></span></p>
 					<p>Ketua Posyandu Lansia Melati</p>
 					<div class="space"></div>
 					<p><strong>Yetty Nuryati, S.Pd.</strong></p>
