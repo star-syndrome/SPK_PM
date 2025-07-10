@@ -69,7 +69,7 @@ $("#formTambahSkorKandidat").on("submit", function (e) {
 	if (!candidateId) {
 		Swal.fire(
 			"Peringatan",
-			"Silakan pilih kandidat terlebih dahulu.",
+			"Silakan pilih alternatif terlebih dahulu.",
 			"warning"
 		);
 		return;
@@ -85,7 +85,7 @@ $("#formTambahSkorKandidat").on("submit", function (e) {
 	});
 
 	if (scores.length === 0) {
-		Swal.fire("Peringatan", "Minimal isi satu skor!", "warning");
+		Swal.fire("Peringatan", "Minimal isi satu penilaian!", "warning");
 		return;
 	}
 
@@ -100,7 +100,7 @@ $("#formTambahSkorKandidat").on("submit", function (e) {
 			Swal.fire({
 				icon: "success",
 				title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
-				html: "<div class='mt-2'>Skor kandidat berhasil ditambahkan atau diubah ke dalam sistem.</div>",
+				html: "<div class='mt-2'>Penilaian alternatif berhasil ditambahkan atau diubah ke dalam sistem.</div>",
 				showConfirmButton: false,
 				timer: 2000,
 				timerProgressBar: true,
@@ -114,7 +114,7 @@ $("#formTambahSkorKandidat").on("submit", function (e) {
 		error: (xhr) => {
 			const msg =
 				xhr.responseJSON?.message ||
-				"Terjadi kesalahan saat menambahkan skor kandidat.";
+				"Terjadi kesalahan saat menambahkan penilaian alternatif.";
 			Swal.fire({
 				icon: "error",
 				title: "<h4 class='fw-bold text-danger'>Gagal Menambahkan!</h4>",
@@ -131,7 +131,7 @@ $("#formTambahSkorKandidat").on("submit", function (e) {
 function loadKandidatOptions() {
 	$.get("/api/candidate", function (data) {
 		const select = $("#select-kandidat");
-		select.empty().append('<option value="">-- Pilih Kandidat --</option>');
+		select.empty().append('<option value="">-- Pilih alternatif --</option>');
 		data.forEach((k) => {
 			select.append(`<option value="${k.id}">${k.name}</option>`);
 		});
@@ -190,8 +190,8 @@ function findCandidateScoreById(id) {
 			Swal.fire({
 				icon: "error",
 				title:
-					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Skor Kandidat!</h4>",
-				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data skor kandidat. Silakan coba lagi.</div>",
+					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Penilaian Alternatif!</h4>",
+				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data penilaian alternatif. Silakan coba lagi.</div>",
 				confirmButtonText: "Oke",
 				confirmButtonColor: "#dc3545",
 				position: "center",
@@ -204,7 +204,7 @@ function findCandidateScoreById(id) {
 // Delete Candidate Score
 function deleteCandidateScore(id, subcriteriaCode) {
 	Swal.fire({
-		title: `<h4 class="fw-bold">Hapus Skor Kandidat <span class="text-danger">${subcriteriaCode}</span>?</h4>`,
+		title: `<h4 class="fw-bold">Hapus Penilaian Alternatif <span class="text-danger">${subcriteriaCode}</span>?</h4>`,
 		html: "<div class='mt-2'>Tindakan ini tidak dapat dibatalkan.</div>",
 		icon: "warning",
 		showCancelButton: true,
@@ -226,7 +226,7 @@ function deleteCandidateScore(id, subcriteriaCode) {
 					Swal.fire({
 						icon: "success",
 						title: "<h4 class='fw-bold text-success'>Berhasil Dihapus!</h4>",
-						html: `<div class='mt-2'>Skor Kandidat <strong>${subcriteriaCode}</strong> berhasil dihapus.</div>`,
+						html: `<div class='mt-2'>Penilaian alternatif <strong>${subcriteriaCode}</strong> berhasil dihapus.</div>`,
 						showConfirmButton: false,
 						timer: 2000,
 						timerProgressBar: true,
@@ -239,7 +239,7 @@ function deleteCandidateScore(id, subcriteriaCode) {
 					Swal.fire({
 						icon: "error",
 						title: "<h4 class='fw-bold text-danger'>Gagal Menghapus!</h4>",
-						html: `<div class='mt-2'>Tidak dapat menghapus skor kandidat <strong>${subcriteriaCode}</strong>. Silakan coba lagi.</div>`,
+						html: `<div class='mt-2'>Tidak dapat menghapus penilaian alternatif <strong>${subcriteriaCode}</strong>. Silakan coba lagi.</div>`,
 						confirmButtonText: "Oke",
 						confirmButtonColor: "#dc3545",
 						position: "center",

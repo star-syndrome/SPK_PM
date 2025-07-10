@@ -4,7 +4,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/main}">
 	<head>
-		<title>Dashboard</title>
+		<title>Beranda</title>
 	</head>
 
 	<body>
@@ -159,7 +159,9 @@
 										name="target"
 										required
 										step="1"
-										placeholder="Contoh: 5" />
+										min="1"
+										max="5"
+										placeholder="Masukkan nilai target antara 1 sampai 5" />
 								</div>
 								<div class="mb-3">
 									<label
@@ -203,7 +205,7 @@
 					<div class="modal-content shadow rounded-3">
 						<div class="modal-header bg-primary text-white">
 							<h5 class="modal-title fw-bold">
-								<i class="fas fa-plus-circle me-2"></i> Tambah Kandidat
+								<i class="fas fa-plus-circle me-2"></i> Tambah Alternatif
 							</h5>
 							<button
 								type="button"
@@ -214,7 +216,7 @@
 							<div class="modal-body px-4 py-3">
 								<div class="mb-3">
 									<label for="nama-kandidat" class="form-label fw-semibold"
-										>Nama Kandidat</label
+										>Nama</label
 									>
 									<input
 										type="text"
@@ -222,19 +224,18 @@
 										id="nama-kandidat"
 										name="nama-kandidat"
 										required
-										placeholder="Masukkan nama kandidat" />
+										placeholder="Masukkan nama" />
 								</div>
 								<div class="mb-3">
 									<label for="tanggal-lahir" class="form-label fw-semibold"
 										>Tanggal Lahir</label
 									>
 									<input
-										type="text"
+										type="date"
 										class="form-control"
 										id="tanggal-lahir"
 										name="tanggal-lahir"
-										required
-										placeholder="Contoh: 09-12-2002" />
+										required />
 								</div>
 								<div class="mb-3">
 									<label for="jenis-kelamin" class="form-label fw-semibold"
@@ -261,7 +262,7 @@
 										name="nomor-telepon"
 										required
 										maxlength="13"
-										placeholder="Masukkan nomor telepon kandidat" />
+										placeholder="Masukkan nomor telepon" />
 								</div>
 								<div class="mb-3">
 									<label for="alamat" class="form-label fw-semibold"
@@ -273,7 +274,7 @@
 										id="alamat"
 										name="alamat"
 										required
-										placeholder="Masukkan alamat kandidat" />
+										placeholder="Masukkan alamat" />
 								</div>
 							</div>
 							<div class="modal-footer px-4 py-3">
@@ -314,7 +315,7 @@
 							<div class="stats-header">
 								<div>
 									<div class="stats-number" id="total-candidate"></div>
-									<div class="stats-label">Total Pendaftar</div>
+									<div class="stats-label">Total Alternatif</div>
 								</div>
 								<div class="stats-icon primary">
 									<i class="fas fa-user-plus"></i>
@@ -369,8 +370,8 @@
 							<div class="action-icon">
 								<i class="fas fa-user-plus"></i>
 							</div>
-							<div class="action-title">Tambah Pendaftar</div>
-							<div class="action-desc">Masukkan data kader baru</div>
+							<div class="action-title">Tambah Alternatif</div>
+							<div class="action-desc">Masukkan data alternatif baru</div>
 						</a>
 
 						<!-- Tambah Kriteria -->

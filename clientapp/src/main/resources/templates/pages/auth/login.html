@@ -33,7 +33,7 @@
 				<div class="login-form">
 					<div class="welcome-text">
 						<h2>Selamat Datang Kembali!</h2>
-						<p>Silakan masukkan detail akun Anda</p>
+						<p>Masuk untuk melanjutkan ke TemanMelati</p>
 					</div>
 
 					<form
@@ -42,25 +42,25 @@
 						th:object="${loginRequest}">
 						<!-- Username -->
 						<div class="form-group">
-							<label for="username" class="form-label">Username</label>
+							<label for="username" class="form-label">Nama Pengguna</label>
 							<input
 								type="text"
 								class="form-control"
 								id="username"
-								placeholder="Masukkan username Anda"
+								placeholder="Masukkan nama pengguna Anda"
 								th:field="*{username}"
 								required />
 						</div>
 
 						<!-- Password -->
 						<div class="form-group">
-							<label for="password" class="form-label">Password</label>
+							<label for="password" class="form-label">Kata Sandi</label>
 							<div class="password-container">
 								<input
 									type="password"
 									class="form-control"
 									id="password"
-									placeholder="Masukkan password Anda"
+									placeholder="Masukkan kata sandi Anda"
 									th:field="*{password}"
 									required />
 								<button
@@ -74,7 +74,7 @@
 
 						<!-- Forgot Password -->
 						<div class="forgot-password">
-							<a th:href="@{/auth/forgot-password}">Lupa Password?</a>
+							<a th:href="@{/auth/forgot-password}">Lupa Kata Sandi?</a>
 						</div>
 
 						<!-- Login Button -->

@@ -52,7 +52,7 @@ public class CandidateRestController {
             headers.setContentType(MediaType.APPLICATION_PDF);
             headers.setContentDisposition(ContentDisposition
                     .attachment()
-                    .filename("laporan-kandidat.pdf")
+                    .filename("laporan-alternatif.pdf")
                     .build());
 
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);

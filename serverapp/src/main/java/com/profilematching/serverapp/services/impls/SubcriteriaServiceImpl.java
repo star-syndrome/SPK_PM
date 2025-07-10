@@ -125,6 +125,7 @@ public class SubcriteriaServiceImpl implements SubcriteriaService {
                 .description(subcriteria.getDescription())
                 .target(subcriteria.getTarget())
                 .type(subcriteria.getType())
+                .criteriaId(subcriteria.getCriteria().getId())
                 .criteriaName(subcriteria.getCriteria().getName())
                 .build();
     }

@@ -490,7 +490,7 @@ table tbody tr:hover {
 .quick-actions {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-	gap: 62px;
+	gap: 55px;
 	margin-bottom: 30px;
 }
 

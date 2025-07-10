@@ -51,7 +51,7 @@ public class CandidateScoreRestController {
             headers.setContentType(MediaType.APPLICATION_PDF);
             headers.setContentDisposition(ContentDisposition
                     .attachment()
-                    .filename("laporan-skor-kandidat.pdf")
+                    .filename("laporan-penilaian-alternatif.pdf")
                     .build());
 
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);

@@ -79,13 +79,14 @@ $("#formTambahKandidat").on("submit", function (e) {
 	e.preventDefault();
 
 	let nama = $("#nama-kandidat").val().trim();
-	let tanggalLahir = $("#tanggal-lahir").val().trim();
 	let jenisKelamin = $("#jenis-kelamin").val();
 	let telepon = $("#nomor-telepon").val().trim();
 	let alamat = $("#alamat").val().trim();
 
-	// Regex format tanggal dd-MM-yyyy
-	let regexTanggal = /^\d{2}-\d{2}-\d{4}$/;
+	let tanggalLahirRaw = $("#tanggal-lahir").val().trim(); // yyyy-MM-dd
+	let [year, month, day] = tanggalLahirRaw.split("-");
+	let tanggalLahir = `${day}-${month}-${year}`;
+
 	// Regex nomor telepon hanya angka
 	let regexTelepon = /^\d{10,13}$/;
 
@@ -98,17 +99,6 @@ $("#formTambahKandidat").on("submit", function (e) {
 			confirmButtonText: "Oke",
 			confirmButtonColor: "#f59e0b",
 			background: "#fff8e6",
-		});
-		return;
-	}
-
-	// Validasi tanggal lahir
-	if (!regexTanggal.test(tanggalLahir)) {
-		Swal.fire({
-			icon: "error",
-			title: "Format Tanggal Salah!",
-			text: "Tanggal lahir harus dalam format dd-MM-yyyy. Contoh: 09-12-2002",
-			confirmButtonColor: "#dc3545",
 		});
 		return;
 	}
@@ -142,7 +132,7 @@ $("#formTambahKandidat").on("submit", function (e) {
 			Swal.fire({
 				icon: "success",
 				title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
-				html: "<div class='mt-2'>Kandidat berhasil ditambahkan ke dalam sistem.</div>",
+				html: "<div class='mt-2'>Alternatif berhasil ditambahkan ke dalam sistem.</div>",
 				showConfirmButton: false,
 				timer: 2000,
 				timerProgressBar: true,
@@ -156,7 +146,7 @@ $("#formTambahKandidat").on("submit", function (e) {
 		error: function (xhr) {
 			const msg =
 				xhr.responseJSON?.message ||
-				"Terjadi kesalahan saat menambahkan kandidat.";
+				"Terjadi kesalahan saat menambahkan alternatif.";
 			Swal.fire({
 				icon: "error",
 				title: "<h4 class='fw-bold text-danger'>Gagal Menambahkan!</h4>",
@@ -194,8 +184,8 @@ function findCandidateById(id) {
 			Swal.fire({
 				icon: "error",
 				title:
-					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Kandidat!</h4>",
-				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data kandidat. Silakan coba lagi.</div>",
+					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Alternatif!</h4>",
+				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data alternatif. Silakan coba lagi.</div>",
 				confirmButtonText: "Oke",
 				confirmButtonColor: "#dc3545",
 				position: "center",
@@ -214,7 +204,7 @@ function showDetailCandidateScore(candidateId) {
 				Swal.fire({
 					icon: "info",
 					title: "Tidak Ada Skor",
-					text: "Kandidat ini belum memiliki skor yang tersimpan.",
+					text: "Alternatif ini belum memiliki penilaian yang tersimpan.",
 				});
 				return;
 			}
@@ -241,7 +231,7 @@ function showDetailCandidateScore(candidateId) {
 			Swal.fire({
 				icon: "error",
 				title: "Gagal Memuat",
-				text: "Tidak dapat mengambil data skor kandidat.",
+				text: "Tidak dapat mengambil data penilaian alternatif.",
 			});
 		},
 	});
@@ -253,9 +243,12 @@ function beforeUpdateCandidate(id) {
 		type: "GET",
 		contentType: "application/json",
 		success: function (response) {
+			const [day, month, year] = response.dateOfBirth.split("-");
+			const dateFormatted = `${year}-${month}-${day}`; // yyyy-MM-dd
+
 			$("#candidate-id-update").val(response.id);
 			$("#candidate-name-update").val(response.name);
-			$("#candidate-dob-update").val(response.dateOfBirth);
+			$("#candidate-dob-update").val(dateFormatted);
 			$("#candidate-gender-update").val(response.gender);
 			$("#candidate-phone-update").val(response.phone);
 			$("#candidate-address-update").val(response.address);
@@ -266,8 +259,8 @@ function beforeUpdateCandidate(id) {
 			Swal.fire({
 				icon: "error",
 				title:
-					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Kandidat!</h4>",
-				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data kandidat. Silakan coba lagi.</div>",
+					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Alternatif!</h4>",
+				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data alternatif. Silakan coba lagi.</div>",
 				confirmButtonText: "Oke",
 				confirmButtonColor: "#dc3545",
 				position: "center",
@@ -281,17 +274,20 @@ function beforeUpdateCandidate(id) {
 $("#formPerbaruiKandidat").on("submit", function (e) {
 	e.preventDefault();
 
+	const dobRaw = $("#candidate-dob-update").val().trim(); // yyyy-MM-dd
+	const [year, month, day] = dobRaw.split("-");
+	const formattedDob = `${day}-${month}-${year}`;
+
 	const formData = {
 		id: $("#candidate-id-update").val(),
 		name: $("#candidate-name-update").val().trim(),
-		dateOfBirth: $("#candidate-dob-update").val().trim(),
+		dateOfBirth: formattedDob,
 		gender: $("#candidate-gender-update").val(),
 		phone: $("#candidate-phone-update").val().trim(),
 		address: $("#candidate-address-update").val().trim(),
 	};
 
 	// Validasi
-	const regexTanggal = /^\d{2}-\d{2}-\d{4}$/;
 	const regexTelepon = /^\d{10,13}$/;
 
 	if (
@@ -306,16 +302,6 @@ $("#formPerbaruiKandidat").on("submit", function (e) {
 			title: "<h4 class='fw-bold text-warning'>Form Belum Lengkap!</h4>",
 			html: "<div class='mt-2'>Semua kolom harus diisi.</div>",
 			confirmButtonColor: "#f59e0b",
-		});
-		return;
-	}
-
-	if (!regexTanggal.test(formData.dateOfBirth)) {
-		Swal.fire({
-			icon: "error",
-			title: "Format Tanggal Salah!",
-			text: "Tanggal lahir harus dalam format dd-MM-yyyy.",
-			confirmButtonColor: "#dc3545",
 		});
 		return;
 	}
@@ -340,7 +326,7 @@ $("#formPerbaruiKandidat").on("submit", function (e) {
 			Swal.fire({
 				icon: "success",
 				title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
-				html: "<div class='mt-2'>Data kandidat berhasil diperbarui.</div>",
+				html: "<div class='mt-2'>Data alternatif berhasil diperbarui.</div>",
 				showConfirmButton: false,
 				timer: 2000,
 				timerProgressBar: true,
@@ -348,12 +334,12 @@ $("#formPerbaruiKandidat").on("submit", function (e) {
 			});
 			$("#modalPerbaruiKandidat").modal("hide");
 			$("#formPerbaruiKandidat")[0].reset();
-			$("#tabel-kandidat").DataTable().ajax.reload(); // jika menggunakan datatable
+			$("#tabel-kandidat").DataTable().ajax.reload();
 		},
 		error: function (xhr) {
 			const msg =
 				xhr.responseJSON?.message ||
-				"Terjadi kesalahan saat memperbarui kandidat.";
+				"Terjadi kesalahan saat memperbarui alternatif.";
 			Swal.fire({
 				icon: "error",
 				title: "<h4 class='fw-bold text-danger'>Gagal Memperbarui!</h4>",
@@ -368,7 +354,7 @@ $("#formPerbaruiKandidat").on("submit", function (e) {
 // Delete Candidate
 function deleteCandidate(id, name) {
 	Swal.fire({
-		title: `<h4 class="fw-bold">Hapus Kandidat <span class="text-danger">${name}</span>?</h4>`,
+		title: `<h4 class="fw-bold">Hapus Alternatif <span class="text-danger">${name}</span>?</h4>`,
 		html: "<div class='mt-2'>Tindakan ini tidak dapat dibatalkan.</div>",
 		icon: "warning",
 		showCancelButton: true,
@@ -390,7 +376,7 @@ function deleteCandidate(id, name) {
 					Swal.fire({
 						icon: "success",
 						title: "<h4 class='fw-bold text-success'>Berhasil Dihapus!</h4>",
-						html: `<div class='mt-2'>Kandidat <strong>${name}</strong> berhasil dihapus.</div>`,
+						html: `<div class='mt-2'>Alternatif <strong>${name}</strong> berhasil dihapus.</div>`,
 						showConfirmButton: false,
 						timer: 2000,
 						timerProgressBar: true,
@@ -403,7 +389,7 @@ function deleteCandidate(id, name) {
 					Swal.fire({
 						icon: "error",
 						title: "<h4 class='fw-bold text-danger'>Gagal Menghapus!</h4>",
-						html: `<div class='mt-2'>Tidak dapat menghapus kandidat <strong>${name}</strong>. Silakan coba lagi.</div>`,
+						html: `<div class='mt-2'>Tidak dapat menghapus alternatif <strong>${name}</strong>. Silakan coba lagi.</div>`,
 						confirmButtonText: "Oke",
 						confirmButtonColor: "#dc3545",
 						position: "center",

@@ -1,29 +1,11 @@
 $(document).ready(function () {
-	// Ambil total kriteria
-	$.ajax({
-		type: "GET",
-		url: "/api/criteria/total",
-		success: function (data) {
-			$("#total-criteria").text(data);
-		},
-		error: function (err) {
-			console.error("Gagal ambil total kriteria", err);
-		},
-	});
+	updateTotalCandidateCount();
+	updateTotalCriteriaCount();
+	updateTotalSubcriteriaCount();
+	loadCriteriaOptions();
+});
 
-	// Ambil total subkriteria
-	$.ajax({
-		type: "GET",
-		url: "/api/subcriteria/total",
-		success: function (data) {
-			$("#total-subcriteria").text(data);
-		},
-		error: function (err) {
-			console.error("Gagal ambil total subkriteria", err);
-		},
-	});
-
-	// Ambil total kandidat
+function updateTotalCandidateCount() {
 	$.ajax({
 		type: "GET",
 		url: "/api/candidate/total",
@@ -34,9 +16,33 @@ $(document).ready(function () {
 			console.error("Gagal ambil total kandidat", err);
 		},
 	});
+}
 
-	loadCriteriaOptions();
-});
+function updateTotalSubcriteriaCount() {
+	$.ajax({
+		type: "GET",
+		url: "/api/subcriteria/total",
+		success: function (data) {
+			$("#total-subcriteria").text(data);
+		},
+		error: function (err) {
+			console.error("Gagal ambil total subkriteria", err);
+		},
+	});
+}
+
+function updateTotalCriteriaCount() {
+	$.ajax({
+		type: "GET",
+		url: "/api/criteria/total",
+		success: function (data) {
+			$("#total-criteria").text(data);
+		},
+		error: function (err) {
+			console.error("Gagal ambil total kriteria", err);
+		},
+	});
+}
 
 // Submit Tambah Kriteria dari Quick Action Dashboard
 $("#formTambahKriteria").on("submit", function (e) {
@@ -114,6 +120,7 @@ function submitTambahKriteria() {
 			});
 			$("#modalTambahKriteria").modal("hide");
 			$("#formTambahKriteria")[0].reset();
+			updateTotalCriteriaCount();
 		},
 		error: function (xhr) {
 			let message =
@@ -173,26 +180,33 @@ function loadCriteriaOptions() {
 $("#addSubcriteriaForm").on("submit", function (e) {
 	e.preventDefault();
 
-	const formData = {
-		code: $("#subcriteria-code").val().trim(),
-		description: $("#subcriteria-description").val().trim(),
-		type: $("#subcriteria-type").val(),
-		target: parseFloat($("#subcriteria-target").val()),
-		criteriaId: $("#criteriaId").val(),
-	};
+	const code = $("#subcriteria-code").val().trim();
+	const description = $("#subcriteria-description").val().trim();
+	const type = $("#subcriteria-type").val();
+	const criteriaId = $("#criteriaId").val();
+	const targetInput = $("#subcriteria-target").val().trim();
+	const target = parseFloat(targetInput);
 
-	// Validasi nilai numerik
-	if (isNaN(formData.target) || formData.target < 0) {
+	// Validasi nilai target harus bilangan bulat 1–5
+	if (isNaN(target) || target < 1 || target > 5 || !Number.isInteger(target)) {
 		Swal.fire({
 			icon: "warning",
 			title: "<h4 class='fw-bold text-warning'>Validasi Gagal!</h4>",
-			html: `<div class='mt-2'>Target harus berupa angka positif yang valid.</div>`,
+			html: `<div class='mt-2'>Target harus berupa bilangan bulat antara 1 sampai 5.</div>`,
 			confirmButtonText: "Periksa Lagi",
 			confirmButtonColor: "#f59e0b",
 			background: "#fff8e6",
 		});
 		return;
 	}
+
+	const formData = {
+		code,
+		description,
+		type,
+		target,
+		criteriaId,
+	};
 
 	$.ajax({
 		url: "/api/subcriteria",
@@ -213,6 +227,7 @@ $("#addSubcriteriaForm").on("submit", function (e) {
 			});
 			$("#addSubcriteriaModal").modal("hide");
 			$("#addSubcriteriaForm")[0].reset();
+			updateTotalSubcriteriaCount();
 		},
 		error: function (xhr) {
 			const msg =
@@ -247,13 +262,14 @@ $("#addCandidateForm").on("submit", function (e) {
 	e.preventDefault();
 
 	let nama = $("#nama-kandidat").val().trim();
-	let tanggalLahir = $("#tanggal-lahir").val().trim();
 	let jenisKelamin = $("#jenis-kelamin").val();
 	let telepon = $("#nomor-telepon").val().trim();
 	let alamat = $("#alamat").val().trim();
 
-	// Regex format tanggal dd-MM-yyyy
-	let regexTanggal = /^\d{2}-\d{2}-\d{4}$/;
+	let tanggalLahirRaw = $("#tanggal-lahir").val().trim(); // yyyy-MM-dd
+	let [year, month, day] = tanggalLahirRaw.split("-");
+	let tanggalLahir = `${day}-${month}-${year}`;
+
 	// Regex nomor telepon hanya angka
 	let regexTelepon = /^\d{10,13}$/;
 
@@ -266,17 +282,6 @@ $("#addCandidateForm").on("submit", function (e) {
 			confirmButtonText: "Oke",
 			confirmButtonColor: "#f59e0b",
 			background: "#fff8e6",
-		});
-		return;
-	}
-
-	// Validasi tanggal lahir
-	if (!regexTanggal.test(tanggalLahir)) {
-		Swal.fire({
-			icon: "error",
-			title: "Format Tanggal Salah!",
-			text: "Tanggal lahir harus dalam format dd-MM-yyyy. Contoh: 09-12-2002",
-			confirmButtonColor: "#dc3545",
 		});
 		return;
 	}
@@ -319,6 +324,7 @@ $("#addCandidateForm").on("submit", function (e) {
 			});
 			$("#addCandidateModal").modal("hide");
 			$("#addCandidateForm")[0].reset();
+			updateTotalCandidateCount();
 		},
 		error: function (xhr) {
 			const msg =

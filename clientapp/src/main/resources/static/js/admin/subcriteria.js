@@ -97,26 +97,34 @@ function loadCriteriaOptions() {
 $("#formTambahSubkriteria").on("submit", function (e) {
 	e.preventDefault();
 
-	const formData = {
-		code: $("#subcriteria-code").val().trim(),
-		description: $("#subcriteria-description").val().trim(),
-		type: $("#subcriteria-type").val(),
-		target: parseFloat($("#subcriteria-target").val()),
-		criteriaId: $("#criteriaId").val(),
-	};
+	const code = $("#subcriteria-code").val().trim();
+	const description = $("#subcriteria-description").val().trim();
+	const type = $("#subcriteria-type").val();
+	const targetInput = $("#subcriteria-target").val().trim();
+	const criteriaId = $("#criteriaId").val();
 
-	// Validasi nilai numerik
-	if (isNaN(formData.target) || formData.target < 0) {
+	const target = parseFloat(targetInput);
+
+	// Validasi angka: harus bilangan bulat 1-5
+	if (isNaN(target) || target < 1 || target > 5 || !Number.isInteger(target)) {
 		Swal.fire({
 			icon: "warning",
 			title: "<h4 class='fw-bold text-warning'>Validasi Gagal!</h4>",
-			html: `<div class='mt-2'>Target harus berupa angka positif yang valid.</div>`,
+			html: `<div class='mt-2'>Target harus berupa bilangan bulat antara 1 sampai 5.</div>`,
 			confirmButtonText: "Periksa Lagi",
 			confirmButtonColor: "#f59e0b",
 			background: "#fff8e6",
 		});
 		return;
 	}
+
+	const formData = {
+		code,
+		description,
+		type,
+		target,
+		criteriaId,
+	};
 
 	$.ajax({
 		url: "/api/subcriteria",
@@ -244,7 +252,7 @@ function beforeUpdateSubcriteria(id) {
 			$("#update-target-subcriteria").val(data.target);
 
 			// Load ulang options kriteria
-			loadCriteriaOptionsForUpdate(data.criteriaName);
+			loadCriteriaOptionsForUpdate(data.criteriaId);
 
 			// Buka modal update
 			$("#update-subcriteria").modal("show");
@@ -265,21 +273,21 @@ function beforeUpdateSubcriteria(id) {
 $("#formUpdateSubcriteria").on("submit", function (e) {
 	e.preventDefault();
 
-	const formData = {
-		id: $("#update-id-subcriteria").val(),
-		code: $("#update-code-subcriteria").val().trim(),
-		description: $("#update-description-subcriteria").val().trim(),
-		type: $("#update-type-subcriteria").val(),
-		target: parseFloat($("#update-target-subcriteria").val()),
-		criteriaId: $("#update-criteriaId").val(),
-	};
+	const code = $("#update-code-subcriteria").val().trim();
+	const description = $("#update-description-subcriteria").val().trim();
+	const type = $("#update-type-subcriteria").val();
+	const targetInput = $("#update-target-subcriteria").val().trim();
+	const criteriaId = $("#update-criteriaId").val();
+	const id = $("#update-id-subcriteria").val();
 
-	// Validasi angka target
-	if (isNaN(formData.target) || formData.target < 0) {
+	const target = parseFloat(targetInput);
+
+	// Validasi angka: harus bilangan bulat 1–5
+	if (isNaN(target) || target < 1 || target > 5 || !Number.isInteger(target)) {
 		Swal.fire({
 			icon: "warning",
 			title: "<h4 class='fw-bold text-warning'>Validasi Gagal!</h4>",
-			html: `<div class='mt-2'>Target harus berupa angka positif yang valid.</div>`,
+			html: `<div class='mt-2'>Target harus berupa bilangan bulat antara 1 sampai 5.</div>`,
 			confirmButtonText: "Periksa Lagi",
 			confirmButtonColor: "#f59e0b",
 			background: "#fff8e6",
@@ -287,9 +295,17 @@ $("#formUpdateSubcriteria").on("submit", function (e) {
 		return;
 	}
 
-	// Kirim update via AJAX
+	const formData = {
+		id,
+		code,
+		description,
+		type,
+		target,
+		criteriaId,
+	};
+
 	$.ajax({
-		url: `/api/subcriteria/${formData.id}`,
+		url: `/api/subcriteria/${id}`,
 		type: "PUT",
 		contentType: "application/json",
 		data: JSON.stringify(formData),

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Table Skor Kandidat</title>
+		<title>Table Penilaian Alternatif</title>
 	</head>
 	<body>
 		<!-- Section Kelola Skor Kandidat -->
@@ -12,7 +12,8 @@
 			<div
 				class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
 				<h1 class="fw-bold fs-3 mb-0">
-					<i class="fas fa-list-ul me-2 text-primary"></i> Kelola Skor Kandidat
+					<i class="fas fa-list-ul me-2 text-primary"></i> Kelola Penilaian
+					Alternatif
 				</h1>
 				<div class="d-flex gap-2">
 					<button
@@ -20,7 +21,7 @@
 						class="btn btn-success"
 						data-bs-toggle="modal"
 						data-bs-target="#modalTambahSkorKandidat">
-						Tambah dan Ubah Skor Kandidat
+						Tambah dan Ubah Penilaian Alternatif
 					</button>
 					<button
 						type="button"
@@ -58,7 +59,8 @@
 					<div class="modal-content shadow rounded-3">
 						<div class="modal-header bg-primary text-white">
 							<h5 class="modal-title fw-bold">
-								<i class="fas fa-clipboard-list me-2"></i> Tambah Skor Kandidat
+								<i class="fas fa-clipboard-list me-2"></i> Tambah dan Ubah
+								Penilaian Alternatif
 							</h5>
 							<button
 								type="button"
@@ -69,10 +71,10 @@
 							<div class="modal-body px-4 py-3">
 								<div class="mb-3">
 									<label for="select-kandidat" class="form-label fw-semibold"
-										>Pilih Kandidat</label
+										>Pilih Alternatif</label
 									>
 									<select id="select-kandidat" class="form-select" required>
-										<option value="">-- Pilih Kandidat --</option>
+										<option value="">-- Pilih Alternatif --</option>
 									</select>
 								</div>
 
@@ -86,7 +88,7 @@
 									<i class="fas fa-times me-1"></i> Batal
 								</button>
 								<button type="submit" class="btn btn-success">
-									<i class="fas fa-save me-1"></i> Simpan Skor
+									<i class="fas fa-save me-1"></i> Simpan Penilaian
 								</button>
 							</div>
 						</form>
@@ -104,7 +106,8 @@
 					<div class="modal-content shadow rounded-3">
 						<div class="modal-header bg-info text-white">
 							<h5 class="modal-title fw-bold">
-								<i class="fas fa-circle-info me-2"></i> Detail Skor Kandidat
+								<i class="fas fa-circle-info me-2"></i> Detail Penilaian
+								Alternatif
 							</h5>
 							<button
 								type="button"

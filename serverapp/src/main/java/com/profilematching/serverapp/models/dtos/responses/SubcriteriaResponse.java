@@ -16,5 +16,6 @@ public class SubcriteriaResponse {
     private String description;
     private String type;
     private Double target;
+    private Integer criteriaId;
     private String criteriaName;
 }

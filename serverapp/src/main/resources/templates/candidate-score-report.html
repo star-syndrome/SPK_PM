@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8" />
-		<title>Laporan Skor Kandidat</title>
+		<title>Laporan Penilaian Alternatif</title>
 		<style>
 			html,
 			body {
@@ -116,21 +116,21 @@
 				<h1>Posyandu Lansia Melati</h1>
 				<p>Jl. Kramat Lontar Gang 1, RT 017/RW 001</p>
 				<p>Kelurahan Paseban, Kecamatan Senen, Jakarta Pusat</p>
-				<p>Email: posyandulansiamelati@contoh.com | Telp: 0812-3456-7890</p>
+				<p>Email: posyandulansiamelati@gmail.com | Telp: 0812-3456-7890</p>
 			</div>
 			<div class="clear"></div>
 		</div>
 
 		<!-- Judul Laporan -->
-		<h2 class="judul">Laporan Data Skor Kandidat</h2>
+		<h2 class="judul">Laporan Data Penilaian Alternatif</h2>
 
 		<div th:each="entry : ${groupedScores}" class="candidate-section">
-			<h3 th:text="'Kandidat: ' + ${entry.key}"></h3>
+			<h3 th:text="'Alternatif: ' + ${entry.key}"></h3>
 
 			<table>
 				<thead>
 					<tr>
-						<th>NO</th>
+						<th>No</th>
 						<th>Subkriteria</th>
 						<th>Kode</th>
 						<th>Skor</th>
