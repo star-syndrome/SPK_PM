@@ -1,5 +1,5 @@
 $(document).ready(() => {
-	const table = $("#tabel-ranking").DataTable({
+	$("#tabel-ranking").DataTable({
 		ajax: {
 			url: "/api/ranking",
 			dataSrc: "",

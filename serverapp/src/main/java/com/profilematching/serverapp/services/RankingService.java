@@ -1,6 +1,6 @@
 package com.profilematching.serverapp.services;
 
-import com.profilematching.serverapp.models.dtos.responses.RankingResponse;
+import com.profilematching.serverapp.models.dtos.responses.*;
 import com.profilematching.serverapp.models.entities.Candidate;
 
 import java.util.List;
@@ -13,6 +13,14 @@ public interface RankingService {
      void calculateAllRankings();
 
      Double calculateTotalScore(Candidate candidate);
+
+     List<GapResponse> getAllGapDetails();
+
+     List<CFandSFResponse> getCFandSFDetails();
+
+     List<FinalScoreDetailResponse> getFinalScoreDetails();
+
+     List<TotalFinalScoreResponse> getTotalFinalScores();
 
      Double convertGapToValue(Double gap);
 

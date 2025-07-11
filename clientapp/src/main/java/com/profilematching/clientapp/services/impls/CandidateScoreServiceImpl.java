@@ -1,7 +1,7 @@
 package com.profilematching.clientapp.services.impls;
 
 import com.profilematching.clientapp.models.dtos.requests.BulkCandidateScoreRequest;
-import com.profilematching.clientapp.models.dtos.responses.CandidateScoreResponse;
+import com.profilematching.clientapp.models.dtos.responses.*;
 import com.profilematching.clientapp.services.CandidateScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -28,6 +28,58 @@ public class CandidateScoreServiceImpl implements CandidateScoreService {
                         HttpMethod.GET,
                         null,
                         new ParameterizedTypeReference<List<CandidateScoreResponse>>() {}
+                )
+                .getBody();
+    }
+
+    @Override
+    public List<GapResponse> getAllGapDetails() {
+        return restTemplate
+                .exchange(
+                        url + "/gap",
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<GapResponse>>() {
+                        }
+                )
+                .getBody();
+    }
+
+    @Override
+    public List<CFandSFResponse> getCFandSFDetails() {
+        return restTemplate
+                .exchange(
+                        url + "/cf-sf",
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<CFandSFResponse>>() {
+                        }
+                )
+                .getBody();
+    }
+
+    @Override
+    public List<FinalScoreDetailResponse> getFinalScoreDetails() {
+        return restTemplate
+                .exchange(
+                        url + "/final-score-detail",
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<FinalScoreDetailResponse>>() {
+                        }
+                )
+                .getBody();
+    }
+
+    @Override
+    public List<TotalFinalScoreResponse> getTotalFinalScores() {
+        return restTemplate
+                .exchange(
+                        url + "/final-score",
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<TotalFinalScoreResponse>>() {
+                        }
                 )
                 .getBody();
     }

@@ -1,7 +1,7 @@
 package com.profilematching.clientapp.controllers.rest;
 
 import com.profilematching.clientapp.models.dtos.requests.BulkCandidateScoreRequest;
-import com.profilematching.clientapp.models.dtos.responses.CandidateScoreResponse;
+import com.profilematching.clientapp.models.dtos.responses.*;
 import com.profilematching.clientapp.services.CandidateScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -22,6 +22,38 @@ public class CandidateScoreRestController {
     )
     public ResponseEntity<List<CandidateScoreResponse>> getAllCandidateScore() {
         return ResponseEntity.ok().body(candidateScoreService.getAllCandidateScore());
+    }
+
+    @GetMapping(
+            path = "/candidate-score/gap",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<GapResponse>> getAllGapDetails() {
+        return ResponseEntity.ok().body(candidateScoreService.getAllGapDetails());
+    }
+
+    @GetMapping(
+            path = "/candidate-score/cf-sf",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<CFandSFResponse>> getCFandSFDetails() {
+        return ResponseEntity.ok().body(candidateScoreService.getCFandSFDetails());
+    }
+
+    @GetMapping(
+            path = "/candidate-score/final-score-detail",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<FinalScoreDetailResponse>> getFinalScoreDetails() {
+        return ResponseEntity.ok().body(candidateScoreService.getFinalScoreDetails());
+    }
+
+    @GetMapping(
+            path = "/candidate-score/final-score",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<TotalFinalScoreResponse>> getTotalFinalScores() {
+        return ResponseEntity.ok().body(candidateScoreService.getTotalFinalScores());
     }
 
     @GetMapping(

@@ -1,6 +1,6 @@
 package com.profilematching.serverapp.services.impls;
 
-import com.profilematching.serverapp.models.dtos.responses.RankingResponse;
+import com.profilematching.serverapp.models.dtos.responses.*;
 import com.profilematching.serverapp.models.entities.*;
 import com.profilematching.serverapp.repositories.CandidateRepository;
 import com.profilematching.serverapp.repositories.CriteriaRepository;
@@ -91,6 +91,121 @@ public class RankingServiceImpl implements RankingService {
             totalScore += finalScore * bobot;
         }
         return totalScore;
+    }
+
+    @Override
+    public List<GapResponse> getAllGapDetails() {
+        List<GapResponse> result = new ArrayList<>();
+
+        for (Candidate candidate : candidateRepository.findAll()) {
+            for (CandidateScore cs : candidate.getScores()) {
+                Subcriteria sub = cs.getSubcriteria();
+                double gap = cs.getScore() - sub.getTarget();
+                double converted = convertGapToValue(gap);
+
+                GapResponse response = new GapResponse();
+                response.setCandidateName(candidate.getName());
+                response.setCriteriaName(sub.getCriteria().getName());
+                response.setSubcriteriaCode(sub.getCode());
+                response.setScore(cs.getScore());
+                response.setTarget(sub.getTarget());
+                response.setGap(gap);
+                response.setConvertedValue(converted);
+
+                result.add(response);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<CFandSFResponse> getCFandSFDetails() {
+        List<CFandSFResponse> result = new ArrayList<>();
+
+        for (Candidate candidate : candidateRepository.findAll()) {
+            Map<String, List<Double>> cfMap = new HashMap<>();
+            Map<String, List<Double>> sfMap = new HashMap<>();
+
+            processCandidateScores(candidate, cfMap, sfMap);
+
+            for (String code : cfMap.keySet()) {
+                double cf = calculateAverage(cfMap.get(code));
+                double sf = calculateAverage(sfMap.getOrDefault(code, Collections.emptyList()));
+                double finalScore = calculateFinalScore(cf, sf);
+
+                CFandSFResponse response = new CFandSFResponse();
+                response.setCandidateName(candidate.getName());
+                response.setCriteriaCode(code);
+                response.setCf(cf);
+                response.setSf(sf);
+                response.setFinalScore(finalScore);
+
+                result.add(response);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<FinalScoreDetailResponse> getFinalScoreDetails() {
+        List<FinalScoreDetailResponse> result = new ArrayList<>();
+        Map<String, Double> bobotMap = getBobotKriteriaMap();
+
+        for (Candidate candidate : candidateRepository.findAll()) {
+            Map<String, List<Double>> cfMap = new HashMap<>();
+            Map<String, List<Double>> sfMap = new HashMap<>();
+
+            processCandidateScores(candidate, cfMap, sfMap);
+
+            for (String code : cfMap.keySet()) {
+                double cf = calculateAverage(cfMap.get(code));
+                double sf = calculateAverage(sfMap.getOrDefault(code, Collections.emptyList()));
+                double finalScore = calculateFinalScore(cf, sf);
+                double weight = bobotMap.getOrDefault(code, 0.0);
+                double finalScoreXWeight = finalScore * weight;
+
+                FinalScoreDetailResponse response = new FinalScoreDetailResponse();
+                response.setCandidateName(candidate.getName());
+                response.setCriteriaCode(code);
+                response.setCf(cf);
+                response.setSf(sf);
+                response.setFinalScore(finalScore);
+                response.setWeight(weight);
+                response.setFinalScoreXWeight(finalScoreXWeight);
+
+                result.add(response);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<TotalFinalScoreResponse> getTotalFinalScores() {
+        Map<String, Double> bobotMap = getBobotKriteriaMap();
+        List<TotalFinalScoreResponse> result = new ArrayList<>();
+
+        for (Candidate candidate : candidateRepository.findAll()) {
+            Map<String, List<Double>> cfMap = new HashMap<>();
+            Map<String, List<Double>> sfMap = new HashMap<>();
+
+            processCandidateScores(candidate, cfMap, sfMap);
+
+            double total = 0.0;
+            for (String code : cfMap.keySet()) {
+                double cf = calculateAverage(cfMap.get(code));
+                double sf = calculateAverage(sfMap.getOrDefault(code, Collections.emptyList()));
+                double finalScore = calculateFinalScore(cf, sf);
+                double bobot = bobotMap.getOrDefault(code, 0.0);
+                total += finalScore * bobot;
+            }
+
+            result.add(new TotalFinalScoreResponse(candidate.getName(), total));
+        }
+
+        return result;
     }
 
     @Override

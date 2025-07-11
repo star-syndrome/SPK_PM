@@ -1,9 +1,10 @@
 package com.profilematching.serverapp.controllers;
 
 import com.profilematching.serverapp.models.dtos.requests.BulkCandidateScoreRequest;
-import com.profilematching.serverapp.models.dtos.responses.CandidateScoreResponse;
+import com.profilematching.serverapp.models.dtos.responses.*;
 import com.profilematching.serverapp.services.CandidateScoreService;
 import com.profilematching.serverapp.services.PdfService;
+import com.profilematching.serverapp.services.RankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,6 +24,9 @@ public class CandidateScoreController {
     @Autowired
     private PdfService pdfService;
 
+    @Autowired
+    private RankingService rankingService;
+
     @GetMapping(
             path = "/candidate-score",
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -30,6 +34,38 @@ public class CandidateScoreController {
     public ResponseEntity<List<CandidateScoreResponse>> getAllCandidateScore() {
         return ResponseEntity.ok()
                 .body(candidateScoreService.getAllCandidateScore());
+    }
+
+    @GetMapping(
+            path = "/candidate-score/gap",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<GapResponse>> getGapDetails() {
+        return ResponseEntity.ok()
+                .body(rankingService.getAllGapDetails());
+    }
+
+    @GetMapping(
+            path = "/candidate-score/cf-sf",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CFandSFResponse>> getCfAndSfDetails() {
+        return ResponseEntity.ok()
+                .body(rankingService.getCFandSFDetails());
+    }
+
+    @GetMapping(
+            path = "/candidate-score/final-score-detail",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<FinalScoreDetailResponse>> getFinalScoreDetails() {
+        return ResponseEntity.ok()
+                .body(rankingService.getFinalScoreDetails());
+    }
+
+    @GetMapping(
+            path = "/candidate-score/final-score",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TotalFinalScoreResponse>> getTotalFinalScores() {
+        return ResponseEntity.ok()
+                .body(rankingService.getTotalFinalScores());
     }
 
     @GetMapping(
