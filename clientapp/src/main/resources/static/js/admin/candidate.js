@@ -28,7 +28,7 @@ $(document).ready(() => {
                             class="btn btn-primary btn-sm align-items-center"
                             data-toggle="modal"
                             data-target="#modalDetailKandidat"
-                            title="Details ${data.name}"
+                            title="Detail ${data.name}"
                             onclick="findCandidateById(${data.id})">
                             <span class="material-symbols-rounded"> info </span>
                         </button> 
@@ -37,7 +37,7 @@ $(document).ready(() => {
                             class="btn btn-info btn-sm align-items-center"
                             data-toggle="modal"
                             data-target="#modalDetailCandidateScore"
-                            title="Score Details ${data.name}"
+                            title="Detail Nilai ${data.name}"
                             onclick="showDetailCandidateScore(${data.id})">
                             <span class="material-symbols-rounded"> info </span>
                         </button> 
@@ -46,14 +46,14 @@ $(document).ready(() => {
                             class="btn btn-warning d-flex align-items-center"
                             data-bs-toggle="modal"
                             data-bs-target="#modalPerbaruiKandidat"
-                            title="Update ${data.name}"
+                            title="Ubah ${data.name}"
                             onclick="beforeUpdateCandidate(${data.id})">
                             <span class="material-symbols-rounded"> sync </span>
                         </button>
                         <button
                             type="button"
                             class="btn btn-danger d-flex align-items-center"
-                            title="Delete ${data.name}"
+                            title="Hapus ${data.name}"
                             onclick="deleteCandidate(${data.id}, \`${data.name}\`)">
                             <span class="material-symbols-rounded"> delete </span>
                         </button>   
@@ -94,7 +94,7 @@ $("#formTambahKandidat").on("submit", function (e) {
 	if (!nama || !tanggalLahir || !jenisKelamin || !telepon || !alamat) {
 		Swal.fire({
 			icon: "warning",
-			title: "<h4 class='fw-bold text-warning'>Form Tidak Lengkap!</h4>",
+			title: "<h4 class='fw-bold text-warning'>Formulir Tidak Lengkap!</h4>",
 			html: "<div class='mt-2'>Harap isi semua kolom dengan lengkap.</div>",
 			confirmButtonText: "Oke",
 			confirmButtonColor: "#f59e0b",
@@ -132,7 +132,7 @@ $("#formTambahKandidat").on("submit", function (e) {
 			Swal.fire({
 				icon: "success",
 				title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
-				html: "<div class='mt-2'>Alternatif berhasil ditambahkan ke dalam sistem.</div>",
+				html: "<div class='mt-2'>Calon kader berhasil ditambahkan ke dalam sistem.</div>",
 				showConfirmButton: false,
 				timer: 2000,
 				timerProgressBar: true,
@@ -146,7 +146,7 @@ $("#formTambahKandidat").on("submit", function (e) {
 		error: function (xhr) {
 			const msg =
 				xhr.responseJSON?.message ||
-				"Terjadi kesalahan saat menambahkan alternatif.";
+				"Terjadi kesalahan saat menambahkan calon kader.";
 			Swal.fire({
 				icon: "error",
 				title: "<h4 class='fw-bold text-danger'>Gagal Menambahkan!</h4>",
@@ -161,7 +161,60 @@ $("#formTambahKandidat").on("submit", function (e) {
 
 // Export to PDF
 $("#printPDFCandidate").on("click", () => {
-	window.open("/api/candidate/export", "_blank");
+	Swal.fire({
+		title: "Mohon tunggu...",
+		text: "Sedang menyiapkan laporan PDF",
+		timerProgressBar: true,
+		allowOutsideClick: false,
+		showConfirmButton: false,
+		didOpen: () => {
+			Swal.showLoading();
+		},
+	});
+
+	fetch("/api/candidate/export")
+		.then((res) => {
+			if (!res.ok) throw new Error("Gagal mencetak laporan.");
+
+			// Ambil nama file dari Content-Disposition
+			const contentDisposition = res.headers.get("Content-Disposition");
+			let filename = "laporan.pdf"; // default
+
+			if (contentDisposition && contentDisposition.includes("filename=")) {
+				filename = contentDisposition
+					.split("filename=")[1]
+					.replaceAll('"', "")
+					.trim();
+			}
+
+			return res.blob().then((blob) => ({ blob, filename }));
+		})
+		.then(({ blob, filename }) => {
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = filename;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			window.URL.revokeObjectURL(url);
+
+			// Tampilkan notifikasi
+			Swal.fire({
+				icon: "success",
+				title: "Berhasil",
+				text: "Laporan berhasil diunduh!",
+				timer: 2000,
+				showConfirmButton: false,
+			});
+		})
+		.catch((err) => {
+			Swal.fire({
+				icon: "error",
+				title: "Gagal",
+				text: err.message || "Terjadi kesalahan saat mencetak laporan.",
+			});
+		});
 });
 
 // Get Candidate By ID
@@ -184,8 +237,8 @@ function findCandidateById(id) {
 			Swal.fire({
 				icon: "error",
 				title:
-					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Alternatif!</h4>",
-				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data alternatif. Silakan coba lagi.</div>",
+					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Calon Kader!</h4>",
+				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data calon kader. Silakan coba lagi.</div>",
 				confirmButtonText: "Oke",
 				confirmButtonColor: "#dc3545",
 				position: "center",
@@ -204,7 +257,7 @@ function showDetailCandidateScore(candidateId) {
 				Swal.fire({
 					icon: "info",
 					title: "Tidak Ada Skor",
-					text: "Alternatif ini belum memiliki penilaian yang tersimpan.",
+					text: "Calon kader ini belum memiliki penilaian yang tersimpan.",
 				});
 				return;
 			}
@@ -231,7 +284,7 @@ function showDetailCandidateScore(candidateId) {
 			Swal.fire({
 				icon: "error",
 				title: "Gagal Memuat",
-				text: "Tidak dapat mengambil data penilaian alternatif.",
+				text: "Tidak dapat mengambil data penilaian calon kader.",
 			});
 		},
 	});
@@ -243,13 +296,21 @@ function beforeUpdateCandidate(id) {
 		type: "GET",
 		contentType: "application/json",
 		success: function (response) {
-			const [day, month, year] = response.dateOfBirth.split("-");
-			const dateFormatted = `${year}-${month}-${day}`; // yyyy-MM-dd
+			const [day, monthName, year] = response.dateOfBirth.split(" ");
+			const month = convertMonthToNumber(monthName);
+			const dateFormatted = `${year}-${month}-${day.padStart(2, "0")}`;
+
+			const genderCode =
+				response.gender === "Laki-laki"
+					? "L"
+					: response.gender === "Perempuan"
+					? "P"
+					: "";
 
 			$("#candidate-id-update").val(response.id);
 			$("#candidate-name-update").val(response.name);
 			$("#candidate-dob-update").val(dateFormatted);
-			$("#candidate-gender-update").val(response.gender);
+			$("#candidate-gender-update").val(genderCode);
 			$("#candidate-phone-update").val(response.phone);
 			$("#candidate-address-update").val(response.address);
 			$("#modalPerbaruiKandidat").modal("show");
@@ -259,8 +320,8 @@ function beforeUpdateCandidate(id) {
 			Swal.fire({
 				icon: "error",
 				title:
-					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Alternatif!</h4>",
-				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data alternatif. Silakan coba lagi.</div>",
+					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Calon Kader!</h4>",
+				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data calon kader. Silakan coba lagi.</div>",
 				confirmButtonText: "Oke",
 				confirmButtonColor: "#dc3545",
 				position: "center",
@@ -274,7 +335,7 @@ function beforeUpdateCandidate(id) {
 $("#formPerbaruiKandidat").on("submit", function (e) {
 	e.preventDefault();
 
-	const dobRaw = $("#candidate-dob-update").val().trim(); // yyyy-MM-dd
+	const dobRaw = $("#candidate-dob-update").val().trim();
 	const [year, month, day] = dobRaw.split("-");
 	const formattedDob = `${day}-${month}-${year}`;
 
@@ -299,7 +360,7 @@ $("#formPerbaruiKandidat").on("submit", function (e) {
 	) {
 		Swal.fire({
 			icon: "warning",
-			title: "<h4 class='fw-bold text-warning'>Form Belum Lengkap!</h4>",
+			title: "<h4 class='fw-bold text-warning'>Formulir Belum Lengkap!</h4>",
 			html: "<div class='mt-2'>Semua kolom harus diisi.</div>",
 			confirmButtonColor: "#f59e0b",
 		});
@@ -326,7 +387,7 @@ $("#formPerbaruiKandidat").on("submit", function (e) {
 			Swal.fire({
 				icon: "success",
 				title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
-				html: "<div class='mt-2'>Data alternatif berhasil diperbarui.</div>",
+				html: "<div class='mt-2'>Data calon kader berhasil diperbarui.</div>",
 				showConfirmButton: false,
 				timer: 2000,
 				timerProgressBar: true,
@@ -339,7 +400,7 @@ $("#formPerbaruiKandidat").on("submit", function (e) {
 		error: function (xhr) {
 			const msg =
 				xhr.responseJSON?.message ||
-				"Terjadi kesalahan saat memperbarui alternatif.";
+				"Terjadi kesalahan saat memperbarui data calon kader.";
 			Swal.fire({
 				icon: "error",
 				title: "<h4 class='fw-bold text-danger'>Gagal Memperbarui!</h4>",
@@ -354,7 +415,7 @@ $("#formPerbaruiKandidat").on("submit", function (e) {
 // Delete Candidate
 function deleteCandidate(id, name) {
 	Swal.fire({
-		title: `<h4 class="fw-bold">Hapus Alternatif <span class="text-danger">${name}</span>?</h4>`,
+		title: `<h4 class="fw-bold">Hapus Calon Kader <span class="text-danger">${name}</span>?</h4>`,
 		html: "<div class='mt-2'>Tindakan ini tidak dapat dibatalkan.</div>",
 		icon: "warning",
 		showCancelButton: true,
@@ -376,9 +437,9 @@ function deleteCandidate(id, name) {
 					Swal.fire({
 						icon: "success",
 						title: "<h4 class='fw-bold text-success'>Berhasil Dihapus!</h4>",
-						html: `<div class='mt-2'>Alternatif <strong>${name}</strong> berhasil dihapus.</div>`,
+						html: `<div class='mt-2'>Calon kader <strong>${name}</strong> berhasil dihapus.</div>`,
 						showConfirmButton: false,
-						timer: 2000,
+						timer: 1500,
 						timerProgressBar: true,
 						position: "center",
 						background: "#e9fbe6",
@@ -389,7 +450,7 @@ function deleteCandidate(id, name) {
 					Swal.fire({
 						icon: "error",
 						title: "<h4 class='fw-bold text-danger'>Gagal Menghapus!</h4>",
-						html: `<div class='mt-2'>Tidak dapat menghapus alternatif <strong>${name}</strong>. Silakan coba lagi.</div>`,
+						html: `<div class='mt-2'>Tidak dapat menghapus calon kader <strong>${name}</strong>. Silakan coba lagi.</div>`,
 						confirmButtonText: "Oke",
 						confirmButtonColor: "#dc3545",
 						position: "center",
@@ -399,4 +460,22 @@ function deleteCandidate(id, name) {
 			});
 		}
 	});
+}
+
+function convertMonthToNumber(monthName) {
+	const months = {
+		Januari: "01",
+		Februari: "02",
+		Maret: "03",
+		April: "04",
+		Mei: "05",
+		Juni: "06",
+		Juli: "07",
+		Agustus: "08",
+		September: "09",
+		Oktober: "10",
+		November: "11",
+		Desember: "12",
+	};
+	return months[monthName] || "01";
 }

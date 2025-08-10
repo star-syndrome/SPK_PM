@@ -9,6 +9,8 @@ public interface CandidateScoreService {
 
     List<CandidateScoreResponse> getAllCandidateScore();
 
+    List<GapConversionResponse> getGapConversions();
+
     List<GapResponse> getAllGapDetails();
 
     List<CFandSFResponse> getCFandSFDetails();

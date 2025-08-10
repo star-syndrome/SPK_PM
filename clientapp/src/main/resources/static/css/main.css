@@ -21,6 +21,10 @@ body {
 	overflow-x: hidden;
 }
 
+table.dataTable {
+	font-size: 17px;
+}
+
 /* Sidebar */
 .sidebar {
 	position: fixed;
@@ -490,8 +494,8 @@ table tbody tr:hover {
 .quick-actions {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-	gap: 55px;
-	margin-bottom: 30px;
+	gap: 54.1px;
+	margin-bottom: 20px;
 }
 
 .action-card {

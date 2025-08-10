@@ -78,7 +78,6 @@
 				background-color: #f9f9f9;
 			}
 
-			/* FIX: Hindari pemotongan baris di antara halaman */
 			tr {
 				page-break-inside: avoid;
 				break-inside: avoid;
@@ -122,10 +121,10 @@
 		</div>
 
 		<!-- Judul Laporan -->
-		<h2 class="judul">Laporan Data Penilaian Alternatif</h2>
+		<h2 class="judul">Laporan Data Penilaian Calon Kader</h2>
 
 		<div th:each="entry : ${groupedScores}" class="candidate-section">
-			<h3 th:text="'Alternatif: ' + ${entry.key}"></h3>
+			<h3 th:text="'Calon Kader: ' + ${entry.key}"></h3>
 
 			<table>
 				<thead>
@@ -133,7 +132,7 @@
 						<th>No</th>
 						<th>Subkriteria</th>
 						<th>Kode</th>
-						<th>Skor</th>
+						<th>Nilai</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -142,7 +141,7 @@
 						<td th:text="${score.subcriteriaDescription}"></td>
 						<td th:text="${score.subcriteriaCode}"></td>
 						<td
-							th:text="${#numbers.formatDecimal(score.score, 1, 'COMMA', 2, 'POINT')}"></td>
+							th:text="${#numbers.formatDecimal(score.score, 1, 'COMMA', 0, 'POINT')}"></td>
 					</tr>
 				</tbody>
 			</table>

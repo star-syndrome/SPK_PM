@@ -28,7 +28,7 @@ $(document).ready(() => {
                             class="btn btn-primary align-items-center btn-sm"
                             data-toggle="modal"
                             data-target="#details-subcriteria"
-                            title="Details ${data.code}"
+                            title="Detail ${data.code}"
                             onclick="findSubcriteriaById(${data.id})">
                             <span class="material-symbols-rounded"> info </span>
                         </button> 
@@ -37,14 +37,14 @@ $(document).ready(() => {
                             class="btn btn-warning d-flex align-items-center"
                             data-bs-toggle="modal"
                             data-bs-target="#update-subcriteria"
-                            title="Update ${data.code}"
+                            title="Ubah ${data.code}"
                             onclick="beforeUpdateSubcriteria(${data.id})">
                             <span class="material-symbols-rounded"> sync </span>
                         </button>
                         <button
                             type="button"
                             class="btn btn-danger d-flex align-items-center"
-                            title="Delete ${data.code}"
+                            title="Hapus ${data.code}"
                             onclick="deleteSubcriteria(${data.id}, \`${data.code}\`)">
                             <span class="material-symbols-rounded"> delete </span>
                         </button>   
@@ -177,7 +177,60 @@ $("#formTambahSubkriteria").on("submit", function (e) {
 
 // Export to PDF
 $("#printPDFSubcriteria").on("click", () => {
-	window.open("/api/subcriteria/export", "_blank");
+	Swal.fire({
+		title: "Mohon tunggu...",
+		text: "Sedang menyiapkan laporan PDF",
+		timerProgressBar: true,
+		allowOutsideClick: false,
+		showConfirmButton: false,
+		didOpen: () => {
+			Swal.showLoading();
+		},
+	});
+
+	fetch("/api/subcriteria/export")
+		.then((res) => {
+			if (!res.ok) throw new Error("Gagal mencetak laporan.");
+
+			// Ambil nama file dari Content-Disposition
+			const contentDisposition = res.headers.get("Content-Disposition");
+			let filename = "laporan.pdf"; // default
+
+			if (contentDisposition && contentDisposition.includes("filename=")) {
+				filename = contentDisposition
+					.split("filename=")[1]
+					.replaceAll('"', "")
+					.trim();
+			}
+
+			return res.blob().then((blob) => ({ blob, filename }));
+		})
+		.then(({ blob, filename }) => {
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = filename;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			window.URL.revokeObjectURL(url);
+
+			// Tampilkan notifikasi
+			Swal.fire({
+				icon: "success",
+				title: "Berhasil",
+				text: "Laporan berhasil diunduh!",
+				timer: 2000,
+				showConfirmButton: false,
+			});
+		})
+		.catch((err) => {
+			Swal.fire({
+				icon: "error",
+				title: "Gagal",
+				text: err.message || "Terjadi kesalahan saat mencetak laporan.",
+			});
+		});
 });
 
 // Get Subcriteria By ID
@@ -375,7 +428,7 @@ function deleteSubcriteria(id, code) {
 						title: "<h4 class='fw-bold text-success'>Berhasil Dihapus!</h4>",
 						html: `<div class='mt-2'>Subkriteria <strong>${code}</strong> berhasil dihapus.</div>`,
 						showConfirmButton: false,
-						timer: 2000,
+						timer: 1500,
 						timerProgressBar: true,
 						position: "center",
 						background: "#e9fbe6",

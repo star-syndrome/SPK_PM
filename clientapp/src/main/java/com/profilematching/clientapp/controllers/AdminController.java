@@ -6,27 +6,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdminController {
 
-    @GetMapping("/criteria")
+    @GetMapping("/kriteria")
     public String criteriaView(){
         return "pages/admin/criteria";
     }
 
-    @GetMapping("/subcriteria")
+    @GetMapping("/subkriteria")
     public String subcriteriaView(){
         return "pages/admin/subcriteria";
     }
 
-    @GetMapping("/candidate")
+    @GetMapping("/kader")
     public String candidateView(){
         return "pages/admin/candidate";
     }
 
-    @GetMapping("/candidate-score")
+    @GetMapping("/penilaian")
     public String candidateScoreView(){
         return "pages/admin/candidate-score";
     }
 
-    @GetMapping("/ranking")
+    @GetMapping("/perhitungan")
+    public String ScoringView(){
+        return "pages/admin/scoring";
+    }
+
+    @GetMapping("/peringkat")
     public String rankingView(){
         return "pages/admin/ranking";
     }

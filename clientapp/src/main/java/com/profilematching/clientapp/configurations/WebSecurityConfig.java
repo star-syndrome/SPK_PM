@@ -25,7 +25,7 @@ public class WebSecurityConfig {
                         login
                                 .loginPage("/auth/login") // Get
                                 .loginProcessingUrl("/auth/login") // Post
-                                .successForwardUrl("/home")
+                                .successForwardUrl("/beranda")
                                 .failureForwardUrl("/auth/login?error=true")
                                 .permitAll()
                 )

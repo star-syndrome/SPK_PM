@@ -37,8 +37,8 @@ $("#registration-button").click(function (e) {
 	if (valuePassword !== valueConfirm) {
 		Swal.fire({
 			icon: "warning",
-			title: "Password Tidak Cocok!",
-			text: "Mohon pastikan password dan konfirmasi password sama.",
+			title: "Kata Sandi Tidak Cocok!",
+			text: "Mohon pastikan kata sandi dan konfirmasi kata sandi sama.",
 			showConfirmButton: true,
 		});
 		return;
@@ -64,7 +64,7 @@ $("#registration-button").click(function (e) {
 			Swal.fire({
 				icon: "success",
 				title: "Registrasi Berhasil 🎉",
-				html: "Mengalihkan ke halaman login dalam <b></b> detik...",
+				html: "Mengalihkan ke halaman masuk dalam <b></b> detik...",
 				timer: 3000,
 				timerProgressBar: true,
 				didOpen: () => {

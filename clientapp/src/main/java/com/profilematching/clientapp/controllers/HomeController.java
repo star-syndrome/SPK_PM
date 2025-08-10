@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping(
-            path = "/home"
+            path = "/beranda"
     )
     public String dashboard() {
         return "dashboard";

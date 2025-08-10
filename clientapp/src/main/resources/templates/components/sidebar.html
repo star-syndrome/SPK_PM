@@ -14,9 +14,9 @@
 			<ul class="nav-menu list-unstyled">
 				<li class="nav-item">
 					<a
-						th:href="@{/home}"
+						th:href="@{/beranda}"
 						class="nav-link"
-						th:classappend="${#httpServletRequest.requestURI == '/home'} ? 'active'">
+						th:classappend="${#httpServletRequest.requestURI == '/beranda'} ? 'active'">
 						<i class="nav-icon fas fa-tachometer-alt"></i>
 						<span class="nav-text">Beranda</span>
 					</a>
@@ -24,51 +24,61 @@
 
 				<li class="nav-item">
 					<a
-						th:href="@{/criteria}"
+						th:href="@{/kriteria}"
 						class="nav-link"
-						th:classappend="${#httpServletRequest.requestURI.startsWith('/criteria')} ? 'active'">
+						th:classappend="${#httpServletRequest.requestURI.startsWith('/kriteria')} ? 'active'">
 						<i class="nav-icon fas fa-sliders-h"></i>
-						<span class="nav-text">Kriteria</span>
+						<span class="nav-text">Data Kriteria</span>
 					</a>
 				</li>
 
 				<li class="nav-item">
 					<a
-						th:href="@{/subcriteria}"
+						th:href="@{/subkriteria}"
 						class="nav-link"
-						th:classappend="${#httpServletRequest.requestURI.startsWith('/subcriteria')} ? 'active'">
+						th:classappend="${#httpServletRequest.requestURI.startsWith('/subkriteria')} ? 'active'">
 						<i class="nav-icon fas fa-puzzle-piece"></i>
-						<span class="nav-text">Subkriteria</span>
+						<span class="nav-text">Data Subkriteria</span>
 					</a>
 				</li>
 
 				<li class="nav-item">
 					<a
-						th:href="@{/candidate}"
+						th:href="@{/kader}"
 						class="nav-link"
-						th:classappend="${#httpServletRequest.requestURI == '/candidate'} ? 'active'">
+						th:classappend="${#httpServletRequest.requestURI == '/kader'} ? 'active'">
 						<i class="nav-icon fas fa-users"></i>
-						<span class="nav-text">Alternatif</span>
+						<span class="nav-text">Data Calon Kader</span>
 					</a>
 				</li>
 
 				<li class="nav-item">
 					<a
-						th:href="@{/candidate-score}"
+						th:href="@{/penilaian}"
 						class="nav-link"
-						th:classappend="${#httpServletRequest.requestURI == '/candidate-score'} ? 'active'">
-						<i class="nav-icon fas fa-star-half-alt"></i>
-						<span class="nav-text">Penilaian</span>
+						th:classappend="${#httpServletRequest.requestURI == '/penilaian'} ? 'active'">
+						<i class="nav-icon fas fa-star"></i>
+						<span class="nav-text">Data Penilaian</span>
 					</a>
 				</li>
 
 				<li class="nav-item">
 					<a
-						th:href="@{/ranking}"
+						th:href="@{/perhitungan}"
 						class="nav-link"
-						th:classappend="${#httpServletRequest.requestURI.startsWith('/ranking')} ? 'active'">
+						th:classappend="${#httpServletRequest.requestURI == '/perhitungan'} ? 'active'">
+						<i class="nav-icon fa-solid fa-calculator"></i>
+						<span class="nav-text">Data Perhitungan</span>
+					</a>
+				</li>
+
+				<li class="nav-item">
+					<a
+						th:href="@{/peringkat}"
+						class="nav-link"
+						th:classappend="${#httpServletRequest.requestURI.startsWith('/peringkat')} ? 'active'">
 						<i class="nav-icon fa-solid fa-ranking-star"></i>
-						<span class="nav-text">Peringkat</span>
+						<span class="nav-text">Nilai Akhir dan Peringkat</span>
 					</a>
 				</li>
 

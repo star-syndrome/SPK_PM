@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -142,12 +143,14 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     private CandidateResponse mapToCandidateResponse(Candidate candidate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("id", "ID"));
+        String genderFormatted = candidate.getGender().equalsIgnoreCase("P") ? "Perempuan" :
+                            candidate.getGender().equalsIgnoreCase("L") ? "Laki-laki" : "-";
         return CandidateResponse.builder()
                 .id(candidate.getId())
                 .name(candidate.getName())
                 .dateOfBirth(candidate.getDateOfBirth().format(formatter))
-                .gender(candidate.getGender())
+                .gender(genderFormatted)
                 .phone(candidate.getPhone())
                 .address(candidate.getAddress())
                 .build();

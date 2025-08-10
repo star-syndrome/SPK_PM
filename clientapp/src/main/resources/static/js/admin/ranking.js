@@ -78,8 +78,61 @@ $(document).ready(() => {
 		});
 	});
 
-	// Tombol Cetak PDF
+	// Export to PDF
 	$("#btnExportRankingPDF").on("click", () => {
-		window.open("/api/ranking/export", "_blank");
+		Swal.fire({
+			title: "Mohon tunggu...",
+			text: "Sedang menyiapkan laporan PDF",
+			timerProgressBar: true,
+			allowOutsideClick: false,
+			showConfirmButton: false,
+			didOpen: () => {
+				Swal.showLoading();
+			},
+		});
+
+		fetch("/api/ranking/export")
+			.then((res) => {
+				if (!res.ok) throw new Error("Gagal mencetak laporan.");
+
+				// Ambil nama file dari Content-Disposition
+				const contentDisposition = res.headers.get("Content-Disposition");
+				let filename = "laporan.pdf"; // default
+
+				if (contentDisposition && contentDisposition.includes("filename=")) {
+					filename = contentDisposition
+						.split("filename=")[1]
+						.replaceAll('"', "")
+						.trim();
+				}
+
+				return res.blob().then((blob) => ({ blob, filename }));
+			})
+			.then(({ blob, filename }) => {
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.href = url;
+				a.download = filename;
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				window.URL.revokeObjectURL(url);
+
+				// Tampilkan notifikasi
+				Swal.fire({
+					icon: "success",
+					title: "Berhasil",
+					text: "Laporan berhasil diunduh!",
+					timer: 2000,
+					showConfirmButton: false,
+				});
+			})
+			.catch((err) => {
+				Swal.fire({
+					icon: "error",
+					title: "Gagal",
+					text: err.message || "Terjadi kesalahan saat mencetak laporan.",
+				});
+			});
 	});
 });

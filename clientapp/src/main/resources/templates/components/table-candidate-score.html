@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Table Penilaian Alternatif</title>
+		<title>Table Penilaian Kader</title>
 	</head>
 	<body>
 		<!-- Section Kelola Skor Kandidat -->
@@ -12,8 +12,8 @@
 			<div
 				class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
 				<h1 class="fw-bold fs-3 mb-0">
-					<i class="fas fa-list-ul me-2 text-primary"></i> Kelola Penilaian
-					Alternatif
+					<i class="fas fa-list-ul me-2 text-primary"></i> Data Penilaian Calon
+					Kader
 				</h1>
 				<div class="d-flex gap-2">
 					<button
@@ -21,18 +21,18 @@
 						class="btn btn-success"
 						data-bs-toggle="modal"
 						data-bs-target="#modalTambahSkorKandidat">
-						Tambah dan Ubah Penilaian Alternatif
+						Tambah dan Ubah Penilaian Calon Kader
 					</button>
 					<button
 						type="button"
 						class="btn btn-outline-primary"
 						id="printPDFCandidateScore">
-						<i class="fas fa-file-pdf me-1"></i> Cetak PDF
+						<i class="fas fa-file-pdf me-1"></i> Cetak Laporan
 					</button>
 				</div>
 			</div>
 
-			<!-- Tabel Skor Kandidat -->
+			<!-- Tabel Penilaian -->
 			<div class="table-responsive">
 				<table
 					class="table table-bordered table-hover table-striped align-middle text-center"
@@ -42,97 +42,14 @@
 							<th>No</th>
 							<th>Nama</th>
 							<th>Kode Subkriteria</th>
-							<th>Skor</th>
+							<th>Nilai</th>
 							<th>Aksi</th>
 						</tr>
 					</thead>
 				</table>
 			</div>
 
-			<h5 class="mt-5 mb-3 fw-bold">Pemetaan dan Pembobotan GAP</h5>
-
-			<!-- Tabel GAP -->
-			<div class="table-responsive mb-4">
-				<table
-					id="gap-table"
-					class="table table-bordered table-hover table-striped align-middle text-center">
-					<thead class="text-white fw-semibold text-uppercase">
-						<tr>
-							<th>No</th>
-							<th>Nama</th>
-							<th>Kriteria</th>
-							<th>Subkriteria</th>
-							<th>Nilai</th>
-							<th>Target</th>
-							<th>Gap</th>
-							<th>Nilai Konversi</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-
-			<h5 class="mt-5 mb-3 fw-bold">
-				Perhitungan Core Factor dan Secondary Factor
-			</h5>
-
-			<!-- Tabel CF dan SF -->
-			<div class="table-responsive mb-4">
-				<table
-					id="cfsf-table"
-					class="table table-bordered table-hover table-striped align-middle text-center">
-					<thead class="text-white fw-semibold text-uppercase">
-						<tr>
-							<th>No</th>
-							<th>Nama</th>
-							<th>Kriteria</th>
-							<th>Core Factor (60%)</th>
-							<th>Secondary Factor (40%)</th>
-							<th>Nilai Total</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-
-			<h5 class="mt-5 mb-3 fw-bold">Perhitungan Nilai Total</h5>
-
-			<!-- Tabel Perhitungan Nilai Total -->
-			<div class="table-responsive mb-4">
-				<table
-					id="finalScoreDetail-table"
-					class="table table-bordered table-hover table-striped align-middle text-center">
-					<thead class="text-white fw-semibold text-uppercase">
-						<tr>
-							<th>No</th>
-							<th>Nama</th>
-							<th>Kriteria</th>
-							<th>Core Factor (60%)</th>
-							<th>Secondary Factor (40%)</th>
-							<th>Nilai Total</th>
-							<th>Bobot Kriteria</th>
-							<th>Nilai Total X Bobot Kriteria</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-
-			<h5 class="mt-5 mb-3 fw-bold">Perhitungan Hasil Akhir</h5>
-
-			<!-- Tabel Perhitungan Hasil Akhir -->
-			<div class="table-responsive mb-4">
-				<table
-					id="finalScore-table"
-					class="table table-bordered table-hover table-striped align-middle text-center">
-					<thead class="text-white fw-semibold text-uppercase">
-						<tr>
-							<th>No</th>
-							<th>Nama</th>
-							<th>Hasil Akhir</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-
-			<!-- Modal Tambah Skor Kandidat -->
+			<!-- Modal Tambah dan Ubah -->
 			<div
 				class="modal fade"
 				id="modalTambahSkorKandidat"
@@ -143,7 +60,7 @@
 						<div class="modal-header bg-primary text-white">
 							<h5 class="modal-title fw-bold">
 								<i class="fas fa-clipboard-list me-2"></i> Tambah dan Ubah
-								Penilaian Alternatif
+								Penilaian Calon Kader
 							</h5>
 							<button
 								type="button"
@@ -154,11 +71,21 @@
 							<div class="modal-body px-4 py-3">
 								<div class="mb-3">
 									<label for="select-kandidat" class="form-label fw-semibold"
-										>Pilih Alternatif</label
+										>Calon Kader</label
 									>
 									<select id="select-kandidat" class="form-select" required>
-										<option value="">-- Pilih Alternatif --</option>
+										<option value=""></option>
 									</select>
+								</div>
+
+								<!-- KETERANGAN SKOR -->
+								<div class="alert alert-info" role="alert">
+									<strong>Keterangan Penilaian:</strong><br />
+									1 = Tidak sesuai<br />
+									2 = Kurang sesuai<br />
+									3 = Cukup sesuai<br />
+									4 = Sesuai<br />
+									5 = Sangat sesuai
 								</div>
 
 								<div id="form-skor-subkriteria"></div>
@@ -179,7 +106,7 @@
 				</div>
 			</div>
 
-			<!-- Modal Detail Skor Kandidat -->
+			<!-- Modal Detail -->
 			<div
 				class="modal fade"
 				id="modalDetailSkorKandidat"
@@ -189,8 +116,8 @@
 					<div class="modal-content shadow rounded-3">
 						<div class="modal-header bg-info text-white">
 							<h5 class="modal-title fw-bold">
-								<i class="fas fa-circle-info me-2"></i> Detail Penilaian
-								Alternatif
+								<i class="fas fa-circle-info me-2"></i> Detail Penilaian Calon
+								Kader
 							</h5>
 							<button
 								type="button"
@@ -216,7 +143,7 @@
 									<span id="candidate-score-subcriteriaDescription"></span>
 								</li>
 								<li class="list-group-item d-flex justify-content-between">
-									<strong>Skor</strong>
+									<strong>Nilai</strong>
 									<span id="candidate-score-score"></span>
 								</li>
 							</ul>

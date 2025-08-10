@@ -33,6 +33,19 @@ public class CandidateScoreServiceImpl implements CandidateScoreService {
     }
 
     @Override
+    public List<GapConversionResponse> getGapConversions() {
+        return restTemplate
+                .exchange(
+                        url + "/gap-conversion",
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<GapConversionResponse>>() {
+                        }
+                )
+                .getBody();
+    }
+
+    @Override
     public List<GapResponse> getAllGapDetails() {
         return restTemplate
                 .exchange(

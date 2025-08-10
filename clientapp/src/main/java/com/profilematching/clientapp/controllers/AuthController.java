@@ -29,7 +29,7 @@ public class AuthController {
         if (authentication instanceof AnonymousAuthenticationToken) {
             return "pages/auth/login";
         }
-        return "redirect:/home";
+        return "redirect:/beranda";
     }
 
     @PostMapping(
@@ -40,7 +40,7 @@ public class AuthController {
         if (!authService.login(loginRequest)) {
             return "redirect:/login?error=true";
         }
-        return "redirect:/home";
+        return "redirect:/beranda";
     }
 
     @GetMapping(

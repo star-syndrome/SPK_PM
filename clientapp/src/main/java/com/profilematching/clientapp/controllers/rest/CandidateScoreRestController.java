@@ -23,6 +23,13 @@ public class CandidateScoreRestController {
     public ResponseEntity<List<CandidateScoreResponse>> getAllCandidateScore() {
         return ResponseEntity.ok().body(candidateScoreService.getAllCandidateScore());
     }
+    @GetMapping(
+            path = "/candidate-score/gap-conversion",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<GapConversionResponse>> getAllGapConversions() {
+        return ResponseEntity.ok().body(candidateScoreService.getGapConversions());
+    }
 
     @GetMapping(
             path = "/candidate-score/gap",
@@ -83,7 +90,7 @@ public class CandidateScoreRestController {
             headers.setContentType(MediaType.APPLICATION_PDF);
             headers.setContentDisposition(ContentDisposition
                     .attachment()
-                    .filename("laporan-penilaian-alternatif.pdf")
+                    .filename("laporan-penilaian-calon-kader.pdf")
                     .build());
 
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);

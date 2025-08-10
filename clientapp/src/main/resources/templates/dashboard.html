@@ -161,7 +161,8 @@
 										step="1"
 										min="1"
 										max="5"
-										placeholder="Masukkan nilai target antara 1 sampai 5" />
+										placeholder="Masukkan nilai target antara 1 sampai 5"
+										title="1 = Tidak sesuai, 2 = Kurang sesuai, 3 = Cukup sesuai, 4 = Sesuai, 5 = Sangat sesuai" />
 								</div>
 								<div class="mb-3">
 									<label
@@ -205,7 +206,7 @@
 					<div class="modal-content shadow rounded-3">
 						<div class="modal-header bg-primary text-white">
 							<h5 class="modal-title fw-bold">
-								<i class="fas fa-plus-circle me-2"></i> Tambah Alternatif
+								<i class="fas fa-plus-circle me-2"></i> Tambah Calon Kader
 							</h5>
 							<button
 								type="button"
@@ -224,7 +225,7 @@
 										id="nama-kandidat"
 										name="nama-kandidat"
 										required
-										placeholder="Masukkan nama" />
+										placeholder="Masukkan nama calon kader" />
 								</div>
 								<div class="mb-3">
 									<label for="tanggal-lahir" class="form-label fw-semibold"
@@ -262,7 +263,7 @@
 										name="nomor-telepon"
 										required
 										maxlength="13"
-										placeholder="Masukkan nomor telepon" />
+										placeholder="Masukkan nomor telepon calon kader" />
 								</div>
 								<div class="mb-3">
 									<label for="alamat" class="form-label fw-semibold"
@@ -274,7 +275,7 @@
 										id="alamat"
 										name="alamat"
 										required
-										placeholder="Masukkan alamat" />
+										placeholder="Masukkan alamat calon kader" />
 								</div>
 							</div>
 							<div class="modal-footer px-4 py-3">
@@ -315,7 +316,7 @@
 							<div class="stats-header">
 								<div>
 									<div class="stats-number" id="total-candidate"></div>
-									<div class="stats-label">Total Alternatif</div>
+									<div class="stats-label">Total Calon Kader</div>
 								</div>
 								<div class="stats-icon primary">
 									<i class="fas fa-user-plus"></i>
@@ -370,8 +371,8 @@
 							<div class="action-icon">
 								<i class="fas fa-user-plus"></i>
 							</div>
-							<div class="action-title">Tambah Alternatif</div>
-							<div class="action-desc">Masukkan data alternatif baru</div>
+							<div class="action-title">Tambah Calon Kader</div>
+							<div class="action-desc">Masukkan data calon kader baru</div>
 						</a>
 
 						<!-- Tambah Kriteria -->
@@ -397,15 +398,15 @@
 								<i class="fas fa-puzzle-piece"></i>
 							</div>
 							<div class="action-title">Tambah Subkriteria</div>
-							<div class="action-desc">Tambah indikator kriteria</div>
+							<div class="action-desc">Tambah rincian kriteria</div>
 						</a>
 
-						<!-- Laporan Hasil Akhir -->
-						<a href="/ranking" class="action-card">
+						<!-- Laporan Nilai Akhir -->
+						<a href="/peringkat" class="action-card">
 							<div class="action-icon">
 								<i class="fas fa-trophy"></i>
 							</div>
-							<div class="action-title">Lihat Hasil Akhir</div>
+							<div class="action-title">Lihat Nilai Akhir</div>
 							<div class="action-desc">Tampilkan hasil seleksi</div>
 						</a>
 					</div>

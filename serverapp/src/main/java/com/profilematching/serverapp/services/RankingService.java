@@ -22,6 +22,8 @@ public interface RankingService {
 
      List<TotalFinalScoreResponse> getTotalFinalScores();
 
+     List<GapConversionResponse> getGapConversions();
+
      Double convertGapToValue(Double gap);
 
      Double calculateAverage(List<Double> values);

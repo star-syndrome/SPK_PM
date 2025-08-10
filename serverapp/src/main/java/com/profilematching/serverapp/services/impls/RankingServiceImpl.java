@@ -209,6 +209,21 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
+    public List<GapConversionResponse> getGapConversions() {
+        return Arrays.asList(
+            new GapConversionResponse(0, 5.0, "Tidak ada selisih (kompetensi sesuai dengan yang dibutuhkan)"),
+            new GapConversionResponse(1, 4.5, "Kompetensi individu kelebihan 1 tingkat/level"),
+            new GapConversionResponse(-1, 4.0, "Kompetensi individu kekurangan 1 tingkat/level"),
+            new GapConversionResponse(2, 3.5, "Kompetensi individu kelebihan 2 tingkat/level"),
+            new GapConversionResponse(-2, 3.0, "Kompetensi individu kekurangan 2 tingkat/level"),
+            new GapConversionResponse(3, 2.5, "Kompetensi individu kelebihan 3 tingkat/level"),
+            new GapConversionResponse(-3, 2.0, "Kompetensi individu kekurangan 3 tingkat/level"),
+            new GapConversionResponse(4, 1.5, "Kompetensi individu kelebihan 4 tingkat/level"),
+            new GapConversionResponse(-4, 1.0, "Kompetensi individu kekurangan 4 tingkat/level")
+        );
+    }
+
+    @Override
     public void processCandidateScores(Candidate candidate, Map<String, List<Double>> cfMap, Map<String, List<Double>> sfMap) {
         for (CandidateScore cs : candidate.getScores()) {
             Subcriteria sub = cs.getSubcriteria();

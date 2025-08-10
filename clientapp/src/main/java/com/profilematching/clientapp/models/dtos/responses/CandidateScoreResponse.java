@@ -13,6 +13,7 @@ public class CandidateScoreResponse {
     private Double score;
     private Integer candidateId;
     private String candidateName;
+    private Integer subcriteriaId;
     private String subcriteriaCode;
     private String subcriteriaDescription;
 }

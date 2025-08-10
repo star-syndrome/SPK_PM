@@ -37,6 +37,14 @@ public class CandidateScoreController {
     }
 
     @GetMapping(
+            path = "/candidate-score/gap-conversion",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<GapConversionResponse>> getGapConversion() {
+        return ResponseEntity.ok()
+                .body(rankingService.getGapConversions());
+    }
+
+    @GetMapping(
             path = "/candidate-score/gap",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GapResponse>> getGapDetails() {

@@ -37,8 +37,8 @@ $(document).ready(function () {
 		if (newPassword !== repeatNewPassword) {
 			Swal.fire({
 				icon: "warning",
-				title: "Password tidak cocok",
-				text: "Pastikan password baru sama!",
+				title: "Kata Sandi Tidak Cocok!",
+				text: "Pastikan kata sandi baru harus sama!",
 			});
 			return;
 		}
@@ -60,8 +60,8 @@ $(document).ready(function () {
 			success: function (res) {
 				Swal.fire({
 					icon: "success",
-					title: "Reset Password Berhasil 🎉",
-					html: "Mengalihkan ke halaman login dalam <b></b> detik...",
+					title: "Ubah Kata Sandi Berhasil 🎉",
+					html: "Mengalihkan ke halaman masuk dalam <b></b> detik...",
 					timer: 3000,
 					timerProgressBar: true,
 					didOpen: () => {
@@ -81,7 +81,7 @@ $(document).ready(function () {
 				Swal.fire({
 					icon: "error",
 					title: "Gagal!",
-					text: "Tidak dapat mereset password. Cek kembali username Anda!",
+					text: "Tidak dapat mengubah kata sandi. Cek kembali nama pengguna Anda!",
 				});
 			},
 			complete: function () {

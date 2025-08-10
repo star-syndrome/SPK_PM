@@ -28,14 +28,14 @@ $(document).ready(() => {
                             class="btn btn-primary btn-sm align-items-center"
                             data-toggle="modal"
                             data-target="#modalDetailSkorKandidat"
-                            title="Details ${data.subcriteriaCode}"
+                            title="Detail ${data.subcriteriaCode}"
                             onclick="findCandidateScoreById(${data.id})">
                             <span class="material-symbols-rounded"> info </span>
                         </button> 
                         <button
                             type="button"
                             class="btn btn-danger d-flex align-items-center"
-                            title="Delete ${data.subcriteriaCode}"
+                            title="Hapus ${data.subcriteriaCode}"
                             onclick="deleteCandidateScore(${data.id}, \`${data.subcriteriaCode}\`)">
                             <span class="material-symbols-rounded"> delete </span>
                         </button>   
@@ -55,243 +55,40 @@ $(document).ready(() => {
 			});
 	});
 
-	loadGapTable();
-	loadCFSFTable();
-	loadFinalScoreDetailTable();
-	loadFinalScoreTable();
-
 	$("#modalTambahSkorKandidat").on("show.bs.modal", function () {
-		loadKandidatOptions();
-		loadSubkriteriaFields();
+		loadCandidateOptions();
+		loadSubcriteriaOptions();
+	});
+
+	$("#select-kandidat").on("change", function () {
+		const candidateId = $(this).val();
+		if (!candidateId) return;
+
+		// Clear semua input skor dulu
+		$("#form-skor-subkriteria input[name='score']").val("");
+
+		// Ambil skor dari API
+		$.ajax({
+			url: `/api/candidate-score/candidate/${candidateId}`,
+			method: "GET",
+			success: function (data) {
+				// Loop hasil dari API
+				data.forEach((item) => {
+					// Temukan input yang punya subcriteriaId sesuai data
+					const input = $(
+						`#form-skor-subkriteria input[data-subcriteria-id='${item.subcriteriaId}']`
+					);
+					if (input.length) {
+						input.val(item.score); // Isi nilainya
+					}
+				});
+			},
+			error: function (xhr, status, error) {
+				console.error("Gagal mengambil data skor kandidat:", error);
+			},
+		});
 	});
 });
-
-function loadGapTable() {
-	if ($.fn.DataTable.isDataTable("#gap-table")) {
-		$("#gap-table").DataTable().clear().destroy();
-	}
-
-	$.ajax({
-		url: "/api/candidate-score/gap",
-		method: "GET",
-		success: function (data) {
-			// Inisialisasi DataTable
-			const gapTable = $("#gap-table").DataTable({
-				data: data,
-				columns: [
-					{
-						data: null,
-						render: function (data, type, row, meta) {
-							return meta.row + 1;
-						},
-					},
-					{ data: "candidateName" },
-					{ data: "criteriaName" },
-					{ data: "subcriteriaCode" },
-					{ data: "score" },
-					{ data: "target" },
-					{ data: "gap" },
-					{ data: "convertedValue" },
-				],
-				columnDefs: [
-					{
-						className: "text-center",
-						targets: "_all",
-					},
-				],
-				order: [[1, "asc"]],
-			});
-		},
-		error: function (xhr) {
-			console.error("Gagal mengambil data gap:", xhr.responseText);
-		},
-	});
-
-	$("#gap-table").on("draw.dt", function () {
-		$("#gap-table")
-			.DataTable()
-			.column(0, { search: "applied", order: "applied" })
-			.nodes()
-			.each(function (cell, i) {
-				cell.innerHTML = i + 1;
-			});
-	});
-}
-
-function loadCFSFTable() {
-	if ($.fn.DataTable.isDataTable("#cfsf-table")) {
-		$("#cfsf-table").DataTable().clear().destroy();
-	}
-
-	$.ajax({
-		url: "/api/candidate-score/cf-sf",
-		method: "GET",
-		success: function (data) {
-			// Inisialisasi DataTable
-			const gapTable = $("#cfsf-table").DataTable({
-				data: data,
-				columns: [
-					{
-						data: null,
-						render: function (data, type, row, meta) {
-							return meta.row + 1;
-						},
-					},
-					{ data: "candidateName" },
-					{ data: "criteriaCode" },
-					{ data: "cf" },
-					{ data: "sf" },
-					{
-						data: "finalScore",
-						render: function (data) {
-							return parseFloat(data).toFixed(2); // Format jadi 2 digit
-						},
-					},
-				],
-				columnDefs: [
-					{
-						className: "text-center",
-						targets: "_all",
-					},
-				],
-				order: [[1, "asc"]],
-			});
-		},
-		error: function (xhr) {
-			console.error(
-				"Gagal mengambil data core factor dan secondary factor:",
-				xhr.responseText
-			);
-		},
-	});
-
-	$("#cfsf-table").on("draw.dt", function () {
-		$("#cfsf-table")
-			.DataTable()
-			.column(0, { search: "applied", order: "applied" })
-			.nodes()
-			.each(function (cell, i) {
-				cell.innerHTML = i + 1;
-			});
-	});
-}
-
-function loadFinalScoreDetailTable() {
-	if ($.fn.DataTable.isDataTable("#finalScoreDetail-table")) {
-		$("#finalScoreDetail-table").DataTable().clear().destroy();
-	}
-
-	$.ajax({
-		url: "/api/candidate-score/final-score-detail",
-		method: "GET",
-		success: function (data) {
-			// Inisialisasi DataTable
-			const gapTable = $("#finalScoreDetail-table").DataTable({
-				data: data,
-				columns: [
-					{
-						data: null,
-						render: function (data, type, row, meta) {
-							return meta.row + 1;
-						},
-					},
-					{ data: "candidateName" },
-					{ data: "criteriaCode" },
-					{ data: "cf" },
-					{ data: "sf" },
-					{
-						data: "finalScore",
-						render: function (data) {
-							return parseFloat(data).toFixed(2); // Format jadi 2 digit
-						},
-					},
-					{ data: "weight" },
-					{
-						data: "finalScoreXWeight",
-						render: function (data) {
-							return parseFloat(data).toFixed(2); // Format jadi 2 digit
-						},
-					},
-				],
-				columnDefs: [
-					{
-						className: "text-center",
-						targets: "_all",
-					},
-				],
-				order: [[1, "asc"]],
-			});
-		},
-		error: function (xhr) {
-			console.error(
-				"Gagal mengambil data final score details:",
-				xhr.responseText
-			);
-		},
-	});
-
-	$("#finalScoreDetail-table").on("draw.dt", function () {
-		$("#finalScoreDetail-table")
-			.DataTable()
-			.column(0, { search: "applied", order: "applied" })
-			.nodes()
-			.each(function (cell, i) {
-				cell.innerHTML = i + 1;
-			});
-	});
-}
-
-function loadFinalScoreTable() {
-	if ($.fn.DataTable.isDataTable("#finalScore-table")) {
-		$("#finalScore-table").DataTable().clear().destroy();
-	}
-
-	$.ajax({
-		url: "/api/candidate-score/final-score",
-		method: "GET",
-		success: function (data) {
-			// Inisialisasi DataTable
-			const gapTable = $("#finalScore-table").DataTable({
-				data: data,
-				columns: [
-					{
-						data: null,
-						render: function (data, type, row, meta) {
-							return meta.row + 1;
-						},
-					},
-					{ data: "candidateName" },
-					{
-						data: "totalFinalScore",
-						render: function (data) {
-							return parseFloat(data).toFixed(2); // Format jadi 2 digit
-						},
-					},
-				],
-				columnDefs: [
-					{
-						className: "text-center",
-						targets: "_all",
-					},
-				],
-				order: [[1, "asc"]],
-			});
-		},
-		error: function (xhr) {
-			console.error("Gagal mengambil data final score:", xhr.responseText);
-		},
-	});
-
-	$("#finalScore-table").on("draw.dt", function () {
-		$("#finalScore-table")
-			.DataTable()
-			.column(0, { search: "applied", order: "applied" })
-			.nodes()
-			.each(function (cell, i) {
-				cell.innerHTML = i + 1;
-			});
-	});
-}
 
 // Submit form tambah skor kandidat
 $("#formTambahSkorKandidat").on("submit", function (e) {
@@ -301,7 +98,7 @@ $("#formTambahSkorKandidat").on("submit", function (e) {
 	if (!candidateId) {
 		Swal.fire(
 			"Peringatan",
-			"Silakan pilih alternatif terlebih dahulu.",
+			"Silakan pilih calon kader terlebih dahulu.",
 			"warning"
 		);
 		return;
@@ -332,7 +129,7 @@ $("#formTambahSkorKandidat").on("submit", function (e) {
 			Swal.fire({
 				icon: "success",
 				title: "<h4 class='fw-bold text-success'>Berhasil!</h4>",
-				html: "<div class='mt-2'>Penilaian alternatif berhasil ditambahkan atau diubah ke dalam sistem.</div>",
+				html: "<div class='mt-2'>Penilaian calon kader berhasil ditambahkan atau diubah ke dalam sistem.</div>",
 				showConfirmButton: false,
 				timer: 2000,
 				timerProgressBar: true,
@@ -342,15 +139,11 @@ $("#formTambahSkorKandidat").on("submit", function (e) {
 			$("#modalTambahSkorKandidat").modal("hide");
 			$("#formTambahSkorKandidat")[0].reset();
 			$("#tabel-skor-kandidat").DataTable().ajax.reload();
-			loadGapTable();
-			loadCFSFTable();
-			loadFinalScoreDetailTable();
-			loadFinalScoreTable();
 		},
 		error: (xhr) => {
 			const msg =
 				xhr.responseJSON?.message ||
-				"Terjadi kesalahan saat menambahkan penilaian alternatif.";
+				"Terjadi kesalahan saat menambahkan penilaian calon kader.";
 			Swal.fire({
 				icon: "error",
 				title: "<h4 class='fw-bold text-danger'>Gagal Menambahkan!</h4>",
@@ -364,10 +157,10 @@ $("#formTambahSkorKandidat").on("submit", function (e) {
 });
 
 // Load kandidat ke select option
-function loadKandidatOptions() {
+function loadCandidateOptions() {
 	$.get("/api/candidate", function (data) {
 		const select = $("#select-kandidat");
-		select.empty().append('<option value="">-- Pilih alternatif --</option>');
+		select.empty().append('<option value="">-- Pilih Calon Kader --</option>');
 		data.forEach((k) => {
 			select.append(`<option value="${k.id}">${k.name}</option>`);
 		});
@@ -375,7 +168,7 @@ function loadKandidatOptions() {
 }
 
 // Load seluruh subkriteria dan generate input skornya
-function loadSubkriteriaFields() {
+function loadSubcriteriaOptions() {
 	$.get("/api/subcriteria", function (data) {
 		const container = $("#form-skor-subkriteria");
 		container.empty();
@@ -391,8 +184,9 @@ function loadSubkriteriaFields() {
 			container.append(`
         <div class="mb-3">
         <label class="form-label fw-semibold">${sub.code} - ${sub.description}</label>
-        <input type="number" min="1" max="5" step="1" class="form-control input-skor-subkriteria" 
-            data-subcriteria-id="${sub.id}" placeholder="Masukkan skor (1—5)">
+        <input type="number" min="1" max="5" class="form-control input-skor-subkriteria"
+			data-subcriteria-id="${sub.id}" name="score" placeholder="Masukkan skor (1—5)"
+			title="1 = Tidak sesuai, 2 = Kurang sesuai, 3 = Cukup sesuai, 4 = Sesuai, 5 = Sangat sesuai" />
         <div class="invalid-feedback">Skor harus antara 1 sampai 5.</div>
         </div>
     `);
@@ -402,7 +196,60 @@ function loadSubkriteriaFields() {
 
 // Export to PDF
 $("#printPDFCandidateScore").on("click", () => {
-	window.open("/api/candidate-score/export", "_blank");
+	Swal.fire({
+		title: "Mohon tunggu...",
+		text: "Sedang menyiapkan laporan PDF",
+		timerProgressBar: true,
+		allowOutsideClick: false,
+		showConfirmButton: false,
+		didOpen: () => {
+			Swal.showLoading();
+		},
+	});
+
+	fetch("/api/candidate-score/export")
+		.then((res) => {
+			if (!res.ok) throw new Error("Gagal mencetak laporan.");
+
+			// Ambil nama file dari Content-Disposition
+			const contentDisposition = res.headers.get("Content-Disposition");
+			let filename = "laporan.pdf"; // default
+
+			if (contentDisposition && contentDisposition.includes("filename=")) {
+				filename = contentDisposition
+					.split("filename=")[1]
+					.replaceAll('"', "")
+					.trim();
+			}
+
+			return res.blob().then((blob) => ({ blob, filename }));
+		})
+		.then(({ blob, filename }) => {
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = filename;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			window.URL.revokeObjectURL(url);
+
+			// Tampilkan notifikasi
+			Swal.fire({
+				icon: "success",
+				title: "Berhasil",
+				text: "Laporan berhasil diunduh!",
+				timer: 2000,
+				showConfirmButton: false,
+			});
+		})
+		.catch((err) => {
+			Swal.fire({
+				icon: "error",
+				title: "Gagal",
+				text: err.message || "Terjadi kesalahan saat mencetak laporan.",
+			});
+		});
 });
 
 // Get CandidateScore By ID
@@ -426,8 +273,8 @@ function findCandidateScoreById(id) {
 			Swal.fire({
 				icon: "error",
 				title:
-					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Penilaian Alternatif!</h4>",
-				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data penilaian alternatif. Silakan coba lagi.</div>",
+					"<h4 class='fw-bold text-danger'>Gagal Menampilkan Data Penilaian Calon Kader!</h4>",
+				html: "<div class='mt-2'>Terjadi kesalahan saat menampilkan data penilaian calon kader. Silakan coba lagi.</div>",
 				confirmButtonText: "Oke",
 				confirmButtonColor: "#dc3545",
 				position: "center",
@@ -440,7 +287,7 @@ function findCandidateScoreById(id) {
 // Delete Candidate Score
 function deleteCandidateScore(id, subcriteriaCode) {
 	Swal.fire({
-		title: `<h4 class="fw-bold">Hapus Penilaian Alternatif <span class="text-danger">${subcriteriaCode}</span>?</h4>`,
+		title: `<h4 class="fw-bold">Hapus Penilaian Calon Kader <span class="text-danger">${subcriteriaCode}</span>?</h4>`,
 		html: "<div class='mt-2'>Tindakan ini tidak dapat dibatalkan.</div>",
 		icon: "warning",
 		showCancelButton: true,
@@ -462,9 +309,9 @@ function deleteCandidateScore(id, subcriteriaCode) {
 					Swal.fire({
 						icon: "success",
 						title: "<h4 class='fw-bold text-success'>Berhasil Dihapus!</h4>",
-						html: `<div class='mt-2'>Penilaian alternatif <strong>${subcriteriaCode}</strong> berhasil dihapus.</div>`,
+						html: `<div class='mt-2'>Penilaian calon kader <strong>${subcriteriaCode}</strong> berhasil dihapus.</div>`,
 						showConfirmButton: false,
-						timer: 2000,
+						timer: 1500,
 						timerProgressBar: true,
 						position: "center",
 						background: "#e9fbe6",
@@ -475,7 +322,7 @@ function deleteCandidateScore(id, subcriteriaCode) {
 					Swal.fire({
 						icon: "error",
 						title: "<h4 class='fw-bold text-danger'>Gagal Menghapus!</h4>",
-						html: `<div class='mt-2'>Tidak dapat menghapus penilaian alternatif <strong>${subcriteriaCode}</strong>. Silakan coba lagi.</div>`,
+						html: `<div class='mt-2'>Tidak dapat menghapus penilaian calon kader <strong>${subcriteriaCode}</strong>. Silakan coba lagi.</div>`,
 						confirmButtonText: "Oke",
 						confirmButtonColor: "#dc3545",
 						position: "center",

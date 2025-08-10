@@ -47,7 +47,7 @@ public class PdfServiceImpl implements PdfService {
         context.setVariable("logoBase64", base64Image);
 
         Locale indonesia = new Locale("id", "ID");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", indonesia);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", indonesia);
         String tanggalSekarang = LocalDate.now().format(formatter);
 
         context.setVariable("tanggalSekarang", tanggalSekarang);
@@ -77,7 +77,7 @@ public class PdfServiceImpl implements PdfService {
         context.setVariable("logoBase64", base64Image);
 
         Locale indonesia = new Locale("id", "ID");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", indonesia);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", indonesia);
         String tanggalSekarang = LocalDate.now().format(formatter);
 
         context.setVariable("tanggalSekarang", tanggalSekarang);
@@ -100,7 +100,7 @@ public class PdfServiceImpl implements PdfService {
         context.setVariable("logoBase64", base64Image);
 
         Locale indonesia = new Locale("id", "ID");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", indonesia);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", indonesia);
         String tanggalSekarang = LocalDate.now().format(formatter);
 
         context.setVariable("tanggalSekarang", tanggalSekarang);
@@ -126,7 +126,7 @@ public class PdfServiceImpl implements PdfService {
         context.setVariable("logoBase64", base64Image);
 
         Locale indonesia = new Locale("id", "ID");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", indonesia);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", indonesia);
         String tanggalSekarang = LocalDate.now().format(formatter);
 
         context.setVariable("tanggalSekarang", tanggalSekarang);
@@ -149,7 +149,7 @@ public class PdfServiceImpl implements PdfService {
         context.setVariable("logoBase64", base64Image);
 
         Locale indonesia = new Locale("id", "ID");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", indonesia);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", indonesia);
         String tanggalSekarang = LocalDate.now().format(formatter);
 
         context.setVariable("tanggalSekarang", tanggalSekarang);
